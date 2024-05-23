@@ -581,3 +581,78 @@ CREATE TABLE `empleado` (
 INSERT INTO `empleado` (`idEmpleado`, `idRequisicion`, `idPuesto`, `CURP`, `RFC`, `nombre`, `apellido`, `domCalle`, `domNumExtInt`, `domColonia`, `tel1`, `sueldo`, `correoE`, `edad`, `sexo`, `idEstadoCivil`, `idEscolaridad`, `idGradoAvance`, `idCarrera`) VALUES
 (1, 1, 1, 'ROGH760106MASDML03', 'dfadf', 'Carlitos', 'Muntez', 'Villas', '#23', 'palmas', '4491102343', '$233', 'carlitos@gmail.com', 23, 'Macho', 1, 2, 1, 1),
 (2, 1, 1, 'ROML551119HASDCR08', 'dfajy', 'Pepe', 'Maciado', 'Potreros', '#26', 'cruz', '4491739435', '$2223', 'pepe@gmail.com', 23, 'Indistinto', 3, 2, 3, 1);
+
+
+-- 
+-- tabla de candidatos aceptados
+--
+ 
+ create table  IF not exists `usuario` (
+ `idusuario` int(11) not null auto_increment,
+ `numero` int(10) not null unique,
+ `nombre` varchar(120) not null,
+ `telefono` int(13) not null,
+ `direccion` varchar(100) not null,
+ `curp` varchar(18) not null,
+ `vacante` varchar(50) not null,
+ primary key(`idusuario`));
+ 
+--
+-- Volcado de datos para la tabla `candidatos`
+--
+
+insert into `usuario`(`numero`,`nombre`,`telefono`,`direccion`,`curp`,`vacante`)VALUES
+(123232445,'Juan del montes',4493454564,'calle noche buena 120','kjfdhg495kg','Obrero'),
+(456456445,'Juan de los montes',4493454584,'calle noche buena 122','kjfdhg495kg','Marquetink'),
+(123232498,'Juan del rancho',4493659564,'calle noche buena 123','kjfdhg495kg','Panista'),
+(123232425,'Juan del terreno',4493454964,'calle noche buena 124','kjfdhg495kg','Contador');
+
+
+ 
+ -- 
+ -- Encuentra la tabal de la tabla "cursos"
+ --
+ create table IF not exists `cursos`(
+ `idcursos` int(11) not null auto_increment,
+ `nombre` varchar(50) not null,
+ `descripcion` varchar(120) not null,
+ primary key(`idcursos`)
+ );
+ 
+--
+-- Volcado de datos para la tabla `cursos`
+--
+ 
+ insert into `cursos`(`nombre`,`descripcion`) VALUES 
+ ('curso de PAn','Curso obliagtorio que te hab'),
+ ('curso de Contar','Curso obliagtorio que te '),
+ ('curso de Idiomas','Curso obliagtorio q'),
+ ('curso de Maquinaria','Curso obliagtorio que te habla de lo que tienes que hacer');
+ 
+
+--
+-- estructura de la tabla para agregar cursos a un usuario
+--
+  create table IF not exists `agcuso`(
+ `idagcu` int(11) not null auto_increment,
+ `nombre` varchar(50) not null,
+ `descripcion` varchar(120) not null,
+ `completado` int(3) not null,
+ `idusuario` int(11) not null,
+ primary key(`idagcu`)
+ );
+
+--
+-- estructura para marcar el estado de un  curso
+--
+create table IF not exists `completadas`(
+ `id` int(11) not null auto_increment,
+ `descripcion` varchar(2) not null,
+ primary key(`id`)
+ );
+ --
+-- tabla de apoyo para el estado de un curso
+--
+ insert into `completadas`(`descripcion`) VALUES 
+ ('si'),
+('no');
