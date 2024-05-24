@@ -1008,6 +1008,99 @@ def editarCandFunct(idC):
                                             (idVacan, curp, rfc, nombre, calle, num, colonia, tel1, tel2, correo, edad, sex, edoc, esco, gdoavan, carre, entrereq, entrepres, entreresul, evalMedicReq, evalMedicPres, evalMedicResul,  evalPsicolReq,evalPsicolPres,evalPsicolResul,evalPsicomReq,evalPsicomPres,evalPsicomResul,evalTecReq,evalTecPres,evalTecResul,evalConocReq,evalConocPres,evalConocResul,entreFinReq,entreFinPres, entreFinResul, idC))
         conn.commit()
         return redirect(url_for('candidatos'))
+    
+
+
+@app.route('/requisicion')
+def requisicion():
+    return render_template("requisicion.html")
+
+
+
+
+def obtener_requisicion(requisicion_id):
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM requisicion WHERE idRequisicion = %s", (requisicion_id,))
+    requisicion = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    return requisicion
+
+@app.route('/mostrar_requisicion')
+def mostrar_requisicion():
+    requisicion_id = request.args.get('id')
+    requisicion = obtener_requisicion(requisicion_id)
+    return render_template("requisicion_revisa.html", requisicion=requisicion)
+
+@app.route('/listar_requisiciones')
+def listar_requisiciones():
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM requisicion")
+    requisiciones = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template("lista_requi.html", requisiciones=requisiciones)
+
+
+
+
+
+# Ruta para agregar la requisición
+@app.route('/requisicion_agr')
+def requisicion_agregar():
+    return render_template("requisicion_agr.html")
+
+@app.route('/requisicion_agr', methods=['POST'])
+def agregar_requisicion():
+    folio = request.form['folio']
+    fechaElab = request.form['fechaElab']
+    fechaRecluta = request.form['fechaRecluta']
+    fechaInicVac = request.form['fechaInicVac']
+    motivoRequisicion = request.form['motivoRequisicion']
+    motivoEspecifique = request.form['motivoEspecifique']
+    tipoVacante = request.form['tipoVacante']
+    nomSolicita = request.form['nomSolicita']
+    idPuesto = request.form['idPuesto']
+    idArea = request.form['idArea']
+
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    cursor = conn.cursor()
+
+    cursor.execute("INSERT INTO requisicion (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, idPuesto, idArea) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                   (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, idPuesto, idArea))
+    conn.commit()
+
+    cursor.execute("SELECT * FROM requisicion WHERE idRequisicion = LAST_INSERT_ID()")
+    requisicion = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+    
+    return render_template("requisicion.html", requisicion=requisicion)
+
+
+@app.route('/aceptar_requisicion', methods=['POST'])
+def aceptar_requisicion():
+    requisicion_id = request.form['idRequisicion']
+
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    cursor = conn.cursor()
+
+    cursor.execute("UPDATE requisicion SET idPuesto = 1, autorizada = 1 WHERE idRequisicion = %s", (requisicion_id,))
+    conn.commit()
+
+    cursor.execute("SELECT * FROM requisicion WHERE idRequisicion = %s", (requisicion_id,))
+    requisicion = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    return render_template("requisicion.html", requisicion=requisicion)
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
 
