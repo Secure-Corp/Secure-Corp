@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <table width="100%" cellpadding="1">
+    <tbody>
+      <tr>
+        <td valign="top">
+          <div id="title">
+            <center>
+              <h3>VACANTES DISPONIBLES</h3>
+            </center>
+          </div>
+          <table width="100%" cellpadding="1">
+            <thead id="ndp">
+              <tr>
+                <td><b>Folio Requisición</b></td>
+                <td><b>ID de la Vacante</b></td>
+                <td><b>Nombre del Puesto</b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in datos %}
+              <tr>
+                <td width="20%">
+                  {{i.0}}
+                </td>
+                <td width="20%">
+                  {{i.1}}
+                </td>
+                <td width="30%">
+                  {{i.2}}
+                </td>
+                <td width="10%">
+                  <center><a href="/capturarCand/{{i.1}}" class="btn" id="editar">Capturar candidato</a></center>
+                </td>
+                <td width="10%">
+                  <center><a href="/seleccionCand/{{i.1}}" class="btn" id="editar">Selección</a></center>
+                </td>
+                <td width="10%">
+                  {% if i[3] == 0 %}
+                    <center><button class="btn" id="selectCand" disabled style="border: none;">No hay candidato seleccionado</button></center>
+                  {% elif i[3] != 0 %}
+                    <center><a href="/candSelec/{{i[3]}}/{{i[1]}}" class="btn" id="editar">Candidato seleccionado</a></center>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</center>
+{% endblock %}

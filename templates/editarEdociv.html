@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<style>
+        body {
+                background-color: #f3f3e6de;
+        }
+</style>
+<form id="formulario" action="/updateEdociv/{{dato[0]}}" method="post">
+        <div class="container">
+                <div class="form-row">
+                        <div class="col-xs-12 ">
+                                <div class="mb-3">
+                                        <label for="descripcion" class="form-label">Estado Civil</label>
+                                        <input type="text" class="form-control" name="descripcion" id="descripcion"
+                                                placeholder="area" value="{{dato[1]}}">
+                                </div>
+
+                        </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="enviar">Actualizar</button>
+        </div>
+</form>
+
+{% endblock %}

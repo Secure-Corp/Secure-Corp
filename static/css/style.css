@@ -1,0 +1,258 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+nav {
+    width: 100%;
+    transition: all ease-in-out 0.7s;
+    background: #a1c1be;
+    border-bottom: 2.5px solid #59554e;
+    color: #42393b;
+    padding: 10px 20px;
+    width: 100%;
+    height: 85px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+    margin: 1;
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+    list-style: none;
+}
+
+nav ul {
+    position: absolute;
+    top: 65px;
+    left: 0;
+    background: #242424;
+    width: 100%;
+    z-index: 50;
+}
+
+nav ul .opciones {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 80;
+}
+
+nav ul .opciones li {
+    width: 180px;
+    margin: 20px 0;
+}
+
+nav ul .opciones li a {
+    color: #e5d8bf;
+    padding: 10px 30px;
+    border-bottom: 2px solid transparent;
+    transition: all ease-in .8s;
+}
+
+nav ul .opciones li a:hover {
+    border-bottom: 2px solid #c75a1c;
+    color: #f1f1f1;
+}
+
+@media screen and (min-width: 768px) {
+    nav ul {
+        position: initial;
+        clip-path: none;
+    }
+
+    nav ul .opciones {
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    nav ul .opciones li {
+        margin: 0 10px;
+        width: auto;
+    }
+
+    nav ul .opciones li a {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+#fuente {
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+}
+
+#logo {
+    margin: 10px;
+    text-align: center;
+    font-family: "Poppins", sans-serif;
+    font-weight: 730;
+    font-style: normal;
+    font-size: 40px;
+    color: #59554e;
+}
+
+#desplegable {
+    background-color: #f3f4e5;
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+    margin: 10px;
+    width: auto;
+}
+
+#barra {
+    background-color: #e2e3d9;
+    color: #59554e;
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+    margin: 10px;
+    text-align: center;
+    border: 1px solid #59554e;
+}
+
+#barra1 {
+    background-color: #a1c1be;
+    color: #59554e;
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+    margin: 10px;
+    text-align: center;
+}
+
+
+#title {
+    background-color: #a1c1be;
+    color: #ffffff;
+    border-top: 10000px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+    text-decoration: none;
+    text-decoration-style: none;
+    padding: 30px;
+}
+
+table {
+    background-color: #f3f4e5;
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+}
+
+#ndp {
+    background-color: #59554e;
+    color: #ffffff;
+}
+
+#agregar {
+    background-color: #59554e;
+    box-shadow: rgba(255, 255, 255, 0.25) 0px 30px 60px -12px inset, rgba(255, 255, 255, 0.384) 0px 18px 36px -18px inset;
+    color: #ffffff;
+}
+
+#agregar:hover {
+    background-color: #59554e;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+
+#detalle {
+    box-shadow: #c5dddd 0px 30px 60px -12px inset, #0c0c0c 0px 18px 36px -18px inset;
+    color: #000000;
+    border: none;
+}
+
+#detalle:hover {
+    background-color: #a1c1be;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(95, 95, 95, 0.22) 0px 15px 12px;
+}
+
+#editar {
+
+    box-shadow: rgba(223, 226, 209, 0.603) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.466) 0px 18px 36px -18px inset;
+    color: #000000;
+    margin: 2px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+    border: none;
+}
+
+#editar:hover {
+    border: none;
+    background-color: #f3f4e5;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(95, 95, 95, 0.22) 0px 15px 12px;
+    margin: 2px;
+}
+
+#borrar {
+    box-shadow: rgba(223, 226, 209, 0.603) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.466) 0px 18px 36px -18px inset;
+    color: #000000;
+    border: none;
+    margin: 2px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+}
+
+#borrar:hover {
+    border: none;
+    background-color: #f3f4e5;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(95, 95, 95, 0.22) 0px 15px 12px;
+    margin: 2px;
+}
+
+#formulario {
+    width: 95%;
+    text-align: justify;
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+    margin: 25px;
+}
+
+#descripcion {
+    background-color: #e2e3d9;
+    color: #000000;
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+}
+
+#enviar {
+    background-color: #e2e3d9;
+    box-shadow: rgba(255, 255, 255, 0.25) 0px 30px 60px -12px inset, rgba(34, 34, 34, 0.3) 0px 18px 36px -18px inset;
+    color: #59554e;
+    border: none;
+}
+
+#enviar:hover {
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(95, 95, 95, 0.22) 0px 15px 12px;
+}
+
+#folio {
+    background-color: #59554e;
+    color: #f3f4e5;
+}
+
+#idVacante {
+    background-color: #59554e;
+    color: #f3f4e5;
+}
+
+#nomPuesto {
+    background-color: #59554e;
+    color: #f3f4e5;
+}
+
+.selectores {
+    display: none;
+}
