@@ -1,0 +1,162 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+    <table  width="100%" border="1" cellpadding="0" bordercolor="#000000">
+    <tbody>
+    <tr>
+    <td color="FFFFFF" bgcolor="#465F5A" valign="top">
+    <center><h3>PUESTOS REGISTRADOS</h3></center>
+    <table class="table table-dark table-hover" width="100%" border="1" cellpadding="0" bordercolor="#000000">
+    <thead>
+      <tr>
+        <td color="white" bgcolor="blue">Nombre del puesto</td>
+
+        <td color="white" bgcolor="black"></td>
+        <td color="white" bgcolor="black"></td>
+        <td color="white" bgcolor="black"> <rigth><h2><a href="/puesto_agrOp2" class="btn btn-dark btn-sm">Agregar</a></h2></rigth>  </td>
+      </tr>
+    </thead>
+    <tbody>
+    {% for i in pue %}
+        <tr>
+        <td width="80%">
+           {{i.1}}
+        </td>
+
+        <td bgcolor="#2B2D83" width="6%">
+        <center><a href="/puesto_fdetalle/{{i.0}}" class="btn btn-outline-info btn-sm ">Detalle</a></center>
+        </td>
+        <td bgcolor="#2B2D83" width="6%">
+        <center><a href="/puesto_editar/{{i.0}}" class="btn btn-outline-info btn-sm ">Editar</a></center>
+        </td>
+        <td bgcolor="#3C3EC5" width="6%">
+        <center><a href="/puesto_borrar/{{i.0}}" class="btn btn-outline-primary btn-sm">Borrar</a></center>
+        </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+<br>
+<h3>
+    <CENTER> <b> Detalle: </b> </CENTER>
+
+</h3>
+<br>
+
+<form class="row g-3"  action="/puesto_fdetalle/" method="GET">
+   <div class="col-md-12">
+      <label for="nomPuesto" class="form-label">Nombre del Puesto</label>
+      <input type="text" class="form-control" name="nomPuesto" id="nomPuesto" value="{{dat.3}}" readonly="readonly"></input>
+   </div>
+   <br>
+   <div class="col-md-6">
+      <label for="codPuesto" class="form-label">Código de Puesto</label>
+      <input type="text" class="form-control" name="codPuesto" id="codPuesto" value="{{dat.1}}" readonly="readonly"></input>
+   </div>
+   <div class="col-md-6">
+      <label for="idArea" class="form-label">Área de adscripción</label>
+      <input type="text" class="form-control" name="idArea" id="idArea" value="{{catArea.1}}" readonly="readonly"></input>
+
+   </div>
+   <div class="col-md-12">
+      <label for="puestoJefeSup" class="form-label">Puesto del Jefe Superior</label>
+      <input type="text" class="form-control" name="puestoJefeSup" id="puestoJefeSup" value="{{dat.4}}" readonly="readonly"></input>
+   </div>
+   <div class="col-md-8">
+      <label for="jornada" class="form-label">Jornada</label>
+      <input type="text" class="form-control" name="jornada" id="jornada" value="{{dat.5}}" readonly="readonly"></input>
+   </div>
+   <div class="col-md-4">
+      <label for="remunMensual" class="form-label">Remuneración Mensual</label>
+      <input type="text" class="form-control" name="remunMensual" id="remunMensual" value="{{dat.6}}" readonly="readonly"></input>
+   </div>
+   <div class="col-md-12">
+      <label for="prestaciones" class="form-label">Prestaciones</label>
+      <input type="text" class="form-control" name="prestaciones" id="prestaciones" value="{{dat.7}}" readonly="readonly"></input>
+   </div>
+   <div class="col-md-12">
+      <label for="descripcionGeneral" class="form-label">Descripción General</label>
+      <input type="text" class="form-control" name="descripcionGeneral" id="descripcionGeneral" value="{{dat.8}}" readonly="readonly"></input>
+   </div>
+   <div class="col-md-12">
+       <label for="funciones" class="form-label">Funciones</label>
+       <input type="text" class="form-control" name="funciones" id="funciones" value="{{dat.9}}" readonly="readonly"></input>
+   </div>
+   <div class="col-md-4">
+       <label for="edad" class="form-label">Edad</label>
+       <input type="text" class="form-control" name="edad" id="edad" value="{{dat.10}}" readonly="readonly"></input>
+   </div>
+   <div class="col-md-4">
+       <label for="sexo" class="form-label">Sexo</label>
+       <input type="text" class="form-control" name="sexo" id="sexo" value="{{dat.11}}" readonly="readonly"></input>
+   </div>
+   <div class="col-md-4">
+       <label for="idEstadoCivil" class="form-label">Estado Civil</label>
+       <input type="text" class="form-control" name="idEstadoCivil" id="idEstadoCivil" value="{{catEdoCivil.1}}" readonly="readonly"></input>
+
+   </div>
+   <div class="col-md-4">
+       <label for="idEscolaridad" class="form-label">Escolaridad</label>
+       <input type="text" class="form-control" name="idEscolaridad" id="idEscolaridad" value="{{catEscolaridad.1}}" readonly="readonly"></input>
+   </div>
+   <div class="col-md-4">
+       <label for="idGradoAvance" class="form-label">Grado Avance</label>
+        <input type="text" class="form-control" name="idGradoAvance" id="idGradoAvance" value="{{catGradoAvance.1}}" readonly="readonly"></input>
+       </select>
+   </div>
+   <div class="col-md-4">
+       <label for="idCarrera" class="form-label">Carrera</label>
+        <input type="text" class="form-control" name="idCarrera" id="idCarrera" value="{{catCarrera.1}}" readonly="readonly"></input>
+   </div>
+   <div class="col-md-12">
+       <label for="experiencia" class="form-label">Experiencia</label>
+       <input type="text" class="form-control" name="experiencia" id="experiencia" value="{{dat.16}}" readonly="readonly"></input>
+   </div>
+   <div class="col-md-12">
+       <label for="conocimientos" class="form-label">Conocimientos</label>
+       <input type="text" class="form-control" name="conocimientos" id="conocimientos" value="{{dat.17}}" readonly="readonly"></input>
+
+    </div>
+    <div class="col-md-12">
+        <label for="manejoEquipo" class="form-label">ManejoEquipo</label>
+        <input type="text" class="form-control" name="manejoEquipo" id="manejoEquipo" value="{{dat.18}}" readonly="readonly"></input>
+    </div>
+    <div class="col-md-12">
+        <label for="reqFisicos" class="form-label">Requisitos Físicos</label>
+        <input type="text" class="form-control" name="reqFisicos" id="reqFisicos" value="{{dat.19}}" readonly="readonly"></input>
+    </div>
+    <div class="col-md-12">
+        <label for="reqPsicologicos" class="form-label">Requisitos Psicológicos</label>
+        <input type="text" class="form-control" name="reqPsicologicos" id="reqPsicologicos" value="{{dat.20}}" readonly="readonly"></input>
+    </div>
+    <div class="col-md-12">
+        <label for="responsabilidades" class="form-label">Responsabilidades</label>
+        <input type="text" class="form-control" name="responsabilidades" id="responsabilidades" value="{{dat.21}}" readonly="readonly"></input>
+    </div>
+    <div class="col-md-12">
+        <label for="condicionesTrabajo" class="form-label">Condiciones de Trabajo</label>
+        <input type="text" class="form-control" name="condicionesTrabajo" id="condicionesTrabajo" value="{{dat.22}}" readonly="readonly"></input>
+    </div>
+     <div class="col-6">
+        <span>Idiomas:</span>
+            {% for idio in catIdioma  %}
+                <input type="text" class="form-control" name="i{{idio.1}}" id="i{{idio.1}}" value="{{idio.2}}" readonly="readonly"></input>
+            {% endfor %}
+     </div>
+     <div class="col-6">
+       <span>Habilidades:</span>
+           {% for hab in catHabilidad %}
+                <input type="text" class="form-control" name="h{{hab.1}}" id="h{{hab.1}}" value="{{hab.2}}" readonly="readonly"></input>
+           {% endfor %}
+     </div>
+</form>
+
+
+
+{% endblock %}

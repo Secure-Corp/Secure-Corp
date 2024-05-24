@@ -1,0 +1,217 @@
+{% extends "layout.html" %}
+{% block content %}
+<h3>
+    <CENTER> <b> Agregar Puesto </b> </CENTER>
+</h3>
+
+<br>
+<form class="row g-3"  action="/puesto_fagrega2" method="post">
+   <div class="col-md-6">
+      <label for="codPuesto" class="form-label">Código de Puesto</label>
+      <input type="text" class="form-control" name="codPuesto" id="codPuesto"></input>
+   </div>
+   <div class="col-md-6">
+      <label for="idArea" class="form-label">Área de adscripción</label>
+       <select  name="idArea" id="idArea" class = "form-select">
+           <option  selected="true" disabled="disabled">Elige...</option>
+            {%
+               for i in catArea
+            %}
+               <option value="{{i.0}}">{{i.1}}</option>
+            {% endfor %}
+       </select>
+
+   </div>
+   <div class="col-md-12">
+      <label for="nomPuesto" class="form-label">Nombre del Puesto</label>
+      <input type="text" class="form-control" name="nomPuesto" id="nomPuesto"></input>
+   </div>
+   <div class="col-md-12">
+      <label for="puestoJefeSup" class="form-label">Puesto del Jefe Superior</label>
+      <input type="text" class="form-control" name="puestoJefeSup" id="puestoJefeSup"></input>
+   </div>
+   <div class="col-md-8">
+      <label for="jornada" class="form-label">Jornada</label>
+      <input type="text" class="form-control" name="jornada" id="jornada"></input>
+   </div>
+   <div class="col-md-4">
+      <label for="remunMensual" class="form-label">Remuneración Mensual</label>
+      <input type="text" class="form-control" name="remunMensual" id="remunMensual"></input>
+   </div>
+   <div class="col-md-12">
+      <label for="prestaciones" class="form-label">Prestaciones</label>
+      <input type="text" class="form-control" name="prestaciones" id="prestaciones"></input>
+   </div>
+   <div class="col-md-12">
+      <label for="descripcionGeneral" class="form-label">Descripción General</label>
+      <input type="text" class="form-control" name="descripcionGeneral" id="descripcionGeneral"></input>
+   </div>
+   <div class="col-md-12">
+       <label for="funciones" class="form-label">Funciones</label>
+       <input type="text" class="form-control" name="funciones" id="funciones"></input>
+   </div>
+   <div class="col-md-4">
+       <label for="edad" class="form-label">Edad</label>
+       <input type="text" class="form-control" name="edad" id="edad"></input>
+   </div>
+   <div class="col-md-4">
+       <label for="sexo" class="form-label">Sexo</label>
+        <select name="sexo" id="sexo" class = "form-select">
+         <option selected="true" disabled="disabled">Elige...</option>
+            <option value="Indistinto">Indistinto</option>
+            <option value="Hombre">Hombre</option>
+            <option value="Mujer">Mujer</option>
+       </select>
+   </div>
+   <div class="col-md-4">
+       <label for="idEstadoCivil" class="form-label">Estado Civil</label>
+        <select name="idEstadoCivil" id="idEstadoCivil" class = "form-select">
+           <option selected="true" disabled="disabled">Elige...</option>
+            {%
+               for i in catEdoCivil
+            %}
+               <option value="{{i.0}}">{{i.1}}</option>
+            {% endfor %}
+       </select>
+
+   </div>
+   <div class="col-md-4">
+       <label for="idEscolaridad" class="form-label">Escolaridad</label>
+        <select name="idEscolaridad" id="idEscolaridad" class = "form-select" onChange="miFunc1()">
+           <option selected="true" disabled="disabled">Elige...</option>
+            {%
+               for i in catEscolaridad
+            %}
+               <option value="{{i.0}}">{{i.1}}</option>
+            {% endfor %}
+       </select>
+        <script>
+           function miFunc1(){
+            var esco = document.getElementById('idEscolaridad').value;
+                if (esco == 1)
+                 {document.getElementById('idGradoAvance').disabled=true;
+                  document.getElementById('idCarrera').disabled=true;}
+                else
+                 {document.getElementById('idGradoAvance').disabled=false;
+                  document.getElementById('idCarrera').disabled=false;}
+            }
+        </script>
+   </div>
+   <div class="col-md-4">
+       <label for="idGradoAvance" class="form-label">Grado Avance</label>
+        <select name="idGradoAvance" id="idGradoAvance" class = "form-select">
+           <option selected="true" disabled="disabled">Elige...</option>
+            {%
+               for i in catGradoAvance
+            %}
+               <option value="{{i.0}}">{{i.1}}</option>
+            {% endfor %}
+       </select>
+   </div>
+   <div class="col-md-4">
+        <label for="idCarrera" class="form-label">Carrera / Especialidad</label>
+        <select name="idCarrera" id="idCarrera" class = "form-select">
+           <option selected="true" disabled="disabled">Elige...</option>
+            {%
+               for i in catCarrera
+            %}
+               <option value="{{i.0}}">{{i.1}}</option>
+            {% endfor %}
+       </select>
+
+   </div>
+   <div class="col-md-12">
+       <label for="experiencia" class="form-label">Experiencia</label>
+       <input type="text" class="form-control" name="experiencia" id="experiencia"></input>
+   </div>
+   <div class="col-md-12">
+       <label for="conocimientos" class="form-label">Conocimientos</label>
+       <input type="text" class="form-control" name="conocimientos" id="conocimientos"></input>
+
+    </div>
+    <div class="col-md-12">
+        <label for="manejoEquipo" class="form-label">ManejoEquipo</label>
+        <input type="text" class="form-control" name="manejoEquipo" id="manejoEquipo"></input>
+    </div>
+    <div class="col-md-12">
+        <label for="reqFisicos" class="form-label">Requisitos Físicos</label>
+        <input type="text" class="form-control" name="reqFisicos" id="reqFisicos"></input>
+    </div>
+    <div class="col-md-12">
+        <label for="reqPsicologicos" class="form-label">Requisitos Psicológicos</label>
+        <input type="text" class="form-control" name="reqPsicologicos" id="reqPsicologicos"></input>
+    </div>
+    <div class="col-md-12">
+        <label for="responsabilidades" class="form-label">Responsabilidades</label>
+        <input type="text" class="form-control" name="responsabilidades" id="responsabilidades"></input>
+    </div>
+    <div class="col-md-12">
+        <label for="condicionesTrabajo" class="form-label">Condiciones de Trabajo</label>
+        <input type="text" class="form-control" name="condicionesTrabajo" id="condicionesTrabajo"></input>
+    </div>
+   <div class="col-6">
+        <span>Idiomas:</span>
+                    <div class="form-check" >
+                    <input class="form-check-input" type="checkbox" value="" name = "i1" id="i1"  onChange="miFunc2()">
+                    <label class="form-check-label" for="i1">NO REQUERIDO</label>
+                    </div>
+        {% for idio in catIdioma
+             if (idio.0)>1: %}
+                    <div class="form-check" >
+                    <input class="form-check-input" type="checkbox" value="" name = "i{{idio.0}}" id="i{{idio.0}}" >
+                    <label class="form-check-label" for="i{{idio.0}}">
+                       {{idio.1}}
+                    </label>
+                    </div>
+         {% endfor %}
+        <script>
+           function miFunc2(){
+           {% for idio in catIdioma %}
+           var isChecked = document.getElementById('i1').checked;
+             if ( {{idio.0}}>1 && isChecked ) {
+                  document.getElementById('i{{idio.0}}').disabled=true;
+                  document.getElementById('i{{idio.0}}').checked=false; }
+             else
+                 { document.getElementById('i{{idio.0}}').disabled=false;}
+
+           {% endfor %}
+            }
+        </script>
+    </div>
+   <div class="col-6">
+   <span>Habilidades:</span>
+       <div class="form-check" >
+       <input class="form-check-input" type="checkbox" value="" name = "h1" id="h1"  onChange="miFunc3()">
+       <label class="form-check-label" for="h1">NO REQUERIDAS</label>
+       </div>
+   {% for hab in catHabilidad
+       if (hab.0)>1: %}
+      <div class="form-check">
+      <input class="form-check-input" type="checkbox"  name ="h{{hab.0}}"  id="h{{hab.0}}">
+      <label class="form-check-label" for="h{{hab.0}}">
+          {{hab.1}}
+      </label>
+      </div>
+   {% endfor %}
+     <script>
+           function miFunc3(){
+           {% for hab in catHabilidad %}
+           var isChecked = document.getElementById('h1').checked;
+             if ( {{hab.0}}>1 && isChecked ) {
+                  document.getElementById('h{{hab.0}}').disabled=true;
+                  document.getElementById('h{{hab.0}}').checked=false; }
+             else
+                 { document.getElementById('h{{hab.0}}').disabled=false;}
+
+           {% endfor %}
+            }
+        </script>
+
+  </div>
+
+   <div class="col-12">
+          <button type="submit" class="btn btn-primary">Enviar</button>
+
+    </div>
+</form>
+{% endblock %}

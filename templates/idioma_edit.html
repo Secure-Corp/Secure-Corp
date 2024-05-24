@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<form action="/idioma_fedita/{{comentar}}" method="post">
+<!--form action="/idiomas_fedita/{{comentar.0}}" method="post"-->
+   <div class="container">
+          <div class="form-row">
+               <div class="col-xs-12 ">
+                <div class="mb-3">
+                      <label for="descripcion" class="form-label">idiomas</label>
+                      <input type="text" class="form-control" name="descripcion" id="descripcion" placeholder="idioma" value="{{comentar}}">
+                      <!--input type="text" class="form-control" name="descripcion" id="descripcion" placeholder="idioma" value="{{comentar.1}}"-->
+                </div>
+
+                </div>
+          </div>
+    </div>
+          <button type="submit" class="btn btn-primary">Actualizar</button>
+</form>
+
+{% endblock %}

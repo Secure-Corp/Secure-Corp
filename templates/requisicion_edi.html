@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h1>Detalles de la Requisición</h1>
+
+<div id="detalles-requisicion">
+    
+</div>
+
+<button id="mostrar-detalles-btn" class="btn btn-primary">Mostrar Detalles</button>
+
+<script>
+    document.getElementById('mostrar-detalles-btn').addEventListener('click', function() {
+    
+        fetch('/detalles_requisicion')
+            .then(response => response.json())
+            .then(data => {
+                
+                document.getElementById('detalles-requisicion').innerHTML = `
+                    <p>Id de Requisición: ${data.idRequisicion}</p>
+                    <p>Folio: ${data.folio}</p>
+                    <p>Fecha de Elaboración: ${data.fechaElab}</p>
+                    <p>Fecha de Reclutamiento: ${data.fechaRecluta}</p>
+                    <p>Inicio de Vacante: ${data.fechaInicVac}</p>
+                    <p>Motivo de Requisición: ${data.motivoRequisicion}</p>
+                    <p>Especificación de Motivo: ${data.motivoEspecifique}</p>
+                    <p>Tipo de Vacante: ${data.tipoVacante}</p>
+                    <p>Solicita: ${data.nomSolicita}</p>
+                    <p>Autoriza: ${data.nomAutoriza}</p>
+                    <p>Revisa: ${data.nomRevisa}</p>
+                    <p>Autorizada: ${data.autorizada ? 'Sí' : 'No'}</p>
+                    <p>Id de Puesto: ${data.idPuesto}</p>
+                    <p>Id de Área: ${data.idArea}</p>
+                `;
+            })
+            .catch(error => console.error('Error al obtener los detalles:', error));
+    });
+</script>
+
+{% endblock %}

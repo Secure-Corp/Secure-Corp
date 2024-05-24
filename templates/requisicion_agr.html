@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Agregar Requisición</h1>
+<form action="/requisicion_agr" method="POST">
+    <div class="form-group">
+        <label for="folio">Folio</label>
+        <input type="text" class="form-control" name="folio" id="folio" required>
+    </div>
+    <div class="form-group">
+        <label for="fechaElab">Fecha de Elaboración</label>
+        <input type="date" class="form-control" name="fechaElab" id="fechaElab" required>
+    </div>
+    <div class="form-group">
+        <label for="fechaRecluta">Fecha de Reclutamiento</label>
+        <input type="date" class="form-control" name="fechaRecluta" id="fechaRecluta" required>
+    </div>
+    <div class="form-group">
+        <label for="fechaInicVac">Fecha de Inicio de Vacante</label>
+        <input type="date" class="form-control" name="fechaInicVac" id="fechaInicVac" required>
+    </div>
+    <div class="form-group">
+        <label for="motivoRequisicion">Motivo de Requisición</label>
+        <input type="text" class="form-control" name="motivoRequisicion" id="motivoRequisicion" required>
+    </div>
+    <div class="form-group">
+        <label for="motivoEspecifique">Especificación de Motivo</label>
+        <input type="text" class="form-control" name="motivoEspecifique" id="motivoEspecifique">
+    </div>
+    <div class="form-group">
+        <label for="tipoVacante">Tipo de Vacante</label>
+        <input type="text" class="form-control" name="tipoVacante" id="tipoVacante" required>
+    </div>
+    <div class="form-group">
+        <label for="nomSolicita">Solicitante</label>
+        <input type="text" class="form-control" name="nomSolicita" id="nomSolicita" required>
+    </div>
+    <div class="form-group">
+        <label for="idPuesto">ID Puesto</label>
+        <input type="number" class="form-control" name="idPuesto" id="idPuesto" required>
+    </div>
+    <div class="form-group">
+        <label for="idArea">ID Área</label>
+        <input type="number" class="form-control" name="idArea" id="idArea" required>
+    </div>
+    <div class="form-group">
+        <label for="nomAutoriza" class="form-label">Autorizante</label>
+        <input type="text" class="form-control" name="nomAutoriza" id="nomAutoriza" required>
+    </div>
+    <div class="form-group">
+        <label for="nomRevisa" class="form-label">Revisor</label>
+        <input type="text" class="form-control" name="nomRevisa" id="nomRevisa"  required>
+    </div>
+    <button type="submit" class="btn btn-primary">Agregar</button>
+</form>
+{% endblock %}
