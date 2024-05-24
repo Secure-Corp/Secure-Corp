@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Lista de Requisiciones</h1>
+<ul>
+    {% for requisicion in requisiciones %}
+        <li>
+            <form action="{{ url_for('mostrar_requisicion') }}" method="get" style="display: inline;">
+                <input type="hidden" name="id" value="{{ requisicion[0] }}">
+                <button type="submit" class="btn btn-primary">Mostrar detalles de Requisición {{ requisicion[0] }}</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
