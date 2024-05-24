@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="mintit">
+    <center><h3 class="center">EXAMEN PSICOMETRICO</h3></center>
+</div>
+<form class="row g-3" action="/examen_enviar" method="post">
+    <div class="col-md-12">
+        <label  class="minap">Nombre:</label>
+        <input type="text" class="form-control" name="nombre" id="nombre" required>
+    </div>
+    <div class="col-md-12">
+        <label  class="minap">1- ¿Usted cuenta con una mala nutricion y digestion?</label>
+        <input type="text" class="form-control" name="p1" id="p1" required>
+    </div>
+    <div class="col-md-12">
+        <label  class="minap">2- ¿Cual es tu mayor fortaleza y como la usas en tu vida cotidiana?</label>
+        <input type="text" class="form-control" name="p2" id="p2" required>
+    </div>
+    <div class="col-md-12">
+        <label for="actividades" class="minap">3- ¿Cual de las siguientes actividades prefieres para relajarte despues de un dia estresante?</label>
+        <select name="p3" id="p3" class="form-select" required>
+            <option selected="true" disabled="disabled">Elige...</option>
+            <option value="Leer un libro">Leer un libro</option>
+            <option value="Hacer ejercicio">Hacer ejercicio</option>
+            <option value="Escuchar musica">Escuchar musica</option>
+            <option value="Meditar">Meditar</option>
+        </select>
+    </div>
+    <div class="col-md-12">
+        <label class="minap">4- ¿Cómo manejas los conflictos interpersonales en el trabajo o en la escuela?</label>
+        <input type="text" class="form-control" name="p4" id="p4" required>
+    </div>
+    <div class="col-md-12">
+        <label class="minap">5- ¿Qué actividad te resulta más gratificante?</label>
+        <select name="p5" id="p5" class="form-select" required>
+            <option selected="true" disabled="disabled">Elige...</option>
+            <option value="Ayudar a otros">Ayudar a otros</option>
+            <option value="Lograr metas personales">Lograr metas personales</option>
+            <option value="Aprender algo nuevo">Aprender algo nuevo</option>
+            <option value="Pasar tiempo con amigos y familiares">Pasar tiempo con amigos y familiares</option>
+        </select>
+    </div>
+    <div class="col-md-12">
+        <label class="minap">6- ¿Cuál de las siguientes afirmaciones describe mejor tu enfoque hacia los desafíos?</label>
+        <select name="p6" id="p6" class="form-select" required>
+            <option selected="true" disabled="disabled">Elige...</option>
+            <option value="Evito los desafíos siempre que sea posible">Evito los desafíos siempre que sea posible</option>
+            <option value="Me enfrento a los desafíos con determinación">Me enfrento a los desafíos con determinación</option>
+            <option value="Me siento abrumado por los desafíos">Me siento abrumado por los desafíos</option>
+            <option value="Me gusta tomar desafíos solo si son fáciles de resolver">Me gusta tomar desafíos solo si son fáciles de resolver</option>
+        </select>
+    </div>
+    <div class="col-md-12">
+        <label class="minap">7- ¿Cómo te adaptas a trabajar en equipo?</label>
+        <input type="text" class="form-control" name="p7" id="p7" required>
+    </div>
+    <div class="col-md-12">
+        <label class="minap">8- Contesta lo siguiente</label><br>
+        <img class="image" src="/static/imagenes/psicometrico1.jpg"><br><br>
+        <select name="p8" id="p8" class="form-select" required>
+            <option selected="true" disabled="disabled">Elige...</option>
+            <option value="A)">A)</option>
+            <option value="B)">B)</option>
+            <option value="C)">C)</option>
+            <option value="D)">D)</option>
+            <option value="E)">E)</option>
+        </select>
+    </div>
+    <div class="col-md-12">
+        <label class="minap">9- Contesta lo siguiente</label><br>
+        <img class="image" src="/static/imagenes/psicometrico2.jpg"><br><br>
+        <select name="p9" id="p9" class="form-select" required>
+            <option selected="true" disabled="disabled">Elige...</option>
+            <option value="a">A)</option>
+            <option value="b">B)</option>
+            <option value="c">C)</option>
+            <option value="d">D)</option>
+        </select>
+    </div>
+    <div class="col-md-12">
+        <label class="minap">10- ¿Es alergico a algun alimento?</label>
+        <select name="p10" id="p10" class="form-select" required>
+            <option selected="true" disabled="disabled" >Elige...</option>
+            <option value="Si">Si</option>
+            <option value="No">No</option>
+        </select>
+    </div>
+    <div class="col-md-12">
+        <label class="minap">11- ¿Tiene baja resistencia, dificultad para respirar al realizar algun ejercicio?</label>
+        <select name="p11" id="p11" class="form-select" required>
+            <option selected="true" disabled="disabled">Elige...</option>
+            <option value="Si">Si</option>
+            <option value="No">No</option>
+        </select>
+    </div>
+    <div class="col-md-12">
+        <label  class="minap">12- ¿Cómo te sientes acerca de recibir retroalimentación sobre tu trabajo?</label>
+        <input type="text" class="form-control" name="p12" id="p12" required>
+    </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-outline-light">Enviar</button>
+         </div>
+      </div>
+   </form>
+{% endblock %}

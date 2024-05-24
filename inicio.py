@@ -2,8 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, flash, sen
 import pymysql
 import os
 import webbrowser
-from fpdf import FPDF
-from weasyprint import HTML
+#from fpdf import FPDF
+#from weasyprint import HTML
 
 app = Flask(__name__)
 
@@ -1403,7 +1403,112 @@ def generate_pdf():
     return send_file(pdf_path, as_attachment=True, download_name='vacante.pdf')
 
 #Fin del codigo del Equipo2
+#examen psicometrico
+@app.route('/examen')
+def examen():
+    return render_template('examen.html')
+ 
+@app.route('/examen_enviar', methods=['POST'])
+def examen_enviar():
+    if request.method == 'POST':
+        nom=request.form['nombre']
+        p1=request.form['p1']
+        p2=request.form['p2']
+        p3=request.form['p3']
+        p4=request.form['p4']
+        p5=request.form['p5']
+        p6=request.form['p6']
+        p7=request.form['p7']
+        p8=request.form['p8']
+        p9=request.form['p9']
+        p10=request.form['p10']
+        p11=request.form['p11']
+        p12=request.form['p12']
+        conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+        cursor = conn.cursor()
+        cursor.execute('INSERT INTO examen (nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)', (nom,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12))
+        conn.commit()
+    return redirect(url_for('crud_examen'))
 
+@app.route('/crud_examen')
+def crud_examen():
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    cursor = conn.cursor()
+    cursor.execute('SELECT idExamen, nombre FROM examen order by idExamen')
+    datos = cursor.fetchall()
+    return render_template('examen_crudr.html', comentarios=datos)
+
+@app.route('/examen_borrar/<string:id>')
+def examen_borrar(id):
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM examen WHERE idExamen={0}'.format(id))
+    conn.commit()
+    return redirect(url_for('crud_examen'))
+
+@app.route('/examen_calificar/<string:id>')
+def examen_calificar(id):
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    cursor = conn.cursor()
+    cursor.execute("SELECT idExamen, nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12 FROM examen WHERE idExamen=%s", (id))
+    dato=cursor.fetchone()
+    return render_template('califica_examen.html', com=dato)
+
+@app.route('/examen_revisado/<string:id>', methods=['POST'])
+def examen_revisado(id):
+    if request.method == 'POST':
+        cal1=int(request.form['preg1'])
+        cal2=int(request.form['preg2'])
+        cal3=int(request.form['preg3'])
+        cal4=int(request.form['preg4'])
+        cal5=int(request.form['preg5'])
+        cal6 = int(request.form['preg6'])
+        cal7=int(request.form['preg7'])
+        cal8=int(request.form['preg8'])
+        cal9=int(request.form['preg9'])
+        cal10=int(request.form['preg10'])
+        cal11=int(request.form['preg11'])
+        cal12=int(request.form['preg12'])
+        cali=cal1+cal2+cal3+cal4+cal5+cal6+cal7+cal8+cal9+cal10+cal11+cal12
+        conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+        cursor = conn.cursor()
+        cursor.execute('SELECT nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12 FROM examen WHERE idExamen=%s',(id))
+        dato = cursor.fetchone()
+        if dato:
+            nombre, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12 = dato
+            cursor.execute('DELETE FROM examen WHERE idExamen=%s',(id,))
+            cursor.execute('INSERT INTO calificaciones (nombre, calificacion, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (nombre, cali, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12))
+            conn.commit()
+    return redirect(url_for('calificaciones'))
+
+@app.route('/calificaciones')
+def calificaciones():
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    cursor = conn.cursor()
+    cursor.execute('SELECT idCalificacion, nombre, calificacion FROM calificaciones order by idCalificacion')
+    datos=cursor.fetchall()
+    return render_template('calificaciones.html', comentarios=datos)
+
+@app.route('/calificacion_borrar/<string:id>')
+def calificacion_borrar(id):
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM calificaciones WHERE idCalificacion=%s', (id))
+    conn.commit()
+    return redirect(url_for('calificaciones'))
+
+@app.route('/calificacion_detalles/<string:id>')
+def calc_detalles(id):
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    cursor = conn.cursor()
+    cursor.execute('SELECT idCalificacion, nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12, calificacion FROM calificaciones WHERE idCalificacion=%s',(id))
+    datos =cursor.fetchone()
+    return render_template('detalle_cali.html', com=datos)
+
+@app.route('/regreso')
+def regreso():
+    return redirect(url_for('calificaciones'))
+#fin equipo 5
 if __name__ == "__main__":
     app.run(debug=True)
 
