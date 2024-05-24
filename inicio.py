@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, send_file
 import pymysql
 import os
 import webbrowser
 from fpdf import FPDF
+from weasyprint import HTML
 
 app = Flask(__name__)
 
@@ -1295,6 +1296,113 @@ def contrato_p(idC):
     return redirect(url_for('candidatos'))
 
 
+#Codigo de Python del Equipo2
+
+#Renderizado para las Vacantes Equipo2
+@app.route('/vacantes')
+def vacantes():
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
+    cursor = conn.cursor()
+
+    cursor.execute('select idPuesto, nomPuesto from puesto order by idPuesto')
+    datos = cursor.fetchall()
+
+    return render_template("vacantes.html", pue = datos, dat='   ', catArea = '   ', catEdoCivil = '   ', catEscolaridad = '   ',
+                           catGradoAvance = '    ', catCarrera = '    ', catIdioma = ' ', catHabilidad = ' ')
+
+#Metodo para mostrar los datos en la publicacion de Vacantes Equipo2
+@app.route('/vacantes_publ/<string:idV>', methods=['GET'])
+def vacantes_publ(idV):
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    cursor = conn.cursor()
+
+    cursor.execute('select idPuesto, nomPuesto from puesto order by idPuesto')
+    datos = cursor.fetchall()
+
+    cursor.execute('select idPuesto,codPuesto,idArea,nomPuesto,puestoJefeSup,jornada,remunMensual,prestaciones,descripcionGeneral,'
+            'funciones,edad,sexo,idEstadoCivil,idEscolaridad,idGradoAvance,idCarrera,experiencia,conocimientos,manejoEquipo,'
+            'reqFisicos,reqPsicologicos,responsabilidades,condicionesTrabajo from puesto where idPuesto = %s', (idV))
+    dato = cursor.fetchall()
+
+    cursor.execute('select a.idArea, a.descripcion from area a, puesto b where a.idArea = b.idArea and b.idPuesto = %s', (idV))
+    datos1 = cursor.fetchall()
+
+    cursor.execute('select a.idEstadoCivil, a.descripcion from estado_civil a, puesto b where a.idEstadoCivil = b.idEstadoCivil and b.idPuesto = %s', (idV))
+    datos2 = cursor.fetchall()
+
+    cursor.execute('select a.idEscolaridad, a.descripcion from escolaridad a, puesto b where a.idEscolaridad = b.idEscolaridad and b.idPuesto = %s', (idV))
+    datos3 = cursor.fetchall()
+
+    cursor.execute('select a.idGradoAvance, a.descripcion from grado_avance a, puesto b where a.idGradoAvance = b.idGradoAvance and b.idPuesto = %s', (idV))
+    datos4 = cursor.fetchall()
+
+    cursor.execute('select a.idCarrera, a.descripcion from carrera a, puesto b where a.idCarrera = b.idCarrera and b.idPuesto = %s', (idV))
+    datos5 = cursor.fetchall()
+
+    cursor.execute('select a.idPuesto, b.idIdioma, b.descripcion from puesto a, idioma b, puesto_has_idioma c '
+                   'where a.idPuesto = c.idPuesto and b.idIdioma = c.idIdioma and a.idPuesto = %s', (idV))
+    datos6 = cursor.fetchall()
+
+    cursor.execute('select a.idPuesto, b.idHabilidad, b.descripcion from puesto a, habilidad b, puesto_has_habilidad c '
+                   'where a.idPuesto = c.idPuesto and b.idHabilidad = c.idHabilidad and a.idPuesto = %s', (idV))
+    datos7 = cursor.fetchall()
+    return render_template("pub_vacantes.html", pue = datos, dat=dato[0], catArea=datos1[0], catEdoCivil=datos2[0], catEscolaridad=datos3[0],
+                           catGradoAvance=datos4[0], catCarrera=datos5[0], catIdioma=datos6, catHabilidad=datos7)
+
+#Renderizado para la Publicacion de Vacantes Equipo2
+@app.route('/pub_vacantes')
+def pub_vacantes():
+    return render_template("pub_vacantes.html")
+
+@app.route('/vacantes_pub')
+def vacantes_pub():
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
+    cursor = conn.cursor()
+
+    cursor.execute('select idPuesto, nomPuesto from puesto order by idPuesto')
+    datos = cursor.fetchall()
+
+    return render_template("vacantes.html", pue = datos, dat='   ', catArea = '   ', catEdoCivil = '   ', catEscolaridad = '   ',
+                           catGradoAvance = '    ', catCarrera = '    ', catIdioma = ' ', catHabilidad = ' ')
+
+#Funcion para Generar un Anuncio de Vacantes por PDF Equipo2
+#Libreria Usada WeasyPrint (Instalacion: pip install weasyprint       Despues se instalaran y configurara la dependencia)
+@app.route('/generate_pdf', methods=['POST'])
+def generate_pdf():
+    # Obtener datos del formulario
+    data = {
+        "nomPuesto": request.form['nomPuesto'],
+        "codPuesto": request.form['codPuesto'],
+        "idArea": request.form['idArea'],
+        "puestoJefeSup": request.form['puestoJefeSup'],
+        "jornada": request.form['jornada'],
+        "remunMensual": request.form['remunMensual'],
+        "prestaciones": request.form['prestaciones'],
+        "descripcionGeneral": request.form['descripcionGeneral'],
+        "funciones": request.form['funciones'],
+        "edad": request.form['edad'],
+        "sexo": request.form['sexo'],
+        "idEstadoCivil": request.form['idEstadoCivil'],
+        "idEscolaridad": request.form['idEscolaridad'],
+        "idGradoAvance": request.form['idGradoAvance'],
+        "idFormaPubl": request.form['idFormaPubl']
+    }
+
+    # Renderizar plantilla HTML con los datos
+    rendered_html = render_template('pdf.html', data=data)
+
+    # Convertir el HTML a PDF
+    pdf = HTML(string=rendered_html).write_pdf()
+
+    # Guardar el PDF en el sistema de archivos
+    pdf_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static', 'vacante.pdf')
+    with open(pdf_path, 'wb') as f:
+        f.write(pdf)
+
+    # Devolver el PDF como respuesta
+    return send_file(pdf_path, as_attachment=True, download_name='vacante.pdf')
+
+#Fin del codigo del Equipo2
 
 if __name__ == "__main__":
     app.run(debug=True)
