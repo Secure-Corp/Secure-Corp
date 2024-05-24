@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="tablass">
+    <table class="bordercolor">
+    <tbody>
+    <tr>
+    <td class="minap" valign="top">
+    <div class="mintit">
+      <h3 class="center">EXAMENES A REVISAR</h3>
+    </div>
+  
+    <table class="table table-dark table-hover" class="bordercolor">
+    <thead>
+      <tr>
+        <td>Nombre</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody>
+    {% for i in comentarios %}
+        <tr>
+        <td width="60%">
+           {{i.1}}
+        </td>
+
+        <td width="8%" class="center">
+        <a href="/examen_calificar/{{i.0}}"  class="btn btn-outline-info btn-sm ">Calificar</a>
+        </td>
+        <td width="8%" class="center">
+        <a href="/examen_borrar/{{i.0}}" class="btn btn-outline-primary btn-sm">Borrar</a>
+        </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+  </div>
+{% endblock %}
