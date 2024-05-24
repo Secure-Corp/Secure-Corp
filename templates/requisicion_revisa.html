@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1>Detalles de la Requisición</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <label for="idRequisicion" class="form-label">ID Requisición</label>
+            <input type="text" class="form-control" name="idRequisicion" id="idRequisicion" value="{{ requisicion[0] }}" readonly>
+        </div>
+        <div class="col-md-6">
+            <label for="folio" class="form-label">Folio</label>
+            <input type="text" class="form-control" name="folio" id="folio" value="{{ requisicion[1] }}" readonly>
+        </div>
+        <div class="col-md-6">
+            <label for="fechaElab" class="form-label">Fecha de Elaboración</label>
+            <input type="text" class="form-control" name="fechaElab" id="fechaElab" value="{{ requisicion[2] }}" readonly>
+        </div>
+        <div class="col-md-6">
+            <label for="fechaRecluta" class="form-label">Fecha de Reclutamiento</label>
+            <input type="text" class="form-control" name="fechaRecluta" id="fechaRecluta" value="{{ requisicion[3] }}" readonly>
+        </div>
+        <div class="col-md-6">
+            <label for="fechaInicVac" class="form-label">Fecha de Inicio de Vacante</label>
+            <input type="text" class="form-control" name="fechaInicVac" id="fechaInicVac" value="{{ requisicion[4] }}" readonly>
+        </div>
+        <div class="col-md-6">
+            <label for="motivoRequisicion" class="form-label">Motivo de Requisición</label>
+            <input type="text" class="form-control" name="motivoRequisicion" id="motivoRequisicion" value="{{ requisicion[5] }}" readonly>
+        </div>
+        <div class="col-md-6">
+            <label for="motivoEspecifique" class="form-label">Especificación de Motivo</label>
+            <input type="text" class="form-control" name="motivoEspecifique" id="motivoEspecifique" value="{{ requisicion[6] }}" readonly>
+        </div>
+        <div class="col-md-6">
+            <label for="tipoVacante" class="form-label">Tipo de Vacante</label>
+            <input type="text" class="form-control" name="tipoVacante" id="tipoVacante" value="{{ requisicion[7] }}" readonly>
+        </div>
+        <div class="col-md-6">
+            <label for="nomSolicita" class="form-label">Solicitante</label>
+            <input type="text" class="form-control" name="nomSolicita" id="nomSolicita" value="{{ requisicion[8] }}" readonly>
+        </div>
+        <div class="col-md-6">
+            <label for="nomAutoriza" class="form-label">Autorizante</label>
+            <input type="text" class="form-control" name="nomAutoriza" id="nomAutoriza" value="{{ requisicion[9] }}" readonly>
+        </div>
+        <div class="col-md-6">
+            <label for="nomRevisa" class="form-label">Revisor</label>
+            <input type="text" class="form-control" name="nomRevisa" id="nomRevisa" value="{{ requisicion[10] }}" readonly>
+        </div>
+        <div class="col-md-6">
+            <label for="autorizada" class="form-label">Autorizada</label>
+            <input type="text" class="form-control" name="autorizada" id="autorizada" value="{{ requisicion[11] }}" readonly>
+        </div>
+        <div class="col-md-6">
+            <label for="idPuesto" class="form-label">ID Puesto</label>
+            <input type="text" class="form-control" name="idPuesto" id="idPuesto" value="{{ requisicion[12] }}" readonly>
+        </div>
+        <div class="col-md-6">
+            <label for="idArea" class="form-label">ID Área</label>
+            <input type="text" class="form-control" name="idArea" id="idArea" value="{{ requisicion[13] }}" readonly>
+        </div>
+    </div>
+    <form action="/aceptar_requisicion" method="POST">
+        <input type="hidden" name="idRequisicion" value="{{ requisicion[0] }}">
+        <button type="submit" class="btn btn-primary">Aceptar Requisición</button>
+    </form>
+{% endblock %}
