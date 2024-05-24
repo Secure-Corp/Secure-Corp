@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<table width="100%" cellpadding="1">
+  <tbody>
+    <tr>
+      <td valign="top">
+        <div id="title">
+          <right>
+            <h3><a href="/habilidad_agregar"  class="btn" id="enviar">Agregar habilidad</a></h3>
+          </right>
+          <center>
+            <h3>Habilidades</h3>
+          </center>
+        </div>
+        <table width="100%" cellpadding="1">
+          <thead id="ndp">
+            <tr>
+              <td id="fuente"><b>Descripcion</b></td>
+              <td></td>
+               <td></td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in comentarios %}
+            <tr>
+              <td width="80%">
+                {{i.1}}
+              </td>
+
+              <td width="8%">
+                <center><a href="/habilidad_editar/{{i.0}}" class="btn" id="editar">Editar</a></center>
+              </td>
+              <td width="8%">
+                <center><a href="/habilidad_borrar/{{i.0}}" class="btn" id="borrar">Borrar</a></center>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<br>
+<br>
+{% endblock %}

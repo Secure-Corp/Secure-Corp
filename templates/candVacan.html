@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<table width="100%" cellpadding="1" ¿>
+    <tbody>
+      <tr>
+        <td valign="top">
+          <div id="title">
+            <center>
+              <h3>Candidatos registrados para la vacante de {{nomPuesto}}</h3>
+              {% if idCandSelec != 0 %}
+                <br>
+                <h6>Ya hay candidato seleccionado a esta vacante</h6>
+              {% endif %}
+            </center>
+          </div>
+          <table width="100%" cellpadding="1">
+            <thead id="ndp">
+              <tr>
+                <td><b>ID del candidato</b></td>
+                <td><b>Nombre</b></td>
+                <td><b>CURP</b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in datos %}
+              <tr>
+                <td width="10%">
+                  {{i.0}}
+                </td>
+                <td width="25%">
+                  {{i.3}}
+                </td>
+                <td width="25%">
+                  {{i.4}}
+                </td>
+                <td width="10%">
+                  {% if idCandSelec != 0 %}
+                    <center><button class="btn" id="selectCand" disabled style="border: none;">Seleccionar Candidato</button></center>
+                  {% elif idCandSelec == 0 %}
+                    <center><a href="/seleccionarCandidato/{{i.0}}/{{idV}}" class="btn" id="selectCand">Seleccionar Candidato</a></center>
+                  {% endif %}
+                </td>
+                <td width="10%">
+                  <center><a href="/detailCand/{{i.0}}" class="btn" id="detalle">Detalles</a></center>
+                </td>
+                <td width="10%">
+                  <center><a href="/editarCand/{{i.0}}/{{idV}}" class="btn" id="editar">Editar</a></center>
+                </td>
+                <td width="10%">
+                  <center><a href="/borrarCand/{{i.0}}/{{idV}}" class="btn" id="borrar">Borrar</a></center>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+{% endblock %}

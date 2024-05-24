@@ -1,0 +1,315 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+    body {
+       background-color: #f3f3e6de;
+    }
+ </style>
+ <br>
+
+ <form class="row g-3" id="formulario" name="formulario" action="#" method="post">
+    <h3 id="title">
+       <center>
+          <b> Detalles del candidato {{ datosCand[8] }} </b>
+       </center>
+    </h3>
+    <div class="col-md-6">
+       <label for="folio" class="form-label">Folio Requisición</label>
+       <input type="text" class="form-control" name="folio" id="folio" readonly value="{{ datosCand[4] }}"> </input>
+    </div>
+    <div class="col-md-6">
+       <label for="idVacante" class="form-label">Número de Vacante</label>
+       <input type="text" class="form-control" name="idVacante" id="idVacante" readonly value="{{ datosCand[1] }}"></input>
+ 
+    </div>
+    <div class="col-md-12">
+       <label for="nomPuesto" class="form-label">Nombre del Puesto</label>
+       <input type="text" class="form-control" name="nomPuesto" id="nomPuesto" readonly value="{{ datosCand[5] }}"></input>
+    </div>
+ 
+    <h3 id="title">
+       <center>
+          <b> Datos del candidato </b>
+       </center>
+    </h3>
+ 
+    <div class="col-md-6">
+       <label for="curp" class="form-label">CURP</label>
+       <input type="text" class="form-control datosCand" name="curp" id="curp" readonly value="{{ datosCand[6] }}"></input>
+    </div>
+    <div class="col-md-6">
+       <label for="rfc" class="form-label">RFC</label>
+       <input type="text" class="form-control datosCand" name="rfc" id="rfc" readonly value="{{ datosCand[7] }}"></input>
+    </div>
+ 
+    <div class="col-md-12">
+       <label for="nombre" class="form-label">Nombre</label>
+       <input type="text" class="form-control datosCand" name="nombre" id="nombre" readonly value="{{ datosCand[8] }}"></input>
+    </div>
+ 
+ 
+    <h6>Domicilio:</h6>
+ 
+ 
+    <div class="col-md-4">
+       <label for="Calle" class="form-label">Calle</label>
+       <input type="text" class="form-control datosCand" name="Calle" id="Calle" readonly value="{{ datosCand[9] }}"></input>
+    </div>
+    <div class="col-md-4">
+       <label for="numExtInt" class="form-label">Num Ext/Int</label>
+       <input type="number" class="form-control datosCand" name="numExtInt" id="numExtInt" readonly value="{{ datosCand[10] }}"></input>
+    </div>
+    <div class="col-md-4">
+       <label for="domColonia" class="form-label">Fraccionamiento/Colonia</label>
+       <input type="text" class="form-control datosCand" name="domColonia" id="domColonia" readonly value="{{ datosCand[11] }}"></input>
+    </div>
+    <div class="col-md-4">
+       <label for="tel1" class="form-label">Telefono 1</label>
+       <input type="text" class="form-control datosCand" pattern="\d{3}-\d{3}-\d{4}" name="tel1" id="tel1" readonly value="{{ datosCand[12] }}"></input>
+    </div>
+    <div class="col-md-4">
+       <label for="tel2" class="form-label">Telefono 2</label>
+       <input type="text" class="form-control datosCand" pattern="\d{3}-\d{3}-\d{4}" name="tel2" id="tel2" readonly value="{{ datosCand[13] }}"></input>
+    </div>
+    <div class="col-md-4">
+       <label for="correo" class="form-label">Correo</label>
+       <input type="email" class="form-control datosCand" name="correo" id="correo" readonly value="{{ datosCand[14] }}"></input>
+    </div>
+    <div class="col-md-4">
+       <label for="Edad" class="form-label">Edad</label>
+       <input type="number" class="form-control datosCand" name="Edad" id="Edad" readonly value="{{ datosCand[15] }}"></input>
+    </div>
+    <div class="col-md-4">
+       <label for="sexo" class="form-label">Sexo</label>
+       <select name="sexo" id="sexo" class="form-select catalogo" disabled>
+          <option selected="true" disabled="disabled" value="{{ datosCand[16] }}" >{{ datosCand[16] }}</option>
+       </select>
+    </div>
+    <div class="col-md-4">
+       <label for="idEstadoCivil" class="form-label">Estado Civil</label>
+       <select name="idEstadoCivil" id="idEstadoCivil" class="form-select catalogo" disabled>
+          <option selected="true" disabled="disabled" value="{{edocCand}}" >{{edocCand}}</option>
+       </select>
+ 
+    </div>
+    <div class="col-md-4">
+       <label for="idEscolaridad" class="form-label">Escolaridad</label>
+       <select name="idEscolaridad" id="idEscolaridad" class="form-select catalogo" disabled >
+          <option selected="true" disabled="disabled" value="{{escoCand}}" >{{escoCand}}</option>
+       </select>
+    </div>
+    
+    <div class="col-md-4">
+       <label for="idGradoAvance" class="form-label">Grado Avance</label>
+       <select name="idGradoAvance" id="idGradoAvance" class="form-select catalogo" disabled>
+          <option selected="true" disabled="disabled" value="{{gdoavanCand}}" >{{gdoavanCand}}</option>
+       </select>
+    </div>
+ 
+ 
+    <div class="col-md-4">
+       <label for="idCarrera" class="form-label">Carrera / Especialidad</label>
+       <select name="idCarrera" id="idCarrera" class="form-select catalogo" disabled>
+          <option selected="true" disabled="disabled" value="{{carreCand}}" >{{carreCand}}</option>
+       </select>
+ 
+    </div>
+    <div class="col-md-4">
+       <label for="entrevistaReq" class="form-label">Entrevista Requerida</label>
+       <select name="entrevistaReq" id="entrevistaReq" class="form-select evaluacion" disabled>
+        {% if datosCand[21] == 0 %}
+            <option selected="true" disabled="disabled" value="0" >No</option>
+        {% elif datosCand[21] == 1 %}
+            <option selected="true" disabled="disabled" value="1" >Sí</option>
+        {% endif %}
+       </select>
+    </div>
+ 
+    <div class="col-md-4" id="campoEntrevistaReq">
+       <label for="entrevistaPres" class="form-label">Entrevista Presentada</label>
+       <select name="entrevistaPres" id="entrevistaPres" class="form-select evaluacion" disabled>
+        {% if datosCand[22] == 0 %}
+            <option selected="true" disabled="disabled" value="0" >No</option>
+        {% elif datosCand[22] == 1 %}
+            <option selected="true" disabled="disabled" value="1" >Sí</option>
+        {% endif %}
+       </select>
+    </div>
+ 
+    <div class="col-md-4" id="campoEntrevistaRes">
+       <label for="campoEntrevista" class="form-label">Resultado Entrevista</label>
+       <input type="text" name="campoEntrevista" id="campoEntrevista" readonly value="{{ datosCand[23] }}" class="form-control evaluacion" disabled>
+    </div>
+
+
+    <div class="col-md-4">
+       <label for="evalMedicaReq" class="form-label">Evaluacion Medica Requerida</label>
+       <select name="evalMedicaReq" id="evalMedicaReq" class="form-select evaluacion" disabled>
+        {% if datosCand[24] == 0 %}
+            <option selected="true" disabled="disabled" value="0" >No</option>
+        {% elif datosCand[24] == 1 %}
+            <option selected="true" disabled="disabled" value="1" >Sí</option>
+        {% endif %}
+       </select>
+    </div>
+ 
+    <div class="col-md-4" id="campoEvalMedicaReq">
+       <label for="evalMedicaPres" class="form-label">Evaluacion Medica Presentada</label>
+       <select name="evalMedicaPres" id="evalMedicaPres" class="form-select evaluacion" disabled>
+        {% if datosCand[25] == 0 %}
+            <option selected="true" disabled="disabled" value="0" >No</option>
+        {% elif datosCand[25] == 1 %}
+            <option selected="true" disabled="disabled" value="1" >Sí</option>
+        {% endif %}
+       </select>
+    </div>
+ 
+    <div class="col-md-4 " id="campoEvalMedicaRes">
+       <label for="campoEvalMedica" class="form-label">Resultado Evaluacion Medica</label>
+       <input type="text" name="campoEvalMedica" id="campoEvalMedica" readonly value="{{datosCand[26]}}" class="form-control evaluacion" disabled>
+    </div>
+ 
+ 
+    <div class="col-md-4">
+       <label for="evalPsicoloReq" class="form-label">Evaluacion Psicologica Requerida</label>
+       <select name="evalPsicoloReq" id="evalPsicoloReq" class="form-select evaluacion" disabled>
+        {% if datosCand[27] == 0 %}
+            <option selected="true" disabled="disabled" value="0" >No</option>
+        {% elif datosCand[27] == 1 %}
+            <option selected="true" disabled="disabled" value="1" >Sí</option>
+        {% endif %}
+       </select>
+    </div>
+ 
+    <div class="col-md-4" id="campoEvalPsicolomReq">
+      <label for="evalPsicoloPres" class="form-label">Evaluacion Psicologica Presentada</label>
+      <select name="evalPsicoloPres" id="evalPsicoloPres" class="form-select evaluacion" disabled>
+       {% if datosCand[28] == 0 %}
+           <option selected="true" disabled="disabled" value="0" >No</option>
+       {% elif datosCand[28] == 1 %}
+           <option selected="true" disabled="disabled" value="1" >Sí</option>
+       {% endif %}
+      </select>
+   </div>
+
+ 
+    <div class="col-md-4" id="campoEvalPsicoloRes">
+       <label for="campoEvalPsicolo" class="form-label">Resultado Evaluacion Psicologica</label>
+       <input type="text" name="campoEvalPsicolo" id="campoEvalPsicolo" value="{{datosCand[29]}}" class="form-control evaluacion" disabled>
+    </div>
+ 
+ 
+    <div class="col-md-4">
+       <label for="evalPsicomReq" class="form-label">Evaluacion Psicometrica Requerida</label>
+       <select name="evalPsicomReq" id="evalPsicomReq" class="form-select evaluacion" disabled>
+        {% if datosCand[30] == 0 %}
+            <option selected="true" disabled="disabled" value="0" >No</option>
+        {% elif datosCand[30] == 1 %}
+            <option selected="true" disabled="disabled" value="1" >Sí</option>
+        {% endif %}
+       </select>
+    </div>
+ 
+    <div class="col-md-4" id="campoEvalPsicomReq">
+       <label for="evalPsicomPres" class="form-label">Evaluacion Psicometrica Presentada</label>
+       <select name="evalPsicomPres" id="evalPsicomPres" class="form-select evaluacion" disabled>
+        {% if datosCand[31] == 0 %}
+            <option selected="true" disabled="disabled" value="0" >No</option>
+        {% elif datosCand[31] == 1 %}
+            <option selected="true" disabled="disabled" value="1" >Sí</option>
+        {% endif %}
+       </select>
+    </div>
+ 
+    <div class="col-md-4" id="campoEvalPsicomRes">
+       <label for="campoEvalPsicom" class="form-label">Resultado Evaluacion Psicometrica</label>
+       <input type="text" name="campoEvalPsicom" id="campoEvalPsicom" readonly value="{{datosCand[32]}}" class="form-control evaluacion" disabled>
+    </div>
+ 
+ 
+    <div class="col-md-4">
+       <label for="evalTecniReq" class="form-label">Evaluacion Tecnica Requerida</label>
+       <select name="evalTecniReq" id="evalTecniReq" class="form-select evaluacion" disabled>
+        {% if datosCand[33] == 0 %}
+            <option selected="true" disabled="disabled" value="0" >No</option>
+        {% elif datosCand[33] == 1 %}
+            <option selected="true" disabled="disabled" value="1" >Sí</option>
+        {% endif %}
+       </select>
+    </div>
+ 
+    <div class="col-md-4" id="campoEvalTecniReq">
+       <label for="evalTecniPres" class="form-label">Evaluacion Tecnica Presentada</label>
+       <select name="evalTecniPres" id="evalTecniPres" class="form-select evaluacion" disabled>
+        {% if datosCand[34] == 0 %}
+            <option selected="true" disabled="disabled" value="0" >No</option>
+        {% elif datosCand[34] == 1 %}
+            <option selected="true" disabled="disabled" value="1" >Sí</option>
+        {% endif %}
+       </select>
+    </div>
+ 
+    <div class="col-md-4" id="campoEvalTecniRes">
+       <label for="campoEvalTecni" class="form-label">Resultado Evaluacion Tecnica</label>
+       <input type="text" name="campoEvalTecni" id="campoEvalTecni" readonly value="{{datosCand[35]}}" class="form-control evaluacion" disabled>
+    </div>
+ 
+    <div class="col-md-4">
+       <label for="evalConoReq" class="form-label">Evaluacion de Conocimientos Requerida</label>
+       <select name="evalConoReq" id="evalConoReq" class="form-select evaluacion" disabled>
+        {% if datosCand[36] == 0 %}
+            <option selected="true" disabled="disabled" value="0" >No</option>
+        {% elif datosCand[36] == 1 %}
+            <option selected="true" disabled="disabled" value="1" >Sí</option>
+        {% endif %}
+       </select>
+    </div>
+ 
+    <div class="col-md-4" id="campoEvalConoReq">
+       <label for="evalConoPres" class="form-label">Evaluacion de Conocimientos Presentada</label>
+       <select name="evalConoPres" id="evalConoPres" class="form-select evaluacion" disabled>
+        {% if datosCand[37] == 0 %}
+            <option selected="true" disabled="disabled" value="0" >No</option>
+        {% elif datosCand[37] == 1 %}
+            <option selected="true" disabled="disabled" value="1" >Sí</option>
+        {% endif %}
+       </select>
+    </div>
+ 
+    <div class="col-md-4" id="campoEvalConoRes">
+       <label for="campoEvalCono" class="form-label">Resultado Evaluacion de Conocimientos
+       </label>
+       <input type="text" name="campoEvalCono" id="campoEvalCono" readonly value="{{datosCand[38]}}" class="form-control evaluacion" disabled>
+    </div>
+ 
+    <div class="col-md-4">
+       <label for="entrevistaFinReq" class="form-label">Entrevista Final Requerida</label>
+       <select name="entrevistaFinReq" id="entrevistaFinReq" class="form-select evaluacion" disabled>
+        {% if datosCand[39] == 0 %}
+            <option selected="true" disabled="disabled" value="0" >No</option>
+        {% elif datosCand[39] == 1 %}
+            <option selected="true" disabled="disabled" value="1" >Sí</option>
+        {% endif %}
+       </select>
+    </div>
+ 
+    <div class="col-md-4" id="campoEntrevistaFinReq">
+       <label for="entrevistaFinPres" class="form-label">Entrevista Final Presentada</label>
+       <select name="entrevistaFinPres" id="entrevistaFinPres" class="form-select evaluacion" disabled>
+        {% if datosCand[40] == 0 %}
+            <option selected="true" disabled="disabled" value="0" >No</option>
+        {% elif datosCand[40] == 1 %}
+            <option selected="true" disabled="disabled" value="1" >Sí</option>
+        {% endif %}
+       </select>
+    </div>
+ 
+    <div class="col-md-4" id="campoEntrevistaFinRes">
+       <label for="campoEntrevistaFin" class="form-label">Resultado Entrevista Final</label>
+       <input type="text" name="campoEntrevistaFin" id="campoEntrevistaFin" readonly value="{{datosCand[41]}}" class="form-control evaluacion" disabled>
+     </div>
+     
+       
+    </form>
+    <script src="/static/js/validacion.js"></script>
+{% endblock %}

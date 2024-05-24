@@ -1,0 +1,339 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+   body {
+      background-color: #f3f3e6de;
+   }
+</style>
+<br>
+
+<form class="row g-3" id="formulario" name="formulario" action="/editarCandFunct/{{datosOp.39}}" method="post">
+   <h3 id="title">
+      <center>
+         <b> Capturar Candidato Para </b>
+      </center>
+   </h3>
+   <div class="col-md-6">
+      <label for="folio" class="form-label">Folio</label>
+      <input type="text" class="form-control" name="folio" id="folio" readonly value="{{dato.0}}"> </input>
+   </div>
+   <div class="col-md-6">
+      <label for="idVacante" class="form-label">Número de Vacante</label>
+      <input type="text" class="form-control" name="idVacante" id="idVacante" readonly value="{{dato.1}}"></input>
+
+   </div>
+   <div class="col-md-12">
+      <label for="nomPuesto" class="form-label">Nombre del Puesto</label>
+      <input type="text" class="form-control" name="nomPuesto" id="nomPuesto" readonly value="{{dato.2}}"></input>
+   </div>
+
+   <h3 id="title">
+      <center>
+         <b> Datos Requeridos </b>
+      </center>
+   </h3>
+
+   <div class="col-md-6">
+      <label for="curp" class="form-label">CURP</label>
+      <input type="text" class="form-control datosCand" name="curp" id="curp" minlength="18" maxlength="18" value="{{datosOp.3}}"></input>
+   </div>
+   <div class="col-md-6">
+      <label for="rfc" class="form-label">RFC</label>
+      <input type="text" class="form-control datosCand" name="rfc" id="rfc" minlength="12" maxlength="13" value="{{datosOp.4}}"></input>
+   </div>
+
+   <div class="col-md-12">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input type="text" class="form-control datosCand" name="nombre" id="nombre" minlength="3" maxlength="40" value="{{datosOp.5}}"></input>
+   </div>
+
+
+   <h6>Domicilio:</h6>
+
+
+   <div class="col-md-4">
+      <label for="Calle" class="form-label">Calle</label>
+      <input type="text" class="form-control datosCand" name="Calle" id="Calle" minlength="3" maxlength="40" value="{{datosOp.6}}"></input>
+   </div>
+   <div class="col-md-4">
+      <label for="numExtInt" class="form-label">Num Ext/Int</label>
+      <input type="number" class="form-control datosCand" name="numExtInt" id="numExtInt" min="1" value="{{datosOp.7}}"></input>
+   </div>
+   <div class="col-md-4">
+      <label for="domColonia" class="form-label">Fraccionamiento/Colonia</label>
+      <input type="text" class="form-control datosCand" name="domColonia" id="domColonia" minlength="3" maxlength="40" value="{{datosOp.8}}"></input>
+   </div>
+   <div class="col-md-4">
+      <label for="tel1" class="form-label">Telefono 1</label>
+      <input type="text" class="form-control datosCand" pattern="\d{3}-\d{3}-\d{4}" name="tel1" id="tel1" value="{{datosOp.9}}"></input>
+   </div>
+   <div class="col-md-4">
+      <label for="tel2" class="form-label">Telefono 2</label>
+      <input type="text" class="form-control datosCand" pattern="\d{3}-\d{3}-\d{4}" name="tel2" id="tel2" value="{{datosOp.10}}"></input>
+   </div>
+   <div class="col-md-4">
+      <label for="correo" class="form-label">Correo</label>
+      <input type="email" class="form-control datosCand" name="correo" id="correo" maxlength="40" value="{{datosOp.11}}"></input>
+   </div>
+   <div class="col-md-4">
+      <label for="Edad" class="form-label">Edad</label>
+      <input type="number" class="form-control datosCand" name="Edad" id="Edad" min="18" max="100" value="{{datosOp.12}}"></input>
+   </div>
+   <div class="col-md-4">
+      <label for="sexo" class="form-label">Sexo</label>
+      <select name="sexo" id="sexo" class="form-select catalogo">
+         <option disabled="disabled" value="0" hidden>Elige...</option>
+         <option value="Indistinto" {% if datosOp.13 == "Indistinto" %}selected{% endif %}>Indistinto</option>
+         <option value="Hombre" {% if datosOp.13 == "Hombre" %}selected{% endif %}>Hombre</option>
+         <option value="Mujer" {% if datosOp.13 == "Mujer" %}selected{% endif %}>Mujer</option>
+      </select>
+   </div>
+
+   <div class="col-md-4">
+      <label for="idEstadoCivil" class="form-label">Estado Civil</label>
+      <select name="idEstadoCivil" id="idEstadoCivil" class="form-select catalogo">
+         <option disabled="disabled" value="0" hidden>Elige...</option>
+         {%for i in catEdoCivil%}
+         <option value="{{i.0}}" {% if datosOp.14 == i.0 %}selected{% endif %}>{{i.1}}</option>
+         {% endfor %}
+      </select>
+
+   </div>
+   <div class="col-md-4">
+      <label for="idEscolaridad" class="form-label">Escolaridad</label>
+      <select name="idEscolaridad" id="idEscolaridad" class="form-select catalogo" onChange="miFunc1()">
+         <option disabled="disabled" value="1" hidden>Elige...</option>
+         {% for i in catEscolaridad %}
+         <option value="{{i.0}}" {% if datosOp.15 == i.0 %}selected{% endif %}>{{i.1}}</option>
+         {% endfor %}
+      </select>
+      <script>
+         function miFunc1() {
+            var esco = document.getElementById('idEscolaridad').value;
+            if (esco == 1) {
+              document.getElementById('idGradoAvance').children[1].selected = true;
+              document.getElementById('idCarrera').children[1].selected = true;
+              document.getElementById('idGradoAvance').disabled = true;
+              document.getElementById('idCarrera').disabled = true;
+            }
+            else {
+               document.getElementById('idGradoAvance').disabled = false;
+               document.getElementById('idCarrera').disabled = false;
+            }
+         }
+      </script>
+   </div>
+
+   
+   <div class="col-md-4">
+      <label for="idGradoAvance" class="form-label">Grado Avance</label>
+      <select name="idGradoAvance" id="idGradoAvance" class="form-select catalogo">
+         <option  disabled="disabled" value="1" hidden>Elige...</option>
+         {% for i in catGradoAvance %}
+         <option value="{{i.0}}" {% if datosOp.16 == i.0 %}selected{% endif %}>{{i.1}}</option>
+         {% endfor %}
+      </select>
+   </div>
+
+
+   <div class="col-md-4">
+      <label for="idCarrera" class="form-label">Carrera / Especialidad</label>
+      <select name="idCarrera" id="idCarrera" class="form-select catalogo">
+         <option  disabled="disabled" value="1" hidden>Elige...</option>
+         {%
+         for i in catCarrera
+         %}
+         <option value="{{i.0}}" {% if datosOp.17 == i.0 %}selected{% endif %}>{{i.1}}</option>
+         {% endfor %}
+      </select>
+
+   </div>
+   <div class="col-md-4">
+      <label for="entrevistaReq" class="form-label">Entrevista Requerida</label>
+      <select name="entrevistaReq" id="entrevistaReq" class="form-select evaluacion" onchange="mostrarPres('entrevistaReq', 'campoEntrevistaReq', 'campoEntrevistaRes')">
+        <option disabled="disabled" value="0" hidden>Elige...</option>
+        <option value="0" {% if datosOp.18 == 0 %}selected{% endif %}>No</option>
+        <option value="1" {% if datosOp.18 == 1 %}selected{% endif %}>Sí</option>
+      </select>
+   </div>
+
+   <div class="col-md-4 selectores" id="campoEntrevistaReq">
+      <label for="entrevistaPres" class="form-label">Entrevista Presentada</label>
+      <select name="entrevistaPres" id="entrevistaPres" class="form-select evaluacion"
+         onchange="mostrarRes('entrevistaPres', 'campoEntrevistaRes')" >
+         <option  value="0" disabled hidden>Elige...</option>
+         <option value="0" {% if datosOp.19 == 0 %}selected{% endif %} >No</option>
+         <option value="1" {% if datosOp.19 == 1 %}selected{% endif %}>Sí</option>
+      </select>
+   </div>
+
+   <div class="col-md-4 selectores" id="campoEntrevistaRes">
+      <label for="campoEntrevista" class="form-label">Resultado Entrevista</label>
+      <input  type="text" required name="campoEntrevista" id="campoEntrevista" value="{{datosOp.20}}" class="form-control evaluacion" minlength="5" maxlength="40" disabled>
+   </div>
+
+   <div class="col-md-4">
+      <label for="evalMedicaReq" class="form-label">Evaluacion Medica Requerida</label>
+      <select name="evalMedicaReq" id="evalMedicaReq" class="form-select evaluacion"
+         onchange="mostrarPres('evalMedicaReq', 'campoEvalMedicaReq', 'campoEvalMedicaRes')">
+         <option  disabled="disabled" value="0" hidden>Elige...</option>
+         <option value="0" {% if datosOp.21 == 0 %}selected{% endif %}>No</option>
+         <option value="1" {% if datosOp.21 == 1 %}selected{% endif %}>Sí</option>
+      </select>
+   </div>
+
+   <div class="col-md-4 selectores" id="campoEvalMedicaReq">
+      <label for="evalMedicaPres" class="form-label">Evaluacion Medica Presentada</label>
+      <select name="evalMedicaPres" id="evalMedicaPres" class="form-select evaluacion"
+         onchange="mostrarRes('evalMedicaPres', 'campoEvalMedicaRes')">
+         <option  value="0" disabled hidden>Elige...</option>
+         <option value="0" {% if datosOp.22 == 0 %}selected{% endif %}>No</option>
+         <option value="1"{% if datosOp.22 == 1 %}selected{% endif %}>Sí</option>
+      </select>
+   </div>
+
+   <div class="col-md-4 selectores" id="campoEvalMedicaRes">
+      <label for="campoEvalMedica" class="form-label">Resultado Evaluacion Medica</label>
+      <input type="text" required name="campoEvalMedica" id="campoEvalMedica" value="{{datosOp.23}}" class="form-control evaluacion" minlength="5" maxlength="40" disabled>
+   </div>
+
+
+   <div class="col-md-4">
+      <label for="evalPsicoloReq" class="form-label">Evaluacion Psicologica Requerida</label>
+      <select name="evalPsicoloReq" id="evalPsicoloReq" class="form-select evaluacion"
+         onchange="mostrarPres('evalPsicoloReq', 'campoEvalPsicoloReq', 'campoEvalPsicoloRes')">
+         <option  disabled="disabled" value="0" hidden>Elige...</option>
+         <option value="0" {% if datosOp.24 == 0 %}selected{% endif %}>No</option>
+         <option value="1" {% if datosOp.24 == 1 %}selected{% endif %}>Sí</option>
+      </select>
+   </div>
+
+   <div class="col-md-4 selectores" id="campoEvalPsicoloReq">
+      <label for="evalPsicoloPres" class="form-label">Evaluacion Psicologica Presentada</label>
+      <select name="evalPsicoloPres" id="evalPsicoloPres" class="form-select evaluacion"
+         onchange="mostrarRes('evalPsicoloPres', 'campoEvalPsicoloRes')">
+         <option  value="0" disabled hidden>Elige...</option>
+         <option value="0" {% if datosOp.25 == 0 %}selected{% endif %}>No</option>
+         <option value="1" {% if datosOp.25 == 1 %}selected{% endif %}>Sí</option>
+      </select>
+   </div>
+
+   <div class="col-md-4 selectores" id="campoEvalPsicoloRes">
+      <label for="campoEvalPsicolo" class="form-label">Resultado Evaluacion Psicologica</label>
+      <input type="text" required name="campoEvalPsicolo" id="campoEvalPsicolo" value="{{datosOp.26}}" class="form-control evaluacion" minlength="5" maxlength="40" disabled>
+   </div>
+
+
+   <div class="col-md-4">
+      <label for="evalPsicomReq" class="form-label">Evaluacion Psicometrica Requerida</label>
+      <select name="evalPsicomReq" id="evalPsicomReq" class="form-select evaluacion"
+         onchange="mostrarPres('evalPsicomReq', 'campoEvalPsicomReq', 'campoEvalPsicomRes')">
+         <option  disabled="disabled" value="0" hidden>Elige...</option>
+         <option value="0" {% if datosOp.27 == 0 %}selected{% endif %}>No</option>
+         <option value="1" {% if datosOp.27 == 1 %}selected{% endif %}>Sí</option>
+      </select>
+   </div>
+
+   <div class="col-md-4 selectores" id="campoEvalPsicomReq">
+      <label for="evalPsicomPres" class="form-label">Evaluacion Psicometrica Presentada</label>
+      <select name="evalPsicomPres" id="evalPsicomPres" class="form-select evaluacion"
+         onchange="mostrarRes('evalPsicomPres', 'campoEvalPsicomRes')">
+         <option  value="0" disabled hidden>Elige...</option>
+         <option value="0" {% if datosOp.28 == 0 %}selected{% endif %}>No</option>
+         <option value="1" {% if datosOp.28 == 1 %}selected{% endif %}>Sí</option>
+      </select>
+   </div>
+
+   <div class="col-md-4 selectores" id="campoEvalPsicomRes">
+      <label for="campoEvalPsicom" class="form-label">Resultado Evaluacion Psicometrica</label>
+      <input type="text" required name="campoEvalPsicom" id="campoEvalPsicom" value="{{datosOp.29}}" class="form-control evaluacion" minlength="5" maxlength="40" disabled>
+   </div>
+
+
+
+   <div class="col-md-4">
+      <label for="evalTecniReq" class="form-label">Evaluacion Tecnica Requerida</label>
+      <select name="evalTecniReq" id="evalTecniReq" class="form-select evaluacion"
+         onchange="mostrarPres('evalTecniReq', 'campoEvalTecniReq', 'campoEvalTecniRes')">
+         <option  disabled="disabled" value="0" hidden>Elige...</option>
+         <option value="0" {% if datosOp.30 == 0 %}selected{% endif %}>No</option>
+         <option value="1" {% if datosOp.30 == 1 %}selected{% endif %}>Sí</option>
+      </select>
+   </div>
+
+   <div class="col-md-4 selectores" id="campoEvalTecniReq">
+      <label for="evalTecniPres" class="form-label">Evaluacion Tecnica Presentada</label>
+      <select name="evalTecniPres" id="evalTecniPres" class="form-select evaluacion"
+         onchange="mostrarRes('evalTecniPres', 'campoEvalTecniRes')">
+         <option  value="0" disabled hidden>Elige...</option>
+         <option value="0" {% if datosOp.31 == 0 %}selected{% endif %}>No</option>
+         <option value="1" {% if datosOp.31 == 1 %}selected{% endif %}>Sí</option>
+      </select>
+   </div>
+
+   <div class="col-md-4 selectores" id="campoEvalTecniRes">
+      <label for="campoEvalTecni" class="form-label">Resultado Evaluacion Tecnica</label>
+      <input type="text" required name="campoEvalTecni" id="campoEvalTecni" value="{{datosOp.32}}" class="form-control evaluacion" minlength="5" maxlength="40" disabled>
+   </div>
+
+   <div class="col-md-4">
+      <label for="evalConoReq" class="form-label">Evaluacion de Conocimientos Requerida</label>
+      <select name="evalConoReq" id="evalConoReq" class="form-select evaluacion"
+         onchange="mostrarPres('evalConoReq', 'campoEvalConoReq', 'campoEvalConoRes')">
+         <option  disabled="disabled" value="0" hidden>Elige...</option>
+         <option value="0" {% if datosOp.33 == 0 %}selected{% endif %}>No</option>
+         <option value="1" {% if datosOp.33 == 1 %}selected{% endif %}>Sí</option>
+      </select>
+   </div>
+
+   <div class="col-md-4 selectores" id="campoEvalConoReq">
+      <label for="evalConoPres" class="form-label">Evaluacion de Conocimientos Presentada</label>
+      <select name="evalConoPres" id="evalConoPres" class="form-select evaluacion"
+         onchange="mostrarRes('evalConoPres', 'campoEvalConoRes')">
+         <option  value="0" disabled hidden>Elige...</option>
+         <option value="0" {% if datosOp.34 == 0 %}selected{% endif %}>No</option>
+         <option value="1" {% if datosOp.34 == 1 %}selected{% endif %}>Sí</option>
+      </select>
+   </div>
+
+   <div class="col-md-4 selectores" id="campoEvalConoRes">
+      <label for="campoEvalCono" class="form-label">Resultado Evaluacion de Conocimientos
+      </label>
+      <input type="text" required name="campoEvalCono" id="campoEvalCono" value="{{datosOp.35}}" class="form-control evaluacion" minlength="5" maxlength="40" disabled>
+   </div>
+
+   <div class="col-md-4">
+      <label for="entrevistaFinReq" class="form-label">Entrevista Final Requerida</label>
+      <select name="entrevistaFinReq" id="entrevistaFinReq" class="form-select evaluacion"
+         onchange="mostrarPres('entrevistaFinReq', 'campoEntrevistaFinReq', 'campoEntrevistaFinRes')">
+         <option  disabled="disabled" value="0" hidden>Elige...</option>
+         <option value="0" {% if datosOp.36 == 0 %}selected{% endif %}>No</option>
+         <option value="1" {% if datosOp.36 == 1 %}selected{% endif %}>Sí</option>
+      </select>
+   </div>
+
+   <div class="col-md-4 selectores" id="campoEntrevistaFinReq">
+      <label for="entrevistaFinPres" class="form-label">Entrevista Final Presentada</label>
+      <select name="entrevistaFinPres" id="entrevistaFinPres" class="form-select evaluacion"
+         onchange="mostrarRes('entrevistaFinPres', 'campoEntrevistaFinRes')">
+         <option  value="0" disabled hidden>Elige...</option>
+         <option value="0" {% if datosOp.37 == 0 %}selected{% endif %}>No</option>
+         <option value="1" {% if datosOp.37 == 1 %}selected{% endif %}>Sí</option>
+      </select>
+   </div>
+
+   <div class="col-md-4 selectores" id="campoEntrevistaFinRes">
+      <label for="campoEntrevistaFin" class="form-label">Resultado Entrevista Final</label>
+      <input type="text" required name="campoEntrevistaFin" id="campoEntrevistaFin" value="{{datosOp.38}}" class="form-control evaluacion" minlength="5" maxlength="40" disabled>
+    </div>
+    
+    
+
+
+    <div class="col-12">
+       <button class="btn btn-primary" id="enviar">GUARDAR CAMBIOS</button>
+    </div>
+      
+   </form>
+   <script src="/static/js/validacion.js"></script>
+{% endblock %}
