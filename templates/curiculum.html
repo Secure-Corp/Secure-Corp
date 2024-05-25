@@ -5,7 +5,7 @@
     <tbody>
     <tr>
     <td color="FFFFFF" bgcolor="#465F5A" valign="top">
-    <center><h3>Candidatos Acepatados</h3></center>
+    <center><h3>Curriculum</h3></center>
     <button type="button"><a style=" color: black;" href="/arg_curso">agregar</a></center></button>
     <table width="100%" border="1" cellpadding="0" bordercolor="#000000">
     <thead>
@@ -13,9 +13,12 @@
         <td color="white" bgcolor="blue">Numero de identidad</td>
         <td color="white" bgcolor="blue">Nombre</td>
         <td color="white" bgcolor="blue">Telefono</td>
-        <td color="white" bgcolor="black"></td>
-        <td color="white" bgcolor="black"></td>
-        <td color="white" bgcolor="black"></td>
+        <td color="white" bgcolor="blue">direccion</td>
+        <td color="white" bgcolor="blue">curp</td>
+        <td color="white" bgcolor="blue">vacante</td>
+        <td color="white" bgcolor="blue">cursos tomados</td>
+        <td color="white" bgcolor="blue">completado</td>
+
       </tr>
     </thead>
     <tbody>
@@ -30,16 +33,22 @@
          <td>
             {{i.3}}
          </td>
-        <td bgcolor="#3C3EC5" width="8%">
-        <button type="button"><a style="color:black;" href="/curriculum/{{i.0}}">Mostrar Curriculum</a></center></button>
+         <td>
+            {{i.4}}
+         </td>
+         <td>
+            {{i.5}}
+         </td>
+         <td>
+            {{i.6}}
         </td>
-        <td bgcolor="#3C3EC5" width="8%">
-            <button type="button"><a style="color:black;" href="/clubstu/{{i.0}}">Cursos</a></center></button>
+        <td>
+            {{i.7}}
+        </td>        
+        <td>
+            {{i.9}}
         </td>
-        <td bgcolor="#3C3EC5" width="8%">
-            <button type="button"><a style="color:black;" href="/clubvist/{{i.0}}">Cursos que quieres hacer</a></center></button>
-        </td>
-        </tr>
+
     {% endfor %}
     </tbody>
     </table>

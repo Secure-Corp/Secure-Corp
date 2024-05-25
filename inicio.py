@@ -1820,7 +1820,7 @@ def clubvist(id):
 def cursoagr(nombre,decripcion,id):
     conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
     cursor = conn.cursor()
-    cursor.execute("insert into agcuso (nombre,descripcion,idusuario) values (%s,%s,%s)",(nombre,decripcion,id))
+    cursor.execute("insert into agcuso (nombre,descripcion,idusuario,completado) values (%s,%s,%s,%s)",(nombre,decripcion,id,2))
     conn.commit()
     return redirect(url_for('tabla_con'))
 
@@ -1843,9 +1843,26 @@ def agr_cur():
 def clubstu(id):
     conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
     cursor = conn.cursor()
-    cursor.execute("select b.idusuario,a.nombre,a.descripcion,a.calificacion from agcuso as a inner join usuario as b on a.idusuario = b.idusuario where a.idusuario = {0}".format(id))
+    cursor.execute("select b.idusuario,a.nombre,a.descripcion,c.descripcion,a.idagcu  from agcuso as a inner join usuario as b inner join completadas as c on a.idusuario=b.idusuario where c.id=a.completado and a.idusuario = {0}".format(id))
     datos = cursor.fetchall()
     return render_template("cali.html", comentarios = datos)
+    
+@app.route("/clubvist2/<string:id>",methods=['POST'])
+def clubvist2(id):
+    if request.method == 'POST':
+        conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
+        cursor = conn.cursor()
+        cursor.execute("update agcuso set completado=%s where idagcu=%s",( 1 ,id) )
+        conn.commit()
+        return redirect(url_for('tabla_con'))
+
+@app.route("/curriculum/<string:id>")
+def curiculim(id):
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
+    cursor = conn.cursor()
+    cursor.execute("select b.*,a.nombre,a.descripcion,c.descripcion,a.idagcu from agcuso as a inner join usuario as b inner join completadas as c on a.idusuario=b.idusuario where c.id=a.completado and a.idusuario = {0}".format(id))
+    datos  = cursor.fetchall()
+    return render_template("curiculum.html", comentarios = datos)
 
 if __name__ == "__main__":
     app.run(debug=True)
