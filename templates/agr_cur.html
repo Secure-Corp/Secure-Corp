@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block content %}
+<h3>
+    <CENTER> <b> Agregar curso</b> </CENTER>
+      
+</h3>
+   <br>
+   <br>
+   <br>
+<form action="/arg_cur" method="post">
+   <div class="container">
+          <div class="form-row">
+               <div class="col-xs-12 ">
+                <div class="mb-3">
+                      <label for="descripcion" class="form-label">nombre</label>
+                      <input type="text" class="form-control" name="nombre" id="nombre"></input>
+                      <br>
+                      <label for="descripcion" class="form-label">descripcion</label>
+                      <input type="text" class="form-control" name="descripcion" id="descripcion"></input>
+                </div>
+                </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Enviar</button>
+    </div>
+          
+</form>
+{% endblock %}

@@ -1800,7 +1800,52 @@ def empleados_fedita(idE):
 #fin equipo 6
 
 #EQUIPO7 #
+@app.route("/tabla_con")
+def tabla_con():
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
+    cursor = conn.cursor()
+    cursor.execute("select * from usuario order by idusuario")
+    datos  = cursor.fetchall()
+    return render_template("tabla_can.html", comentarios = datos)
 
+@app.route("/clubvist/<string:id>")
+def clubvist(id):
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
+    cursor = conn.cursor()
+    cursor.execute("select * from cursos order by idcursos")
+    datos = cursor.fetchall()
+    return render_template("clubs.html", comentarios = datos , pot=id)
+
+@app.route("/cursoagr/<string:nombre>/<string:decripcion>/<string:id>")
+def cursoagr(nombre,decripcion,id):
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
+    cursor = conn.cursor()
+    cursor.execute("insert into agcuso (nombre,descripcion,idusuario) values (%s,%s,%s)",(nombre,decripcion,id))
+    conn.commit()
+    return redirect(url_for('tabla_con'))
+
+@app.route("/arg_curso")
+def agr_curso():
+    return render_template('agr_cur.html')
+
+@app.route("/arg_cur", methods=['POST'])
+def agr_cur():
+    if request.method == 'POST':
+        nombre=request.form['nombre']
+        descripcion=request.form['descripcion']
+        conn = pymysql.connect(host="localhost", user="root", passwd="",db="rh3")
+        cursor = conn.cursor()
+        cursor.execute("insert into cursos (nombre,descripcion) values (%s,%s)",(nombre,descripcion))
+        conn.commit()
+    return redirect(url_for('tabla_con'))
+
+@app.route("/clubstu/<string:id>")
+def clubstu(id):
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
+    cursor = conn.cursor()
+    cursor.execute("select b.idusuario,a.nombre,a.descripcion,a.calificacion from agcuso as a inner join usuario as b on a.idusuario = b.idusuario where a.idusuario = {0}".format(id))
+    datos = cursor.fetchall()
+    return render_template("cali.html", comentarios = datos)
 
 if __name__ == "__main__":
     app.run(debug=True)

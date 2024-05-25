@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <table width="100%" border="1" cellpadding="0" bordercolor="#000000">
+    <tbody>
+    <tr>
+    <td color="FFFFFF" bgcolor="#465F5A" valign="top">
+    <center><h3>Cursos del Candidatos</h3></center>
+    <table width="100%" border="1" cellpadding="0" bordercolor="#000000">
+    <thead>
+      <tr>
+        <td color="white" bgcolor="blue">Nombre:</td>
+        <td color="white" bgcolor="blue">Descripcion:</td>
+        <td color="white" bgcolor="blue">Calificacion:</td>
+        <td color="white" bgcolor="blue"></td>
+      </tr>
+    </thead>
+    <tbody>
+    <button type="button"><a href="">Calificaciones:</a></button>
+    {% for i in comentarios %}
+        <tr>
+        <td>
+           {{i.1}}
+        </td>
+        <td>
+            {{i.2}}
+         </td>
+         <td>
+            {{i.3}}
+         </td>
+        <td bgcolor="#3C3EC5" width="8%">
+            <button type="button"><a href="/clubvist/{{i.0}}">Completar</a></center></button>
+        </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+{% endblock %}
