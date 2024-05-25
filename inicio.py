@@ -1799,6 +1799,9 @@ def empleados_fedita(idE):
 
 #fin equipo 6
 
+#EQUIPO7 #
+
+
 if __name__ == "__main__":
     app.run(debug=True)
 
