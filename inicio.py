@@ -1509,6 +1509,296 @@ def calc_detalles(id):
 def regreso():
     return redirect(url_for('calificaciones'))
 #fin equipo 5
+
+#inicio equipo 6:
+
+#Empleados:
+@app.route('/empleados', endpoint='empleados')
+def empleados():
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
+    cursor = conn.cursor()
+
+    cursor.execute('select idEmpleado, nombre from empleado order by idEmpleado')
+    datos = cursor.fetchall()
+    return render_template("empleados.html", pue = datos, dat='', catEmpleado = '', catEdoCivil = '', catEscolaridad = '',catGradoAvance = '', catCarrera = '', catRequisicion = '', catPuesto = '')
+
+
+@app.route('/empleados_fdetalle/<string:idE>', methods=['GET'])
+def empleados_fdetalle(idE):
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    cursor = conn.cursor()
+
+    cursor.execute('select idEmpleado, nombre from empleado order by idEmpleado')
+    datos = cursor.fetchall()
+
+    cursor.execute('select idRequisicion, idPuesto, CURP, RFC, nombre, apellido, domCalle, domNumExtInt, domColonia,'
+                   ' tel1, sueldo, correoE, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera from empleado where '
+                   ' idEmpleado = %s', (idE))
+    dato = cursor.fetchall()
+
+    cursor.execute('select a.idRequisicion, a.folio from requisicion a, empleado b where a.idRequisicion = b.idRequisicion and b.idEmpleado = %s', (idE))
+    datos2 = cursor.fetchall()
+    
+    cursor.execute('select a.idPuesto, a.descripcionGeneral from puesto a, empleado b where a.idPuesto = b.idPuesto and b.idEmpleado = %s', (idE))
+    datos3 = cursor.fetchall()
+
+    cursor.execute('select a.idEstadoCivil, a.descripcion from estado_civil a, empleado b where a.idEstadoCivil = b.idEstadoCivil and b.idEmpleado = %s', (idE))
+    datos4 = cursor.fetchall()
+
+    cursor.execute('select a.idEscolaridad, a.descripcion from escolaridad a, empleado b where a.idEscolaridad = b.idEscolaridad and b.idEmpleado = %s', (idE))
+    datos5 = cursor.fetchall()
+
+    cursor.execute('select a.idGradoAvance, a.descripcion from grado_avance a, empleado b where a.idGradoAvance = b.idGradoAvance and b.idEmpleado = %s', (idE))
+    datos6 = cursor.fetchall()
+
+    cursor.execute('select a.idCarrera, a.descripcion from carrera a, empleado b where a.idCarrera = b.idCarrera and b.idEmpleado = %s', (idE))
+    datos7 = cursor.fetchall()
+
+    return render_template("empleados.html", pue = datos, dat=dato[0], catRequisicion=datos2, catPuesto=datos3, catEdoCivil=datos4, catEscolaridad=datos5, catGradoAvance=datos6, catCarrera=datos7)
+
+
+@app.route('/empleados_borrar/<string:idE>')
+def empleados_borrar(idE):
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM empleado WHERE idEmpleado = %s', (idE,))
+    conn.commit()
+    conn.close()  
+    return redirect(url_for('empleados'))
+
+
+
+@app.route('/empleados_agr02')
+def empleados_agr02():
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    cursor = conn.cursor()
+
+    cursor.execute('select idEmpleado, idEmpleado from empleado ')
+    datos1 = cursor.fetchall()
+
+    cursor.execute('select idEstadoCivil, descripcion from estado_civil ')
+    datos2 = cursor.fetchall()
+
+    cursor.execute('select idEscolaridad, descripcion from escolaridad ')
+    datos3 = cursor.fetchall()
+
+    cursor.execute('select idGradoAvance, descripcion from grado_avance ')
+    datos4 = cursor.fetchall()
+
+    cursor.execute('select idCarrera, descripcion from carrera ')
+    datos5 = cursor.fetchall()
+
+    cursor.execute('select idIdioma, descripcion from idioma ')
+    datos6 = cursor.fetchall()
+
+    cursor.execute('select idHabilidad, descripcion from habilidad ')
+    datos7 = cursor.fetchall()
+
+    return render_template("empleados_agr02.html", catEmpleado=datos1, catEdoCivil=datos2, catEscolaridad=datos3,
+                           catGradoAvance=datos4, catCarrera=datos5, catIdioma=datos6, catHabilidad=datos7)
+
+@app.route('/empleados_fagrega2', methods=['POST'])
+def empleados_fagrega2():
+    if request.method == 'POST':
+
+        if 'idRequisicion' in request.form:
+            idEs = request.form['idRequisicion']
+        else:
+            idEs = '1'
+        if 'idPuesto' in request.form:
+            idGA = request.form['idPuesto']
+        else:
+            idGA = '1'
+        if 'idEstadoCivil' in request.form:
+            idCa = request.form['idEstadoCivil']
+        else:
+            idCa = '1'
+        if 'idEscolaridad' in request.form:
+            idCe = request.form['idEscolaridad']
+        else:
+            idCe = '1'
+        if 'idGradoAvance' in request.form:
+            idCi = request.form['idGradoAvance']
+        else:
+            idCi = '1'
+        if 'idCarrera' in request.form:
+            idCo = request.form['idCarrera']
+        else:
+            idCo = '1'
+        CURP = request.form['CURP']
+        RFC = request.form['RFC']
+        nombre = request.form['nombre']
+        apellido = request.form['apellido']
+        domCalle = request.form['domCalle']
+        domNumExtInt = request.form['domNumExtInt']
+        domColonia = request.form['domColonia']
+        tel1 = request.form['tel1']
+        sueldo = request.form['sueldo']
+        correoE = request.form['correoE']
+        edad = request.form['edad']
+        sexo = request.form['sexo']
+
+
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    cursor = conn.cursor()
+    cursor.execute(
+    'insert into empleado (nombre,apellido,idRequisicion,idPuesto, idEstadoCivil, idEscolaridad,idGradoAvance,idCarrera,CURP,RFC,domCalle,domNumExtInt, domColonia,tel1,sueldo, correoE, edad, sexo) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
+    ( nombre, apellido,idEs, idGA, idCa, idCe, idCi, idCo, CURP, RFC, domCalle, domCalle, domColonia, tel1, sueldo, correoE, edad, sexo))
+    conn.commit()
+
+    cursor.execute('select idEmpleado from empleado where idEmpleado=(select max(idEmpleado) from empleado) ')
+    dato = cursor.fetchall()
+    idpue = dato[0]
+    idE = idpue[0]
+
+    cursor.execute('select count(*) from idioma ')
+    dato = cursor.fetchall()
+    nidio = dato[0]
+    ni = nidio[0] + 1
+
+    for i in range(1, ni):
+        idio = 'i' + str(i)
+        if idio in request.form:
+            cursor.execute('insert into empleado(idEmpleado,idIdioma) values (%s,%s)', (idE, i))
+            conn.commit()
+
+    cursor.execute('select count(*) from habilidad ')
+    dato = cursor.fetchall()
+    nhab = dato[0]
+    nh =nhab[0]+1
+
+    for i in range(1,nh):
+        habi = 'h' + str(i)
+        if habi in request.form:
+            cursor.execute('insert into empleado(idEmpleado,idHabilidad) values (%s,%s)', (idE,i))
+            conn.commit()
+
+    return redirect(url_for('empleados_agr02'))
+
+#------------------------------------------------------------------------------------------------------------------
+
+@app.route('/empleados_editar/<string:idE>')
+def empleados_editar(idE):
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    cursor = conn.cursor()
+
+    cursor.execute('select idEmpleado, idRequisicion, idPuesto, CURP, RFC, nombre, apellido, domCalle, domNumExtInt, domColonia,'
+                   ' tel1, sueldo, correoE, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera from empleado where '
+                   ' idEmpleado = %s', (idE))
+    dato = cursor.fetchall()
+
+    cursor.execute('select idEmpleado, idEmpleado from empleado ')
+    datos1 = cursor.fetchall()
+
+    cursor.execute('select idEstadoCivil, descripcion from estado_civil ')
+    datos2 = cursor.fetchall()
+
+    cursor.execute('select idEscolaridad, descripcion from escolaridad ')
+    datos3 = cursor.fetchall()
+
+    cursor.execute('select idGradoAvance, descripcion from grado_avance ')
+    datos4 = cursor.fetchall()
+
+    cursor.execute('select idCarrera, descripcion from carrera ')
+    datos5 = cursor.fetchall()
+
+    cursor.execute('select idIdioma, descripcion from idioma ')
+    datos6 = cursor.fetchall()
+
+    cursor.execute('select idHabilidad, descripcion from habilidad ')
+    datos7 = cursor.fetchall()
+
+    #djsijdisjdi
+
+    cursor.execute('select a.idEstadoCivil, a.descripcion from estado_civil a, empleado b where a.idEstadoCivil = b.idEstadoCivil and b.idEmpleado = %s',(idE))
+    datos12 = cursor.fetchall()
+
+    cursor.execute('select a.idEscolaridad, a.descripcion from escolaridad a, empleado b where a.idEscolaridad = b.idEscolaridad and b.idEmpleado = %s',(idE))
+    datos13 = cursor.fetchall()
+
+    cursor.execute('select a.idGradoAvance, a.descripcion from grado_avance a, empleado b where a.idGradoAvance = b.idGradoAvance and b.idEmpleado = %s',(idE))
+    datos14 = cursor.fetchall()
+
+    cursor.execute('select a.idCarrera, a.descripcion from carrera a, empleado b where a.idCarrera = b.idCarrera and b.idEmpleado = %s', (idE))
+    datos15 = cursor.fetchall()
+
+    cursor.execute('select a.idEmpleado, b.idIdioma, b.descripcion from empleado a, idioma b, puesto_has_idioma c '
+                   'where a.idEmpleado = c.idEmpleado and b.idIdioma = c.idIdioma and a.idEmpleado = %s', (idE))
+    datos16 = cursor.fetchall()
+
+    cursor.execute('select a.idEmpleado, b.idHabilidad, b.descripcion from empleado a, habilidad b, puesto_has_habilidad c '
+                   'where a.idEmpleado = c.idEmpleado and b.idHabilidad = c.idHabilidad and a.idEmpleado = %s', (idE))
+    datos17 = cursor.fetchall()
+
+
+    return render_template("empleados_edi.html", dat=dato[0], catEmpleado=datos1, catEdoCivil=datos2, catEscolaridad=datos3,
+                           catGradoAvance=datos4, catCarrera=datos5, catIdioma=datos6, catHabilidad=datos7,
+                           EdoCivil=datos12[0], Escolaridad=datos13[0], GradoAvance=datos14[0],
+                           Carrera=datos15[0], Idioma=datos16, Habilidad=datos17)
+
+#-----------------------------------------------------------------------------------------------------------------------
+
+@app.route('/empleados_fedita/<string:idE>', methods=['POST'])
+def empleados_fedita(idE):
+    if request.method == 'POST':
+        
+        idAr = request.form['idEmpleado']
+        idEs = request.form['idRequisicion']
+        idGA = request.form['idPuesto']
+        idCa = request.form['idEstadoCivil']
+        idCe = request.form['idEscolaridad']
+        idCi = request.form['idGradoAvance']
+        idCo = request.form['idCarrera']
+        CURP = request.form['CURP']
+        RFC = request.form['RFC']
+        nombre = request.form['nombre']
+        apellido = request.form['apellido']
+        domCalle = request.form['domCalle']
+        domNumExtInt = request.form['domNumExtInt']
+        domColonia = request.form['domColonia']
+        tel1 = request.form['tel1']
+        sueldo = request.form['sueldo']
+        correoE = request.form['correoE']
+        edad = request.form['edad']
+        sexo = request.form['sexo']
+
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    cursor = conn.cursor()
+
+    cursor.execute('update candidato set idRequisicion = %s, idPuesto = %s, CURP = %s, RFC = %s, nombre = %s, apellido = %s, domCalle = %s, domNumExtInt = %s, domColonia = %s,'
+    ' tel1 = %s, sueldo = %s, correoE = %s, edad = %s, sexo = %s, idEstadoCivil = %s, idEscolaridad = %s, idGradoAvance = %s, idCarrera = %s where idEmpleado = %s', ( idAr, idEs, idGA, idCa, idCe, idCi, idCo, CURP, RFC, nombre, apellido, domCalle, domCalle, domColonia, tel1, sueldo, correoE, edad, sexo))
+    conn.commit()
+
+    cursor.execute('delete from puesto_has_habilidad where idEmpleado =%s ', (idE))
+    conn.commit()
+    cursor.execute('delete from puesto_has_idioma where idEmpleado =%s ', (idE))
+    conn.commit()
+
+    cursor.execute('select count(*) from idioma ')
+    dato = cursor.fetchall()
+    nidio = dato[0]
+    ni = nidio[0] + 1
+
+    for i in range(1, ni):
+        idio = 'i' + str(i)
+        if idio in request.form:
+            cursor.execute('insert into puesto_has_idioma(idEmpleado,idIdioma) values (%s,%s)', (idE, i))
+            conn.commit()
+
+    cursor.execute('select count(*) from habilidad ')
+    dato = cursor.fetchall()
+    nhab = dato[0]
+    nh = nhab[0] + 1
+
+    for i in range(1, nh):
+        habi = 'h' + str(i)
+        if habi in request.form:
+            cursor.execute('insert into puesto_has_habilidad(idEmpleado,idHabilidad) values (%s,%s)', (idE, i))
+            conn.commit()
+    return redirect(url_for('empleados'))
+
+#fin equipo 6
+
 if __name__ == "__main__":
     app.run(debug=True)
 
