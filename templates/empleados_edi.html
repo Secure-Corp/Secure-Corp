@@ -1,0 +1,160 @@
+{% extends "layout.html" %}
+{% block content %}
+<h3>
+   <CENTER> <b> Empleados </b> </CENTER>
+
+</h3>
+
+   <br>
+<form class="row g-3"  action="/empleados_fedita/{{dat.0}}" method="post">
+   <div class="col-md-6">
+      <label for="nombre" class="form-label">Nombres</label>
+      <input type="text" class="form-control" name="nombre" id="nombre" value="{{dat.1}}"></input>
+   </div>
+   <div class="col-md-6">
+    <label for="apellido" class="form-label">Apellidos</label>
+    <input type="text" class="form-control" name="apellido" id="apellido" value="{{dat.2}}"></input>
+ </div>
+   </div>
+   <div class="col-md-12">
+      <label for="idRequisicion" class="form-label">Requisicion</label>
+      <input type="text" class="form-control" name="idRequisicion" id="idRequisicion" value="{{dat.3}}"></input>
+   </div>
+   <div class="col-md-12">
+      <label for="idPuesto" class="form-label">Puesto</label>
+      <input type="text" class="form-control" name="idPuesto" id="idPuesto" value="{{dat.4}}" ></input>
+   </div>
+   <div class="col-md-4">
+    <label for="idEstadoCivil" class="form-label">Estado Civil</label>
+    <select name="idEstadoCivil" id="idEstadoCivil" class = "form-select">
+       <option selected="true" value="{{EdoCivil.0}}" >{{EdoCivil.1}}</option>
+        {%
+           for i in catEdoCivil
+        %}
+           <option value="{{i.0}}">{{i.1}}</option>
+        {% endfor %}
+   </select>
+   </div>
+   <div class="col-md-4">
+    <label for="idEscolaridad" class="form-label">Escolaridad</label>
+    <select name="idEscolaridad" id="idEscolaridad" class = "form-select">
+    <option selected="true" value="{{Escolaridad.0}}" >{{Escolaridad.1}}</option>
+        {%
+           for i in catEscolaridad
+        %}
+           <option value="{{i.0}}">{{i.1}}</option>
+        {% endfor %}
+   </select>
+</div>
+<div class="col-md-4">
+    <label for="idGradoAvance" class="form-label">Grado Avance</label>
+    <select name="idGradoAvance" id="idGradoAvance" class = "form-select">
+    <option selected="true" value="{{GradoAvance.0}}" >{{GradoAvance.1}}</option>
+       {%
+           for i in catGradoAvance
+        %}
+           <option value="{{i.0}}">{{i.1}}</option>
+        {% endfor %}
+   </select>
+</div>
+<div class="col-md-4">
+    <label for="idCarrera" class="form-label">Carrera</label>
+    <select name="idCarrera" id="idCarrera" class = "form-select">
+    <option selected="true" value="{{Carrera.0}}" >{{Carrera.1}}</option>
+        {%
+           for i in catCarrera
+        %}
+           <option value="{{i.0}}">{{i.1}}</option>
+        {% endfor %}
+   </select>
+</div>
+
+   <div class="col-md-8">
+      <label for="CURP" class="form-label">CURP</label>
+      <input type="text" class="form-control" name="CURP" id="CURP" value="{{dat.9}}" ></input>
+   </div>
+   <div class="col-md-4">
+      <label for="remunMensual" class="form-label">RFC</label>
+      <input type="text" class="form-control" name="remunMensual" id="remunMensual" value="{{dat.10}}" ></input>
+   </div>
+   <div class="col-md-12">
+      <label for="domCalle" class="form-label">Calle del domicilio</label>
+      <input type="text" class="form-control" name="domCalle" id="domCalle" value="{{dat.11}}" ></input>
+   </div>
+   <div class="col-md-12">
+      <label for="domNumExtInt" class="form-label">Numero exterior</label>
+      <input type="text" class="form-control" name="domNumExtInt" id="domNumExtInt" value="{{dat.12}}" ></input>
+   </div>
+   <div class="col-md-12">
+       <label for="domColonia" class="form-label">Colonia</label>
+       <input type="text" class="form-control" name="domColonia" id="domColonia" value="{{dat.13}}" ></input>
+   </div>
+   <div class="col-md-4">
+       <label for="tel1" class="form-label">Telefono</label>
+       <input type="text" class="form-control" name="tel1" id="tel1" value="{{dat.14}}" ></input>
+   </div>
+   <div class="col-md-12">
+    <label for="correoE" class="form-label">Correo</label>
+    <input type="text" class="form-control" name="correoE" id="correoE" value="{{dat.15}}" ></input>
+</div>
+<div class="col-md-12">
+    <label for="edad" class="form-label">Edad</label>
+    <input type="text" class="form-control" name="edad" id="edad" value="{{dat.16}}" ></input>
+
+ </div>
+   <div class="col-md-4">
+        <label for="sexo" class="form-label">Sexo</label>
+        <select name="sexo" id="sexo" class = "form-select">
+        <option selected="true" value="{{dat.17}}" >{{dat.17}}</option>
+            <option value="Hombre">Hombre</option>
+            <option value="Mujer">Mujer</option>
+            <option value ="Indistinto">Indistinto</option>
+       </select>
+    </div>
+    <div>
+        <script>
+           function miFunc1(){
+            var esco = document.getElementById('idEscolaridad').value;
+                if (esco == 1)
+                 {document.getElementById('idGradoAvance').disabled=true;
+                  document.getElementById('idCarrera').disabled=true;}
+                else
+                 {document.getElementById('idGradoAvance').disabled=false;
+                  document.getElementById('idCarrera').disabled=false;}
+            }
+        </script>
+    </div>
+    <div class="col-12">
+        <span>Seleccione nuevamente idiomas y habilidades requeridas para el perfil de Empleados</span>
+    </div>
+    <div class="col-6">
+        <span>Idiomas:</span>
+   {% for idio in catIdioma  %}
+    <div class="form-check">
+         <input class="form-check-input" type="checkbox" value="" name = "i{{idio.0}}" id="i{{idio.0}}">
+      <label class="form-check-label" for="i{{idio.0}}">
+          {{idio.1}}
+      </label>
+   </div>
+   {% endfor %}
+
+  </div>
+   <div class="col-6">
+       <span>Habilidades:</span>
+
+
+   {% for hab in catHabilidad %}
+      <div class="form-check">
+      <input class="form-check-input" type="checkbox"  name ="h{{hab.0}}"  id="h{{hab.0}}">
+      <label class="form-check-label" for="h{{hab.0}}">
+          {{hab.1}}
+      </label>
+   </div>
+   {% endfor %}
+
+  </div>
+   <div class="col-12">
+          <button type="submit" class="btn btn-primary">Enviar</button>
+    </div>
+</form>
+{% endblock %}

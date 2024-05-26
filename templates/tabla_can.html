@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <table width="100%" border="1" cellpadding="0" bordercolor="#000000">
+    <tbody>
+    <tr>
+    <td color="FFFFFF" bgcolor="#465F5A" valign="top">
+    <center><h3>Candidatos Acepatados</h3></center>
+    <button type="button"><a style=" color: black;" href="/arg_curso">agregar</a></center></button>
+    <table width="100%" border="1" cellpadding="0" bordercolor="#000000">
+    <thead>
+      <tr>
+        <td color="white" bgcolor="blue">Numero de identidad</td>
+        <td color="white" bgcolor="blue">Nombre</td>
+        <td color="white" bgcolor="blue">Telefono</td>
+        <td color="white" bgcolor="black"></td>
+        <td color="white" bgcolor="black"></td>
+        <td color="white" bgcolor="black"></td>
+      </tr>
+    </thead>
+    <tbody>
+    {% for i in comentarios %}
+        <tr>
+        <td>
+           {{i.1}}
+        </td>
+        <td>
+            {{i.2}}
+         </td>
+         <td>
+            {{i.3}}
+         </td>
+        <td bgcolor="#3C3EC5" width="8%">
+        <button type="button"><a style="color:black;" href="/curriculum/{{i.0}}">Mostrar Curriculum</a></center></button>
+        </td>
+        <td bgcolor="#3C3EC5" width="8%">
+            <button type="button"><a style="color:black;" href="/clubstu/{{i.0}}">Cursos</a></center></button>
+        </td>
+        <td bgcolor="#3C3EC5" width="8%">
+            <button type="button"><a style="color:black;" href="/clubvist/{{i.0}}">Cursos que quieres hacer</a></center></button>
+        </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+{% endblock %}
