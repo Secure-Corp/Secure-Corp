@@ -15,17 +15,13 @@
     <label for="apellido" class="form-label">Apellidos</label>
     <input type="text" class="form-control" name="apellido" id="apellido" required></input>
  </div>
-   <div class="col-md-6">
-    <label for="idRequisicion" class="form-label">Requisicion</label>
-    <input type="text" class="form-control" name="idRequisicion" id="idRequisicion"></input>
- </div>
  <div class="col-md-12">
     <label for="idPuesto" class="form-label">Puesto</label>
-    <input type="text" class="form-control" name="idPuesto" id="idPuesto"></input>
+    <input type="text" class="form-control" name="idPuesto" id="idPuesto" required></input>
  </div>
     <div class="col-md-4">
     <label for="idEstadoCivil" class="form-label">Estado Civil</label>
-     <select name="idEstadoCivil" id="idEstadoCivil" class = "form-select">
+     <select name="idEstadoCivil" id="idEstadoCivil" class = "form-select" required>
         <option selected="true" disabled="disabled">Elige...</option>
         {%
             for i in catEdoCivil
@@ -36,7 +32,7 @@
     </div>
     <div class="col-md-4">
         <label for="idEscolaridad" class="form-label">Escolaridad</label>
-         <select name="idEscolaridad" id="idEscolaridad" class = "form-select" onChange="miFunc1()">
+         <select name="idEscolaridad" id="idEscolaridad" class = "form-select" onChange="miFunc1()" required>
             <option selected="true" disabled="disabled">Elige...</option>
              {%
                 for i in catEscolaridad
@@ -47,7 +43,7 @@
 </div>
 <div class="col-md-4">
     <label for="idGradoAvance" class="form-label">Grado Avance</label>
-    <select name="idGradoAvance" id="idGradoAvance" class = "form-select">
+    <select name="idGradoAvance" id="idGradoAvance" class = "form-select" required>
         <option selected="true" disabled="disabled">Elige...</option>
         {%
             for i in catGradoAvance
@@ -58,7 +54,7 @@
 </div>
     <div class="col-md-4">
         <label for="idCarrera" class="form-label">Carrera</label>
-        <select name="idCarrera" id="idCarrera" class = "form-select">
+        <select name="idCarrera" id="idCarrera" class = "form-select" required>
             <option selected="true" disabled="disabled">Elige...</option>
             {%
                 for i in catCarrera
@@ -77,15 +73,15 @@
     </div>
     <div class="col-md-4">
         <label for="domCalle" class="form-label">Calle del domicilio</label>
-        <input type="text" class="form-control" name="domCalle" id="domCalle"></input>
+        <input type="text" class="form-control" name="domCalle" id="domCalle" required></input>
     </div>
     <div class="col-md-4">
         <label for="domNumExtInt" class="form-label">Numero Exterior</label>
-        <input type="text" class="form-control" name="domNumExtInt" id="domNumExtInt"></input>
+        <input type="text" class="form-control" name="domNumExtInt" id="domNumExtInt" required></input>
     </div>
     <div class="col-md-4">
         <label for="domColonia" class="form-label">Colonia</label>
-        <input type="text" class="form-control" name="domColonia" id="domColonia"></input>
+        <input type="text" class="form-control" name="domColonia" id="domColonia" required></input>
     </div>
     <div class="col-md-4">
         <label for="tel1" class="form-label">Telefono</label>
@@ -94,19 +90,19 @@
     </div>
     <div class="col-md-4">
         <label for="sueldo" class="form-label">Sueldo</label>
-        <input type="text" class="form-control" name="sueldo" id="sueldo"></input>
+        <input type="text" class="form-control" name="sueldo" id="sueldo" required></input>
     </div>
     <div class="col-md-12">
         <label for="correoE" class="form-label">Correo</label>
-        <input type="text" class="form-control" name="correoE" id="correoE" required></input>
+        <input type="text" class="form-control" name="correoE" id="correoE" pattern=".+@example\.com" required></input>
     </div>
    <div class="col-md-4">
        <label for="edad" class="form-label">Edad</label>
-       <input type="text" class="form-control" name="edad" id="edad"></input>
+       <input type="text" class="form-control" name="edad" id="edad" required></input>
    </div>
    <div class="col-md-4">
        <label for="sexo" class="form-label">Sexo</label>
-        <select name="sexo" id="sexo" class = "form-select">
+        <select name="sexo" id="sexo" class = "form-select" required>
         <option selected="true" disabled="disabled">Elige...</option>
             <option value="Indistinto">Indistinto</option>
             <option value="Hombre">Hombre</option>
@@ -136,7 +132,7 @@
         {% for idio in catIdioma
             if (idio.0)>1: %}
                     <div class="form-check" >
-                    <input class="form-check-input" type="checkbox" value="" name = "i{{idio.0}}" id="i{{idio.0}}" >
+                    <input class="form-check-input" type="checkbox" value="" name = "i{{idio.0}}" id="i{{idio.0}}" required>
                     <label class="form-check-label" for="i{{idio.0}}">
                         {{idio.1}}
                     </label>
@@ -159,7 +155,7 @@
     <div class="col-6">
     <span>Habilidades:</span>
         <div class="form-check" >
-        <input class="form-check-input" type="checkbox" value="" name = "h1" id="h1"  onChange="miFunc3()">
+        <input class="form-check-input" type="checkbox" value="" name = "h1" id="h1"  onChange="miFunc3()" required>
         <label class="form-check-label" for="h1">NO REQUERIDAS</label>
         </div>
     {% for hab in catHabilidad
