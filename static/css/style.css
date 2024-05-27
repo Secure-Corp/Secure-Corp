@@ -256,3 +256,10 @@ table {
 .selectores {
     display: none;
 }
+.error {
+    background-color: #e9b7bb;
+  }
+  .valid {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+  }
