@@ -2497,7 +2497,7 @@ def agr_cur():
     if request.method == 'POST':
         nombre=request.form['nombre']
         descripcion=request.form['descripcion']
-        conn = pymysql.connect(host="localhost", user="root", passwd="",db="rh3")
+        conn = conex()
         cursor = conn.cursor()
         cursor.execute("insert into cursos (nombre,descripcion) values (%s,%s)",(nombre,descripcion))
         conn.commit()
