@@ -9,15 +9,15 @@
     </div>
     <div class="form-group">
         <label for="fechaElab">Fecha de Elaboración</label>
-        <input type="date" class="form-control" name="fechaElab" id="fechaElab" required>
+        <input type="date" class="form-control" name="fechaElab" id="fechaElab" required min="{{ today_date }}">
     </div>
     <div class="form-group">
         <label for="fechaRecluta">Fecha de Reclutamiento</label>
-        <input type="date" class="form-control" name="fechaRecluta" id="fechaRecluta" required>
+        <input type="date" class="form-control" name="fechaRecluta" id="fechaRecluta" required min="{{ today_date }}">
     </div>
     <div class="form-group">
         <label for="fechaInicVac">Fecha de Inicio de Vacante</label>
-        <input type="date" class="form-control" name="fechaInicVac" id="fechaInicVac" required>
+        <input type="date" class="form-control" name="fechaInicVac" id="fechaInicVac" required min="{{ today_date }}">
     </div>
     <div class="form-group">
         <label for="motivoRequisicion">Motivo de Requisición</label>
@@ -53,4 +53,13 @@
     </div>
     <button type="submit" class="btn btn-primary">Agregar</button>
 </form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById('fechaElab').setAttribute('min', today);
+        document.getElementById('fechaRecluta').setAttribute('min', today);
+        document.getElementById('fechaInicVac').setAttribute('min', today);
+    });
+</script>
 {% endblock %}
