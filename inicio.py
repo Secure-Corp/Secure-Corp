@@ -1068,12 +1068,17 @@ def agregar_requisicion():
     nomSolicita = request.form['nomSolicita']
     idPuesto = request.form['idPuesto']
     idArea = request.form['idArea']
+    nomAutoriza = request.form['nomAutoriza']
+    nomRevisa = request.form['nomRevisa']
 
     conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
     cursor = conn.cursor()
 
-    cursor.execute("INSERT INTO requisicion (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, idPuesto, idArea) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                   (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, idPuesto, idArea))
+    cursor.execute(
+        """INSERT INTO requisicion (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, nomAutoriza, nomRevisa, idPuesto, idArea) 
+           VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+        (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, nomAutoriza, nomRevisa, idPuesto, idArea)
+    )
     conn.commit()
 
     cursor.execute("SELECT * FROM requisicion WHERE idRequisicion = LAST_INSERT_ID()")

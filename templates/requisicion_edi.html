@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 
 {% block content %}
-
 <h1>Detalles de la Requisición</h1>
 
 <div id="detalles-requisicion">
@@ -12,11 +11,9 @@
 
 <script>
     document.getElementById('mostrar-detalles-btn').addEventListener('click', function() {
-    
         fetch('/detalles_requisicion')
             .then(response => response.json())
             .then(data => {
-                
                 document.getElementById('detalles-requisicion').innerHTML = `
                     <p>Id de Requisición: ${data.idRequisicion}</p>
                     <p>Folio: ${data.folio}</p>
