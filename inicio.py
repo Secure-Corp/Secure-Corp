@@ -11,12 +11,671 @@ app = Flask(__name__)
 def home():
     return render_template("home.html")
 
+#Conexion a base de datos
+def conex():
+    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    cursor = conn.cursor()
+    cursor.execute("SHOW DATABASES LIKE 'tf1'")
+    resu = cursor.fetchone()
+    
+    if resu:
+        print("BASE DE DATOS EXISTENTE")
+    else:
+        print("BASE DE DATOS INEXISTENTE")
+        cursor.execute("CREATE SCHEMA IF NOT EXISTS `rh3` DEFAULT CHARACTER SET utf8mb4")
+        cursor.execute("USE `rh3`")
+        sql_statements = """
+            CREATE DATABASE IF NOT EXISTS `rh3` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+            USE `rh3`;
+
+            -- --------------------------------------------------------
+
+            --
+            -- Estructura de tabla para la tabla `area`
+            --
+
+            CREATE TABLE IF NOT EXISTS `area` (
+            `idArea` int(11) NOT NULL AUTO_INCREMENT,
+            `descripcion` varchar(60) NOT NULL,
+            PRIMARY KEY (`idArea`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+            --
+            -- Volcado de datos para la tabla `area`
+            --
+
+            INSERT INTO `area` (`idArea`, `descripcion`) VALUES
+            (1, 'DIRECCION GENERAL'),
+            (2, 'ADMINISTRACION Y RECURSOS HUMANOS'),
+            (3, 'PRODUCCION'),
+            (4, 'FINANZAS Y CONTABILIDAD'),
+            (5, 'MERCADOTECNIA'),
+            (6, 'INFORMATICA');
+
+            -- --------------------------------------------------------
+
+            --
+            -- Estructura de tabla para la tabla `candidato`
+            --
+
+            CREATE TABLE IF NOT EXISTS `candidato` (
+            `idCandidato` int(11) NOT NULL AUTO_INCREMENT,
+            `idVacante` int(11) NOT NULL,
+            `idRequisicion` int(11) NOT NULL,
+            `idPuesto` int(11) NOT NULL,
+            `CURP` varchar(30) NOT NULL,
+            `RFC` varchar(20) NOT NULL,
+            `nombre` varchar(40) NOT NULL,
+            `domCalle` varchar(40) NOT NULL,
+            `domNumExtInt` varchar(30) NOT NULL,
+            `domColonia` varchar(40) NOT NULL,
+            `tel1` varchar(20) NOT NULL,
+            `tel2` varchar(20) NOT NULL,
+            `correoE` varchar(40) NOT NULL,
+            `edad` int(11) NOT NULL,
+            `sexo` varchar(10) NOT NULL,
+            `idEstadoCivil` int(11) NOT NULL,
+            `idEscolaridad` int(11) NOT NULL,
+            `idGradoAvance` int(11) NOT NULL,
+            `idCarrera` int(11) NOT NULL,
+            `entrevSelecReq` tinyint(4) NOT NULL,
+            `entrevSelecPresen` tinyint(4) NOT NULL,
+            `entrevSelecResult` varchar(40) NOT NULL,
+            `evalMedicaReq` tinyint(4) NOT NULL,
+            `evalMedicaPresen` tinyint(4) NOT NULL,
+            `evalMedicaResult` varchar(40) NOT NULL,
+            `evalPsicolgReq` tinyint(4) NOT NULL,
+            `evalPsicologPresen` tinyint(4) NOT NULL,
+            `evalPsicologResult` varchar(40) NOT NULL,
+            `evalPsicometReq` tinyint(4) NOT NULL,
+            `evalPsicometPresene` tinyint(4) NOT NULL,
+            `evalPsicometResult` varchar(40) NOT NULL,
+            `evalTecnicaReq` tinyint(4) NOT NULL,
+            `evalTecnicaPresen` tinyint(4) NOT NULL,
+            `evalTecnicaResult` varchar(41) NOT NULL,
+            `evalConocReq` tinyint(4) NOT NULL,
+            `evalConocPresen` tinyint(4) NOT NULL,
+            `evalConocResult` varchar(40) NOT NULL,
+            `entrevFinalReq` tinyint(4) NOT NULL,
+            `entrevFinalPresen` tinyint(4) NOT NULL,
+            `entrevFinalResul` varchar(40) NOT NULL,
+            PRIMARY KEY (`idCandidato`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+            --
+            -- Volcado de datos para la tabla `candidato`
+            --
+
+            INSERT INTO `candidato` (`idCandidato`, `idVacante`, `idRequisicion`, `idPuesto`, `CURP`, `RFC`, `nombre`, `domCalle`, `domNumExtInt`, `domColonia`, `tel1`, `tel2`, `correoE`, `edad`, `sexo`, `idEstadoCivil`, `idEscolaridad`, `idGradoAvance`, `idCarrera`, `entrevSelecReq`, `entrevSelecPresen`, `entrevSelecResult`, `evalMedicaReq`, `evalMedicaPresen`, `evalMedicaResult`, `evalPsicolgReq`, `evalPsicologPresen`, `evalPsicologResult`, `evalPsicometReq`, `evalPsicometPresene`, `evalPsicometResult`, `evalTecnicaReq`, `evalTecnicaPresen`, `evalTecnicaResult`, `evalConocReq`, `evalConocPresen`, `evalConocResult`, `entrevFinalReq`, `entrevFinalPresen`, `entrevFinalResul`) VALUES
+            (1, 1, 1, 1, 'ROGH760106MASDML03', 'dfadf', 'fasdfads', 'adsfa', '23', 'erqwr', '32', '23', 'rqwr', 23, 'Indistinto', 1, 2, 1, 1, 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, ''),
+            (2, 1, 1, 1, 'ROML551119HASDCR08', 'dfadf', 'juan', 'adsfa', '23', 'erqwr', '32', '23', 'rqwr', 23, 'Indistinto', 3, 2, 3, 1, 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '');
+
+            -- --------------------------------------------------------
+
+            --
+            -- Estructura de tabla para la tabla `carrera`
+            --
+
+            CREATE TABLE IF NOT EXISTS `carrera` (
+            `idCarrera` int(11) NOT NULL AUTO_INCREMENT,
+            `descripcion` varchar(50) NOT NULL,
+            PRIMARY KEY (`idCarrera`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+            --
+            -- Volcado de datos para la tabla `carrera`
+            --
+
+            INSERT INTO `carrera` (`idCarrera`, `descripcion`) VALUES
+            (1, 'NO APLICA'),
+            (2, 'ADMINISTRACION DE EMPRESAS'),
+            (3, 'ADMINISTRACIÓN DE PRODUCCIÓN Y SERVICIOS'),
+            (4, 'ADMINISTRACIÓN FINANCIERA'),
+            (5, 'COMERCIO INTERNACIONAL'),
+            (6, 'COMERCIO ELECTRONICO'),
+            (7, 'COMUNICACION'),
+            (8, 'CONTADOR '),
+            (9, 'DERECHO'),
+            (10, 'ECONOMIA'),
+            (11, 'GESTION TURISTICA'),
+            (12, 'LOGISTICA EMPRESARIAL'),
+            (13, 'MERCADOTECNIA'),
+            (14, 'SISTEMAS COMPUTACIONALES Y AFINES'),
+            (15, 'INDUSTRIAL'),
+            (16, 'ELECTRICA'),
+            (17, 'ROBOTICA'),
+            (18, 'RELACIONES INDUSTRIALES'),
+            (19, 'PSICOLOGIA'),
+            (20, 'ELECTRONICA'),
+            (21, 'GESTION EMPRESARIAL');
+
+            -- --------------------------------------------------------
+
+            --
+            -- Estructura de tabla para la tabla `docto_solic`
+            --
+
+            CREATE TABLE IF NOT EXISTS `docto_solic` (
+            `idDoctoSolic` int(11) NOT NULL AUTO_INCREMENT,
+            `descripcion` varchar(70) NOT NULL,
+            `original` varchar(2) NOT NULL,
+            `numCopias` int(5) NOT NULL,
+            PRIMARY KEY (`idDoctoSolic`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+            --
+            -- Volcado de datos para la tabla `docto_solic`
+            --
+
+            INSERT INTO `docto_solic` (`idDoctoSolic`, `descripcion`, `original`, `numCopias`) VALUES
+            (1, 'Solicitud de empleo', 'SI', 1),
+            (2, 'CURRICULUM VITAE con fotografía', 'SI', 1),
+            (3, 'Carta de presentación', 'SI', 1),
+            (4, 'Carta de recomendación', 'SI', 1),
+            (5, 'Comprobante de domicilio reciente', 'NO', 2),
+            (6, 'Acta de nacimiento', 'SI', 1),
+            (7, 'Número del seguro social', 'NO', 2),
+            (8, 'CURP', 'NO', 2),
+            (9, 'Credencial para votar', 'NO', 2),
+            (10, 'Licencia automovilista', 'NO', 2),
+            (11, 'Licencia chofer', 'NO', 2),
+            (12, 'Certificado Carrera Comercial o Técnica', 'NO', 2),
+            (13, 'Certificado Preparatoria o Equivalente', 'NO', 2),
+            (14, 'Certificado Licenciatura o Equivalente', 'NO', 2),
+            (15, 'Constancia de Estudios', 'SI', 2),
+            (16, 'Carta de Pasante Carrera Técnica', 'NO', 2),
+            (17, 'Carta de Pasante Licenciatura', 'NO', 2),
+            (18, 'Carta de Pasante Posgrado', 'NO', 2),
+            (19, 'Cédula Profesional', 'NO', 2),
+            (20, 'Título Licenciatura', 'NO', 2),
+            (21, 'Título Posgrado', 'NO', 2),
+            (22, 'Certificado Médico', 'SI', 2),
+            (23, 'Antecedentes No penales', 'Si', 1);
+
+            -- --------------------------------------------------------
+
+            --
+            -- Estructura de tabla para la tabla `escolaridad`
+            --
+
+            CREATE TABLE IF NOT EXISTS `escolaridad` (
+            `idEscolaridad` int(11) NOT NULL AUTO_INCREMENT,
+            `descripcion` varchar(50) NOT NULL,
+            PRIMARY KEY (`idEscolaridad`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+            --
+            -- Volcado de datos para la tabla `escolaridad`
+            --
+
+            INSERT INTO `escolaridad` (`idEscolaridad`, `descripcion`) VALUES
+            (1, 'NO APLICA / NO REQUERIDA '),
+            (2, 'PREPARATORIA'),
+            (3, 'CARRERA TÉCNICA O COMERCIAL'),
+            (4, 'BACHILLERATO TÉCNICO O ESPECIALIZADO'),
+            (5, 'TÉCNICO SUPERIOR UNIVERSITARIO'),
+            (6, 'LICENCIATURA / INGENIERÍA / PROFESIONAL'),
+            (7, 'MAESTRIA'),
+            (8, 'DOCTORADO'),
+            (9, 'KINDER');
+
+            -- --------------------------------------------------------
+
+            --
+            -- Estructura de tabla para la tabla `estado_civil`
+            --
+
+            CREATE TABLE IF NOT EXISTS `estado_civil` (
+            `idEstadoCivil` int(11) NOT NULL AUTO_INCREMENT,
+            `descripcion` varchar(50) NOT NULL,
+            PRIMARY KEY (`idEstadoCivil`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+            --
+            -- Volcado de datos para la tabla `estado_civil`
+            --
+
+            INSERT INTO `estado_civil` (`idEstadoCivil`, `descripcion`) VALUES
+            (1, 'INDISTINTO'),
+            (2, 'SOLTERO'),
+            (3, 'CASADO'),
+            (4, 'UNION LIBRE');
+
+            -- --------------------------------------------------------
+
+            --
+            -- Estructura de tabla para la tabla `grado_avance`
+            --
+
+            CREATE TABLE IF NOT EXISTS `grado_avance` (
+            `idGradoAvance` int(11) NOT NULL AUTO_INCREMENT,
+            `descripcion` varchar(45) NOT NULL,
+            PRIMARY KEY (`idGradoAvance`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+            --
+            -- Volcado de datos para la tabla `grado_avance`
+            --
+
+            INSERT INTO `grado_avance` (`idGradoAvance`, `descripcion`) VALUES
+            (1, 'NO APLICA'),
+            (2, 'CURSANDO'),
+            (3, 'TERMINADO'),
+            (4, 'INCONCLUSO'),
+            (5, 'PASANTE'),
+            (6, 'TITULADO');
+
+            -- --------------------------------------------------------
+
+            --
+            -- Estructura de tabla para la tabla `habilidad`
+            --
+
+            CREATE TABLE IF NOT EXISTS `habilidad` (
+            `idHabilidad` int(11) NOT NULL AUTO_INCREMENT,
+            `descripcion` varchar(150) NOT NULL,
+            PRIMARY KEY (`idHabilidad`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+            --
+            -- Volcado de datos para la tabla `habilidad`
+            --
+
+            INSERT INTO `habilidad` (`idHabilidad`, `descripcion`) VALUES
+            (1, 'NO REQUERIDAS'),
+            (2, 'FACILIDAD DE PALABRA'),
+            (3, 'MANEJO DE CONFLICTOS'),
+            (4, 'CAPACIDAD PARA TRABAJAR BAJO PRESION'),
+            (5, 'CAPACIDAD DE TRABAJO EN EQUIPO'),
+            (6, 'TOMA DE DECISIONES'),
+            (7, 'PENSAMIENTO CREATIVO'),
+            (8, 'PENSAMIENTO CRITICO'),
+            (9, 'MANEJO DE EMOCIONES'),
+            (10, 'PROACTIVIDAD'),
+            (11, 'PROFESIONALIDAD'),
+            (12, 'ESCUCHA ACTIVA');
+
+            -- --------------------------------------------------------
+
+            --
+            -- Estructura de tabla para la tabla `idioma`
+            --
+
+            CREATE TABLE IF NOT EXISTS `idioma` (
+            `idIdioma` int(11) NOT NULL AUTO_INCREMENT,
+            `descripcion` varchar(50) NOT NULL,
+            PRIMARY KEY (`idIdioma`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+            --
+            -- Volcado de datos para la tabla `idioma`
+            --
+
+            INSERT INTO `idioma` (`idIdioma`, `descripcion`) VALUES
+            (1, 'NO REQUERIDO'),
+            (2, 'INGLES BASICO'),
+            (3, 'INGLES INTERMEDIO'),
+            (4, 'INGLES AVANZADO'),
+            (5, 'JAPONES BASICO'),
+            (6, 'JAPONES CONVERSACIONAL'),
+            (7, 'JAPONES ESCRITO Y CONVERSACIONAL'),
+            (9, 'ALEMAN AVANZADO');
+
+            -- --------------------------------------------------------
+
+            --
+            -- Estructura de tabla para la tabla `mediopublic`
+            --
+
+            CREATE TABLE IF NOT EXISTS `mediopublic` (
+            `idMedioPublic` int(11) NOT NULL AUTO_INCREMENT,
+            `descripcion` varchar(70) NOT NULL,
+            PRIMARY KEY (`idMedioPublic`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+            --
+            -- Volcado de datos para la tabla `mediopublic`
+            --
+
+            INSERT INTO `mediopublic` (`idMedioPublic`, `descripcion`) VALUES
+            (1, 'Convocatoria en áreas estratégicas de la empresa'),
+            (2, 'Sitio web de la empresa'),
+            (3, 'Servicio estatal de empleo'),
+            (4, 'Redes sociales para empleo'),
+            (5, 'Agencia particular de empleo'),
+            (6, 'Radio'),
+            (7, 'Televisión'),
+            (8, 'Periódico Digital');
+
+            -- --------------------------------------------------------
+
+            --
+            -- Estructura de tabla para la tabla `puesto`
+            --
+
+            CREATE TABLE IF NOT EXISTS `puesto` (
+            `idPuesto` int(11) NOT NULL AUTO_INCREMENT,
+            `codPuesto` varchar(15) NOT NULL,
+            `idArea` int(11) NOT NULL,
+            `nomPuesto` varchar(50) NOT NULL,
+            `puestoJefeSup` varchar(50) NOT NULL,
+            `jornada` varchar(70) NOT NULL,
+            `remunMensual` int(11) NOT NULL,
+            `prestaciones` varchar(70) NOT NULL,
+            `descripcionGeneral` varchar(250) NOT NULL,
+            `funciones` varchar(250) NOT NULL,
+            `edad` varchar(50) NOT NULL,
+            `sexo` varchar(15) NOT NULL,
+            `idEstadoCivil` int(11) NOT NULL,
+            `idEscolaridad` int(11) NOT NULL,
+            `idGradoAvance` int(11) NOT NULL,
+            `idCarrera` int(11) NOT NULL,
+            `experiencia` varchar(70) NOT NULL,
+            `conocimientos` varchar(70) NOT NULL,
+            `manejoEquipo` varchar(70) NOT NULL,
+            `reqFisicos` varchar(70) NOT NULL,
+            `reqPsicologicos` varchar(70) NOT NULL,
+            `responsabilidades` varchar(70) NOT NULL,
+            `condicionesTrabajo` varchar(70) NOT NULL,
+            PRIMARY KEY (`idPuesto`),
+            KEY `idEscolaridad` (`idEscolaridad`),
+            KEY `idEstadoCivil` (`idEstadoCivil`),
+            KEY `idGradoAvance` (`idGradoAvance`),
+            KEY `idCarrera` (`idCarrera`),
+            KEY `area` (`idArea`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+            --
+            -- Volcado de datos para la tabla `puesto`
+            --
+
+            INSERT INTO `puesto` (`idPuesto`, `codPuesto`, `idArea`, `nomPuesto`, `puestoJefeSup`, `jornada`, `remunMensual`, `prestaciones`, `descripcionGeneral`, `funciones`, `edad`, `sexo`, `idEstadoCivil`, `idEscolaridad`, `idGradoAvance`, `idCarrera`, `experiencia`, `conocimientos`, `manejoEquipo`, `reqFisicos`, `reqPsicologicos`, `responsabilidades`, `condicionesTrabajo`) VALUES
+            (1, 'V009', 5, 'SUPERVISOR DE TIENDA ', 'SUPERVISOR', 'LUNES A VIERNES', 5000, 'DE LEY', 'VENTAS AL PÚBLICO', 'VENDER', '18 A 45 AÑOS', 'Hombre', 1, 3, 2, 2, '2 AÑOS', 'VENTAS', 'DE COMPUTO', 'AGUDEZA VISUAL', 'MEMORIA A CORTO Y LARGO PLAZO', 'INVENTARIO', 'AGRADABLES'),
+            (3, 'v0008', 3, 'OBRERO', 'SUPERVISOR', 'LUNES A VIERNES', 5000, 'DE LEY', 'maquilar', 'trabajar', '18 A 45 AÑOS', 'Indistinto', 1, 2, 2, 1, '2 AÑOS', 'VENTAS', 'DE COMPUTO', 'AGUDEZA VISUAL', 'MEMORIA A CORTO Y LARGO PLAZO', 'INVENTARIO', 'AGRADABLES'),
+            (5, 'p001', 5, 'JEFE DE MERCADOTECNIA', 'GERENTE', 'LUNES A VIERNES 8:30am 4:30am SABADOS 9:00am  A 2:00am', 6500, 'DE LEY', 'COORDINAR A PERSONAL DE MERCADOTECNIA', 'CORDINACIÓN', '25 A 50', 'Indistinto', 1, 3, 4, 13, '2 AÑOS', 'VENTAS', 'DE COMPUTO', 'NO NECESARIOS', 'MEMORIA A CORTO Y LARGO PLAZO', 'NO ESPECIFICADAS', 'AGRADABLES');
+
+            -- --------------------------------------------------------
+
+            --
+            -- Estructura de tabla para la tabla `puesto_has_habilidad`
+            --
+
+            CREATE TABLE IF NOT EXISTS `puesto_has_habilidad` (
+            `idPuesto` int(11) NOT NULL,
+            `idHabilidad` int(11) NOT NULL,
+            PRIMARY KEY (`idPuesto`,`idHabilidad`),
+            KEY `idHabilidad` (`idHabilidad`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+            --
+            -- Volcado de datos para la tabla `puesto_has_habilidad`
+            --
+
+            INSERT INTO `puesto_has_habilidad` (`idPuesto`, `idHabilidad`) VALUES
+            (1, 1),
+            (3, 4),
+            (3, 5),
+            (5, 2),
+            (5, 3),
+            (5, 4),
+            (5, 5),
+            (5, 6),
+            (5, 7),
+            (5, 8),
+            (5, 9),
+            (5, 10),
+            (5, 11),
+            (5, 12);
+
+            -- --------------------------------------------------------
+
+            --
+            -- Estructura de tabla para la tabla `puesto_has_idioma`
+            --
+
+            CREATE TABLE IF NOT EXISTS `puesto_has_idioma` (
+            `idPuesto` int(11) NOT NULL,
+            `idIdioma` int(11) NOT NULL,
+            PRIMARY KEY (`idPuesto`,`idIdioma`),
+            KEY `idIdioma` (`idIdioma`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+            --
+            -- Volcado de datos para la tabla `puesto_has_idioma`
+            --
+
+            INSERT INTO `puesto_has_idioma` (`idPuesto`, `idIdioma`) VALUES
+            (1, 2),
+            (3, 1),
+            (5, 2);
+
+            -- --------------------------------------------------------
+
+            --
+            -- Estructura de tabla para la tabla `requisicion`
+            --
+
+            CREATE TABLE IF NOT EXISTS `requisicion` (
+            `idRequisicion` int(11) NOT NULL AUTO_INCREMENT,
+            `folio` varchar(25) NOT NULL,
+            `fechaElab` date NOT NULL,
+            `fechaRecluta` date NOT NULL,
+            `fechaInicVac` date NOT NULL,
+            `motivoRequisicion` varchar(30) NOT NULL,
+            `motivoEspecifique` varchar(70) NOT NULL,
+            `tipoVacante` varchar(15) NOT NULL,
+            `nomSolicita` varchar(70) NOT NULL,
+            `nomAutoriza` varchar(70) NOT NULL,
+            `nomRevisa` varchar(70) NOT NULL,
+            `autorizada` tinyint(1) NOT NULL,
+            `idPuesto` int(11) NOT NULL,
+            `idArea` int(11) NOT NULL,
+            PRIMARY KEY (`idRequisicion`),
+            KEY `idPuesto` (`idPuesto`),
+            KEY `idArea` (`idArea`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+            --
+            -- Volcado de datos para la tabla `requisicion`
+            --
+
+            INSERT INTO `requisicion` (`idRequisicion`, `folio`, `fechaElab`, `fechaRecluta`, `fechaInicVac`, `motivoRequisicion`, `motivoEspecifique`, `tipoVacante`, `nomSolicita`, `nomAutoriza`, `nomRevisa`, `autorizada`, `idPuesto`, `idArea`) VALUES
+            (1, '1', '0000-00-00', '0000-00-00', '0000-00-00', '1', '', '', 'LUIS, JEFE DE VENTAS', 'luis', 'juan', 1, 1, 1),
+            (10, '2', '2023-11-23', '2023-11-27', '2023-12-01', 'Otro', 'temporada', 'Temporal', 'LUIS, JEFE DE VENTAS', 'luis', 'juan', 1, 1, 1);
+
+
+            CREATE TABLE IF NOT EXISTS `examen` (
+            `idExamen` int(11) NOT NULL AUTO_INCREMENT, 
+            `nombre` varchar(70) NOT NULL,
+            `preg1` varchar(250) NOT NULL,
+            `preg2` varchar(250) NOT NULL,
+            `preg3` varchar(250) NOT NULL,
+            `preg4` varchar(250) NOT NULL,
+            `preg5` varchar(250) NOT NULL,
+            `preg6` varchar(250) NOT NULL,
+            `preg7` varchar(250) NOT NULL,
+            `preg8` varchar(250) NOT NULL,
+            `preg9` varchar(250) NOT NULL,
+            `preg10` varchar(250) NOT NULL,
+            `preg11` varchar(250) NOT NULL,
+            `preg12` varchar(250) NOT NULL,
+            PRIMARY KEY (`idExamen`)
+            );
+
+            CREATE TABLE IF NOT EXISTS `calificaciones` (
+            `idCalificacion` int(11) NOT NULL AUTO_INCREMENT,
+            `nombre` varchar(255) NOT NULL,
+            `calificacion` int(11) NOT NULL,
+            `preg1` varchar(250) NOT NULL,
+            `preg2` varchar(250) NOT NULL,
+            `preg3` varchar(250) NOT NULL,
+            `preg4` varchar(250) NOT NULL,
+            `preg5` varchar(250) NOT NULL,
+            `preg6` varchar(250) NOT NULL,
+            `preg7` varchar(250) NOT NULL,
+            `preg8` varchar(250) NOT NULL,
+            `preg9` varchar(250) NOT NULL,
+            `preg10` varchar(250) NOT NULL,
+            `preg11` varchar(250) NOT NULL,
+            `preg12` varchar(250) NOT NULL,
+            PRIMARY KEY (`idCalificacion`)
+            );
+
+
+
+            -- --------------------------------------------------------
+
+            --
+            -- Estructura de tabla para la tabla `vacante`
+            --
+
+            CREATE TABLE IF NOT EXISTS `vacante` (
+            `idVacante` int(11) NOT NULL AUTO_INCREMENT,
+            `conseVR` int(11) NOT NULL,
+            `fuenteCandidato` varchar(40) NOT NULL,
+            `inicioFechaPublic` date NOT NULL,
+            `finFechaPublic` date NOT NULL,
+            `publicada` tinyint(4) NOT NULL,
+            `observaciones` varchar(40) NOT NULL,
+            `candidatoSelecc` int(11) NOT NULL,
+            `fechaContratacion` date NOT NULL,
+            `idRequisicion` int(11) NOT NULL,
+            `idPuesto` int(11) NOT NULL,
+            PRIMARY KEY (`idVacante`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+            --
+            -- Volcado de datos para la tabla `vacante`
+            --
+
+            INSERT INTO `vacante` (`idVacante`, `conseVR`, `fuenteCandidato`, `inicioFechaPublic`, `finFechaPublic`, `publicada`, `observaciones`, `candidatoSelecc`, `fechaContratacion`, `idRequisicion`, `idPuesto`) VALUES
+            (1, 0, 'Interno', '2023-11-23', '2023-11-27', 1, 'gfgf', 0, '0000-00-00', 1, 1);
+            COMMIT;
+
+
+            -- Empleados
+
+            CREATE TABLE `empleado` (
+            `idEmpleado` int(11) NOT NULL AUTO_INCREMENT,
+            `idRequisicion` int(11) NOT NULL,
+            `idPuesto` int(11) NOT NULL,
+            `CURP` varchar(30) NOT NULL,
+            `RFC` varchar(20) NOT NULL,
+            `nombre` varchar(40) NOT NULL,
+            `descripcion` varchar(255) DEFAULT NULL,
+            `apellido` varchar(40) NOT NULL,
+            `domCalle` varchar(40) NOT NULL,
+            `domNumExtInt` varchar(30) NOT NULL,
+            `domColonia` varchar(40) NOT NULL,
+            `tel1` varchar(20) NOT NULL,
+            `sueldo` varchar(20) NOT NULL,
+            `correoE` varchar(40) NOT NULL,
+            `edad` int(11) NOT NULL,
+            `sexo` varchar(10) NOT NULL,
+            `idEstadoCivil` int(11) NOT NULL,
+            `idEscolaridad` int(11) NOT NULL,
+            `idGradoAvance` int(11) NOT NULL,
+            `idCarrera` int(11) NOT NULL,
+            PRIMARY KEY (`idEmpleado`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+
+            --
+            -- Volcado de datos para la tabla `empleados`
+            --
+
+            INSERT INTO `empleado` (`idEmpleado`, `idRequisicion`, `idPuesto`, `CURP`, `RFC`, `nombre`, `apellido`, `domCalle`, `domNumExtInt`, `domColonia`, `tel1`, `sueldo`, `correoE`, `edad`, `sexo`, `idEstadoCivil`, `idEscolaridad`, `idGradoAvance`, `idCarrera`) VALUES
+            (1, 1, 1, 'ROGH760106MASDML03', 'dfadf', 'Carlitos', 'Muntez', 'Villas', '#23', 'palmas', '4491102343', '$233', 'carlitos@gmail.com', 23, 'Macho', 1, 2, 1, 1),
+            (2, 1, 1, 'ROML551119HASDCR08', 'dfajy', 'Pepe', 'Maciado', 'Potreros', '#26', 'cruz', '4491739435', '$2223', 'pepe@gmail.com', 23, 'Indistinto', 3, 2, 3, 1);
+
+
+            -- 
+            -- tabla de candidatos aceptados
+            --
+            
+            create table  IF not exists `usuario` (
+            `idusuario` int(11) not null auto_increment,
+            `numero` int(10) not null unique,
+            `nombre` varchar(120) not null,
+            `telefono` int(13) not null,
+            `direccion` varchar(100) not null,
+            `curp` varchar(18) not null,
+            `vacante` varchar(50) not null,
+            primary key(`idusuario`));
+            
+            --
+            -- Volcado de datos para la tabla `candidatos`
+            --
+
+            insert into `usuario`(`numero`,`nombre`,`telefono`,`direccion`,`curp`,`vacante`)VALUES
+            (123232445,'Juan del montes',4493454564,'calle noche buena 120','kjfdhg495kg','Obrero'),
+            (456456445,'Juan de los montes',4493454584,'calle noche buena 122','kjfdhg495kg','Marquetink'),
+            (123232498,'Juan del rancho',4493659564,'calle noche buena 123','kjfdhg495kg','Panista'),
+            (123232425,'Juan del terreno',4493454964,'calle noche buena 124','kjfdhg495kg','Contador');
+
+
+            
+            -- 
+            -- Encuentra la tabal de la tabla "cursos"
+            --
+            create table IF not exists `cursos`(
+            `idcursos` int(11) not null auto_increment,
+            `nombre` varchar(50) not null,
+            `descripcion` varchar(120) not null,
+            primary key(`idcursos`)
+            );
+            
+            --
+            -- Volcado de datos para la tabla `cursos`
+            --
+            
+            insert into `cursos`(`nombre`,`descripcion`) VALUES 
+            ('curso de PAn','Curso obliagtorio que te hab'),
+            ('curso de Contar','Curso obliagtorio que te '),
+            ('curso de Idiomas','Curso obliagtorio q'),
+            ('curso de Maquinaria','Curso obliagtorio que te habla de lo que tienes que hacer');
+            
+
+            --
+            -- estructura de la tabla para agregar cursos a un usuario
+            --
+            create table IF not exists `agcuso`(
+            `idagcu` int(11) not null auto_increment,
+            `nombre` varchar(50) not null,
+            `descripcion` varchar(120) not null,
+            `completado` int(3) not null,
+            `idusuario` int(11) not null,
+            primary key(`idagcu`)
+            );
+
+            --
+            -- estructura para marcar el estado de un  curso
+            --
+            create table IF not exists `completadas`(
+            `id` int(11) not null auto_increment,
+            `descripcion` varchar(2) not null,
+            primary key(`id`)
+            );
+            --
+            -- tabla de apoyo para el estado de un curso
+            --
+            insert into `completadas`(`descripcion`) VALUES 
+            ('si'),
+            ('no');
+        """
+        statements = [stmt.strip() for stmt in sql_statements.split(';')]
+
+        for statement in statements:
+            cursor.execute(statement)
+            conn.commit()
+        
+        print("BASE DE DATOS Y TABLAS CREADAS CON EXITO")
+    return conn 
+
 ###Idiomas
-
-
 @app.route('/idioma')
 def idioma():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex ()
     cursor = conn.cursor()
     cursor.execute('select idIdioma, descripcion from idioma order by idIdioma')
     datos = cursor.fetchall()
@@ -31,7 +690,7 @@ def idioma_agregar():
 def idioma_fagrega():
     if request.method == 'POST':
         desc = request.form['descripcion']
-        conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+        conn = conex ()
         cursor = conn.cursor()
         cursor.execute('insert into idioma (descripcion) values (%s)',(desc))
         conn.commit()
@@ -39,7 +698,7 @@ def idioma_fagrega():
 
 @app.route('/idioma_editar/<string:id>')
 def idioma_editar(id):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex ()
     cursor = conn.cursor()
     cursor.execute('select idIdioma, descripcion from idioma where idIdioma = %s', (id))
     dato  = cursor.fetchall()
@@ -49,7 +708,7 @@ def idioma_editar(id):
 def idioma_fedita(id):
     if request.method == 'POST':
         desc=request.form['descripcion']
-        conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+        conn = conex ()
         cursor = conn.cursor()
         cursor.execute('update idioma set descripcion=%s where idIdioma=%s', (desc,id))
         conn.commit()
@@ -57,7 +716,7 @@ def idioma_fedita(id):
 
 @app.route('/idioma_borrar/<string:id>')
 def idioma_borrar(id):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex ()
     cursor = conn.cursor()
     cursor.execute('delete from idioma where idIdioma = {0}'.format(id))
     conn.commit()
@@ -67,7 +726,7 @@ def idioma_borrar(id):
 
 @app.route('/habilidad')
 def habilidad():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex ()
     cursor = conn.cursor()
     cursor.execute('select idHabilidad, descripcion from habilidad order by idHabilidad')
     datos = cursor.fetchall()
@@ -82,7 +741,7 @@ def habilidad_agregar():
 def habilidad_fagrega():
     if request.method == 'POST':
         desc = request.form['descripcion']
-        conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+        conn = conex()
         cursor = conn.cursor()
         cursor.execute('insert into habilidad (descripcion) values (%s)',(desc))
         conn.commit()
@@ -90,7 +749,7 @@ def habilidad_fagrega():
 
 @app.route('/habilidad_editar/<string:id>')
 def habilidad_editar(id):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute('select idHabilidad, descripcion from habilidad where idHabilidad = %s', (id))
     dato  = cursor.fetchall()
@@ -100,7 +759,7 @@ def habilidad_editar(id):
 def habilidad_fedita(id):
     if request.method == 'POST':
         desc=request.form['descripcion']
-        conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+        conn = conex()
         cursor = conn.cursor()
         cursor.execute('update habilidad set descripcion=%s where idHabilidad=%s', (desc,id))
         conn.commit()
@@ -108,7 +767,7 @@ def habilidad_fedita(id):
 
 @app.route('/habilidad_borrar/<string:id>')
 def habilidad_borrar(id):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute('delete from habilidad where idHabilidad = {0}'.format(id))
     conn.commit()
@@ -117,7 +776,7 @@ def habilidad_borrar(id):
 
 @app.route('/gradoAvance')
 def gradoAvance():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute('select idGradoAvance, descripcion from grado_avance order by idGradoAvance')
     datos = cursor.fetchall()
@@ -132,7 +791,7 @@ def grado_agregar():
 def grado_fagrega():
     if request.method == 'POST':
         desc = request.form['descripcion']
-        conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+        conn = conex()
         cursor = conn.cursor()
         cursor.execute('insert into grado_avance (descripcion) values (%s)',(desc))
         conn.commit()
@@ -140,7 +799,7 @@ def grado_fagrega():
 
 @app.route('/grado_editar/<string:id>')
 def grado_editar(id):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute('select idGradoAvance, descripcion from grado_avance where idGradoAvance = %s', (id))
     dato  = cursor.fetchall()
@@ -150,7 +809,7 @@ def grado_editar(id):
 def grado_fedita(id):
     if request.method == 'POST':
         desc=request.form['descripcion']
-        conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+        conn = conex()
         cursor = conn.cursor()
         cursor.execute('update grado_avance set descripcion=%s where idGradoAvance=%s', (desc,id))
         conn.commit()
@@ -158,7 +817,7 @@ def grado_fedita(id):
 
 @app.route('/grado_borrar/<string:id>')
 def grado_borrar(id):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute('delete from grado_avance where idGradoAvance = {0}'.format(id))
     conn.commit()
@@ -166,7 +825,7 @@ def grado_borrar(id):
 
 @app.route('/area')
 def area():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute('select idArea, descripcion from area order by idArea')
     datos = cursor.fetchall()
@@ -174,7 +833,7 @@ def area():
 
 @app.route('/area_editar/<string:id>')
 def area_editar(id):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute('select idArea, descripcion from area where idArea = %s', (id))
     dato  = cursor.fetchall()
@@ -184,7 +843,7 @@ def area_editar(id):
 def area_fedita(id):
     if request.method == 'POST':
         desc=request.form['descripcion']
-        conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+        conn = conex()
         cursor = conn.cursor()
         cursor.execute('update area set descripcion=%s where idArea=%s', (desc,id))
         conn.commit()
@@ -192,7 +851,7 @@ def area_fedita(id):
 
 @app.route('/area_borrar/<string:id>')
 def area_borrar(id):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute('delete from area where idArea = {0}'.format(id))
     conn.commit()
@@ -206,7 +865,7 @@ def area_agregar():
 def area_fagrega():
     if request.method == 'POST':
         desc = request.form['descripcion']
-        conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+        conn = conex()
         cursor = conn.cursor()
         cursor.execute('insert into area (descripcion) values (%s)',(desc))
         conn.commit()
@@ -216,7 +875,7 @@ def area_fagrega():
 
 @app.route('/puesto')
 def puesto():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
 
     cursor.execute('select idPuesto, nomPuesto from puesto order by idPuesto')
@@ -228,7 +887,7 @@ def puesto():
 
 @app.route('/puesto_fdetalle/<string:idP>', methods=['GET'])
 def puesto_fdetalle(idP):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
 
     cursor.execute('select idPuesto, nomPuesto from puesto order by idPuesto')
@@ -266,7 +925,7 @@ def puesto_fdetalle(idP):
 
 @app.route('/puesto_borrar/<string:idP>')
 def puesto_borrar(idP):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute('delete from puesto where idPuesto = %s',(idP))
     conn.commit()
@@ -279,7 +938,7 @@ def puesto_borrar(idP):
 
 @app.route('/puesto_agrOp2')
 def puesto_agrOp2():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute('select idArea, descripcion from area ')
     datos1 = cursor.fetchall()
@@ -352,7 +1011,7 @@ def puesto_fagrega():
         conT = request.form['condicionesTrabajo']
 
 
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute(
     'insert into puesto (codPuesto,idArea,nomPuesto,puestoJefeSup,jornada,remunMensual,prestaciones,descripcionGeneral,'
@@ -395,7 +1054,7 @@ def puesto_fagrega():
 
 @app.route('/puesto_editar/<string:idP>')
 def puesto_editar(idP):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
 
     cursor.execute('select idPuesto,codPuesto,idArea,nomPuesto,puestoJefeSup,jornada,remunMensual,prestaciones,descripcionGeneral,'
@@ -480,7 +1139,7 @@ def puesto_fedita(idP):
         resp = request.form['responsabilidades']
         conT = request.form['condicionesTrabajo']
 
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
 
     cursor.execute('update puesto set codPuesto = %s, idArea = %s, nomPuesto = %s, puestoJefeSup = %s, jornada = %s, '
@@ -523,7 +1182,7 @@ def puesto_fedita(idP):
 
 @app.route('/carrera')
 def carrera():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("SELECT idCarrera, descripcion FROM carrera ORDER BY idCarrera")
     dato = cursor.fetchall()
@@ -537,7 +1196,7 @@ def agreCarre():
 def agregarCarrera():
     if request.method == 'POST':
         descrip = request.form['descripcion']
-        conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+        conn = conex()
         cursor = conn.cursor()
         cursor.execute("INSERT INTO carrera (descripcion) VALUES (%s)", (descrip))
         conn.commit()
@@ -545,7 +1204,7 @@ def agregarCarrera():
 
 @app.route("/carre_editar/<string:idd>")
 def editarcarre(idd):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("SELECT idCarrera, descripcion FROM carrera WHERE idCarrera=%s", (idd))
     dato = cursor.fetchall()
@@ -555,7 +1214,7 @@ def editarcarre(idd):
 def updateCarre(idd):
     if request.method == 'POST':
         descrip = request.form['descripcion']
-        conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+        conn = conex()
         cursor = conn.cursor()
         cursor.execute("UPDATE carrera SET descripcion = %s WHERE idCarrera = %s", (descrip, idd))
         conn.commit()
@@ -563,7 +1222,7 @@ def updateCarre(idd):
 
 @app.route("/carre_borrar/<string:idd>")
 def borrarCarre(idd):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("DELETE FROM carrera WHERE idCarrera = %s", (idd))
     conn.commit()
@@ -573,7 +1232,7 @@ def borrarCarre(idd):
 
 @app.route("/escolaridad")
 def escolaridad():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("SELECT idEscolaridad, descripcion FROM escolaridad ORDER BY idEscolaridad")
     datos = cursor.fetchall()
@@ -587,7 +1246,7 @@ def agreEsco():
 def agregarEscolaridad():
     if request.method == 'POST':
         descrip = request.form['descripcion']
-        conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+        conn = conex()
         cursor = conn.cursor()
         cursor.execute("INSERT INTO escolaridad (descripcion) VALUES (%s)", (descrip))
         conn.commit()
@@ -595,7 +1254,7 @@ def agregarEscolaridad():
 
 @app.route("/esco_editar/<string:idd>")
 def editarEsco(idd):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("SELECT idEscolaridad, descripcion FROM escolaridad WHERE idEscolaridad = %s", (idd))
     dato = cursor.fetchall()
@@ -605,7 +1264,7 @@ def editarEsco(idd):
 def updateEsco(idd):
     if request.method == 'POST':
         descrip = request.form['descripcion']
-        conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+        conn = conex()
         cursor = conn.cursor()
         cursor.execute("UPDATE escolaridad SET descripcion = %s WHERE idEscolaridad = %s", (descrip, idd))
         conn.commit()
@@ -613,7 +1272,7 @@ def updateEsco(idd):
 
 @app.route("/esco_borrar/<string:idd>")
 def borrarEsco(idd):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("DELETE FROM escolaridad WHERE idEscolaridad = %s", (idd))
     conn.commit()
@@ -622,7 +1281,7 @@ def borrarEsco(idd):
 
 @app.route("/edocivil")
 def edocivil():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("SELECT idEstadoCivil, descripcion FROM estado_civil ORDER BY idEstadoCivil")
     datos = cursor.fetchall()
@@ -636,7 +1295,7 @@ def agreEdoCiv():
 def agregarEdoCiv():
     if request.method == 'POST':
         descrip = request.form['descripcion']
-        conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+        conn = conex()
         cursor = conn.cursor()
         cursor.execute("INSERT INTO estado_civil (descripcion) VALUES (%s)", (descrip))
         conn.commit()
@@ -644,7 +1303,7 @@ def agregarEdoCiv():
 
 @app.route("/edoc_editar/<string:idd>")
 def editarEdociv(idd):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("SELECT idEstadoCivil, descripcion FROM estado_civil WHERE idEstadoCivil = %s", (idd))
     dato = cursor.fetchall()
@@ -654,7 +1313,7 @@ def editarEdociv(idd):
 def updateEdociv(idd):
     if request.method == 'POST':
         descrip = request.form['descripcion']
-        conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+        conn = conex()
         cursor = conn.cursor()
         cursor.execute("UPDATE estado_civil SET descripcion = %s WHERE idEstadoCivil = %s", (descrip, idd))
         conn.commit()
@@ -662,7 +1321,7 @@ def updateEdociv(idd):
 
 @app.route("/edoc_borrar/<string:idd>")
 def borrarEdociv(idd):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("DELETE FROM estado_civil WHERE idEstadoCivil = %s", (idd))
     conn.commit()
@@ -672,7 +1331,7 @@ def borrarEdociv(idd):
 
 @app.route("/candidatos")
 def candidatos():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("SELECT b.folio, a.idVacante, c.nomPuesto, a.candidatoSelecc FROM vacante a, requisicion b, puesto c WHERE a.idRequisicion=b.idRequisicion AND a.idPuesto=c.idPuesto AND b.idPuesto=c.idPuesto")
     datos = cursor.fetchall()
@@ -681,7 +1340,7 @@ def candidatos():
 
 @app.route("/capturarCand/<string:idV>")
 def capturarCandidatos(idV):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("SELECT b.folio, a.idVacante, c.nomPuesto FROM vacante a, requisicion b, puesto c WHERE a.idRequisicion=b.idRequisicion AND a.idPuesto=c.idPuesto AND b.idPuesto=c.idPuesto AND a.idVacante=%s", (idV))
     datos = cursor.fetchall()
@@ -703,7 +1362,7 @@ def capturarCandidatos(idV):
 
 @app.route("/seleccionCand/<string:idV>")
 def verCandidatosVacante(idV):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("SELECT b.nomPuesto FROM puesto b, vacante a WHERE a.idVacante=%s AND a.idPuesto=b.idPuesto", (idV))
     nomPuestoVacante = cursor.fetchall()
@@ -716,7 +1375,7 @@ def verCandidatosVacante(idV):
 
 @app.route("/candSelec/<string:idC>/<string:idV>")
 def showSelectedCand(idC, idV):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor() 
     cursor.execute("SELECT a.idCandidato, a.idVacante, a.idRequisicion, a.idPuesto, b.folio, c.nomPuesto, a.CURP, a.RFC, a.nombre, a.domCalle, a.domNumExtInt, a.domColonia, a.tel1, a.tel2, a.correoE, a.edad, a.sexo, a.idEstadoCivil, a.idEscolaridad, a.idGradoAvance, a.idCarrera, "
                    "a.entrevSelecReq, a.entrevSelecPresen, a.entrevSelecResult, a.evalMedicaReq, a.evalMedicaPresen, a.evalMedicaResult, a.evalPsicolgReq, a.evalPsicologPresen, a.evalPsicologResult, a.evalPsicometReq, a.evalPsicometPresene, a.evalPsicometResult, "
@@ -744,7 +1403,7 @@ def showSelectedCand(idC, idV):
 
 @app.route("/borrarCand/<string:idC>/<string:idV>")
 def borrarCand(idC, idV):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor() 
     cursor.execute("SELECT candidatoSelecc FROM vacante WHERE idVacante=%s", (idV))
     idCandSelec = cursor.fetchall()
@@ -759,7 +1418,7 @@ def borrarCand(idC, idV):
 
 @app.route("/seleccionarCandidato/<string:idC>/<string:idV>")
 def seleccionarCandidato(idC, idV):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("UPDATE vacante SET candidatoSelecc = %s WHERE idVacante = %s", (idC, idV))
     conn.commit()
@@ -846,7 +1505,7 @@ def capturarCandidato():
         print("entrevistaFinPres:", entreFinPres)
         print("campoEntrevistaFin:", entreFinResul)
 
-        conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+        conn = conex()
         cursor = conn.cursor()
         cursor.execute("SELECT idRequisicion, idPuesto FROM vacante WHERE idVacante = %s", (idVacan))
         ids = cursor.fetchall()
@@ -866,7 +1525,7 @@ def capturarCandidato():
 
 @app.route("/detailCand/<string:idC>")
 def detallesCandidato(idC):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("SELECT a.idCandidato, a.idVacante, a.idRequisicion, a.idPuesto, b.folio, c.nomPuesto, a.CURP, a.RFC, a.nombre, a.domCalle, a.domNumExtInt, a.domColonia, a.tel1, a.tel2, a.correoE, a.edad, a.sexo, a.idEstadoCivil, a.idEscolaridad, a.idGradoAvance, a.idCarrera, "
                    "a.entrevSelecReq, a.entrevSelecPresen, a.entrevSelecResult, a.evalMedicaReq, a.evalMedicaPresen, a.evalMedicaResult, a.evalPsicolgReq, a.evalPsicologPresen, a.evalPsicologResult, a.evalPsicometReq, a.evalPsicometPresene, a.evalPsicometResult, "
@@ -891,7 +1550,7 @@ def detallesCandidato(idC):
 
 @app.route("/unselectCand/<string:idV>")
 def deseleccionarCandidato(idV):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("UPDATE vacante SET candidatoSelecc=0 WHERE idVacante=%s", (idV))
     conn.commit()
@@ -899,7 +1558,7 @@ def deseleccionarCandidato(idV):
 
 @app.route("/editarCand/<string:idC>/<string:idV>")
 def editarCand(idC, idV):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("SELECT b.folio, a.idVacante, c.nomPuesto FROM vacante a, requisicion b, puesto c WHERE a.idRequisicion=b.idRequisicion AND a.idPuesto=c.idPuesto AND b.idPuesto=c.idPuesto AND a.idVacante=%s", (idV))
     datos = cursor.fetchall()
@@ -927,7 +1586,7 @@ def editarCand(idC, idV):
 @app.route("/editarCandFunct/<string:idC>", methods=['GET', 'POST'])
 def editarCandFunct(idC):
     if request.method == "POST":
-        conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
+        conn = conex()
         cursor = conn.cursor()
         idVacan = request.form.get('idVacante')
         curp = request.form.get('curp')
@@ -1023,7 +1682,7 @@ def requisicion():
 
 
 def obtener_requisicion(requisicion_id):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM requisicion WHERE idRequisicion = %s", (requisicion_id,))
     requisicion = cursor.fetchone()
@@ -1039,7 +1698,7 @@ def mostrar_requisicion():
 
 @app.route('/listar_requisiciones')
 def listar_requisiciones():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM requisicion")
     requisiciones = cursor.fetchall()
@@ -1071,7 +1730,7 @@ def agregar_requisicion():
     nomAutoriza = request.form['nomAutoriza']
     nomRevisa = request.form['nomRevisa']
 
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    conn = conex()
     cursor = conn.cursor()
 
     cursor.execute(
@@ -1094,7 +1753,7 @@ def agregar_requisicion():
 def aceptar_requisicion():
     requisicion_id = request.form['idRequisicion']
 
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    conn = conex()
     cursor = conn.cursor()
 
     cursor.execute("UPDATE requisicion SET idPuesto = 1, autorizada = 1 WHERE idRequisicion = %s", (requisicion_id,))
@@ -1111,7 +1770,7 @@ def aceptar_requisicion():
 
 @app.route('/cont_p/<string:idC>', methods=['GET'])
 def contrato_p(idC):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    conn = conex()
     cursor = conn.cursor()
 
     cursor.execute('select p.idPuesto from puesto p, candidato c where p.idPuesto = c.idPuesto and c.idCandidato = %s', (idC))
@@ -1306,7 +1965,7 @@ def contrato_p(idC):
 #Renderizado para las Vacantes Equipo2
 @app.route('/vacantes')
 def vacantes():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
+    conn = conex()
     cursor = conn.cursor()
 
     cursor.execute('select idPuesto, nomPuesto from puesto order by idPuesto')
@@ -1318,7 +1977,7 @@ def vacantes():
 #Metodo para mostrar los datos en la publicacion de Vacantes Equipo2
 @app.route('/vacantes_publ/<string:idV>', methods=['GET'])
 def vacantes_publ(idV):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    conn = conex()
     cursor = conn.cursor()
 
     cursor.execute('select idPuesto, nomPuesto from puesto order by idPuesto')
@@ -1361,7 +2020,7 @@ def pub_vacantes():
 
 @app.route('/vacantes_pub')
 def vacantes_pub():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
+    conn = conex()
     cursor = conn.cursor()
 
     cursor.execute('select idPuesto, nomPuesto from puesto order by idPuesto')
@@ -1429,7 +2088,7 @@ def examen_enviar():
         p10=request.form['p10']
         p11=request.form['p11']
         p12=request.form['p12']
-        conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+        conn = conex()
         cursor = conn.cursor()
         cursor.execute('INSERT INTO examen (nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)', (nom,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12))
         conn.commit()
@@ -1437,7 +2096,7 @@ def examen_enviar():
 
 @app.route('/crud_examen')
 def crud_examen():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute('SELECT idExamen, nombre FROM examen order by idExamen')
     datos = cursor.fetchall()
@@ -1445,7 +2104,7 @@ def crud_examen():
 
 @app.route('/examen_borrar/<string:id>')
 def examen_borrar(id):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute('DELETE FROM examen WHERE idExamen={0}'.format(id))
     conn.commit()
@@ -1453,7 +2112,7 @@ def examen_borrar(id):
 
 @app.route('/examen_calificar/<string:id>')
 def examen_calificar(id):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("SELECT idExamen, nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12 FROM examen WHERE idExamen=%s", (id))
     dato=cursor.fetchone()
@@ -1475,7 +2134,7 @@ def examen_revisado(id):
         cal11=int(request.form['preg11'])
         cal12=int(request.form['preg12'])
         cali=cal1+cal2+cal3+cal4+cal5+cal6+cal7+cal8+cal9+cal10+cal11+cal12
-        conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+        conn = conex()
         cursor = conn.cursor()
         cursor.execute('SELECT nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12 FROM examen WHERE idExamen=%s',(id))
         dato = cursor.fetchone()
@@ -1488,7 +2147,7 @@ def examen_revisado(id):
 
 @app.route('/calificaciones')
 def calificaciones():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute('SELECT idCalificacion, nombre, calificacion FROM calificaciones order by idCalificacion')
     datos=cursor.fetchall()
@@ -1496,7 +2155,7 @@ def calificaciones():
 
 @app.route('/calificacion_borrar/<string:id>')
 def calificacion_borrar(id):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute('DELETE FROM calificaciones WHERE idCalificacion=%s', (id))
     conn.commit()
@@ -1504,7 +2163,7 @@ def calificacion_borrar(id):
 
 @app.route('/calificacion_detalles/<string:id>')
 def calc_detalles(id):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute('SELECT idCalificacion, nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12, calificacion FROM calificaciones WHERE idCalificacion=%s',(id))
     datos =cursor.fetchone()
@@ -1520,7 +2179,7 @@ def regreso():
 #Empleados:
 @app.route('/empleados', endpoint='empleados')
 def empleados():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
+    conn = conex()
     cursor = conn.cursor()
 
     cursor.execute('select idEmpleado, nombre from empleado order by idEmpleado')
@@ -1530,7 +2189,7 @@ def empleados():
 
 @app.route('/empleados_fdetalle/<string:idE>', methods=['GET'])
 def empleados_fdetalle(idE):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    conn = conex()
     cursor = conn.cursor()
 
     cursor.execute('select idEmpleado, nombre from empleado order by idEmpleado')
@@ -1564,7 +2223,7 @@ def empleados_fdetalle(idE):
 
 @app.route('/empleados_borrar/<string:idE>')
 def empleados_borrar(idE):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute('DELETE FROM empleado WHERE idEmpleado = %s', (idE,))
     conn.commit()
@@ -1575,7 +2234,7 @@ def empleados_borrar(idE):
 
 @app.route('/empleados_agr02')
 def empleados_agr02():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    conn = conex()
     cursor = conn.cursor()
 
     cursor.execute('select idEmpleado, idEmpleado from empleado ')
@@ -1644,7 +2303,7 @@ def empleados_fagrega2():
         sexo = request.form['sexo']
 
 
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute(
     'insert into empleado (nombre,apellido,idRequisicion,idPuesto, idEstadoCivil, idEscolaridad,idGradoAvance,idCarrera,CURP,RFC,domCalle,domNumExtInt, domColonia,tel1,sueldo, correoE, edad, sexo) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
@@ -1684,7 +2343,7 @@ def empleados_fagrega2():
 
 @app.route('/empleados_editar/<string:idE>')
 def empleados_editar(idE):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    conn = conex()
     cursor = conn.cursor()
 
     cursor.execute('select idEmpleado, idRequisicion, idPuesto, CURP, RFC, nombre, apellido, domCalle, domNumExtInt, domColonia,'
@@ -1767,7 +2426,7 @@ def empleados_fedita(idE):
         edad = request.form['edad']
         sexo = request.form['sexo']
 
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    conn = conex()
     cursor = conn.cursor()
 
     cursor.execute('update candidato set idRequisicion = %s, idPuesto = %s, CURP = %s, RFC = %s, nombre = %s, apellido = %s, domCalle = %s, domNumExtInt = %s, domColonia = %s,'
@@ -1807,7 +2466,7 @@ def empleados_fedita(idE):
 #EQUIPO7 #
 @app.route("/tabla_con")
 def tabla_con():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("select * from usuario order by idusuario")
     datos  = cursor.fetchall()
@@ -1815,7 +2474,7 @@ def tabla_con():
 
 @app.route("/clubvist/<string:id>")
 def clubvist(id):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("select * from cursos order by idcursos")
     datos = cursor.fetchall()
@@ -1823,7 +2482,7 @@ def clubvist(id):
 
 @app.route("/cursoagr/<string:nombre>/<string:decripcion>/<string:id>")
 def cursoagr(nombre,decripcion,id):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("insert into agcuso (nombre,descripcion,idusuario,completado) values (%s,%s,%s,%s)",(nombre,decripcion,id,2))
     conn.commit()
@@ -1838,7 +2497,7 @@ def agr_cur():
     if request.method == 'POST':
         nombre=request.form['nombre']
         descripcion=request.form['descripcion']
-        conn = pymysql.connect(host="localhost", user="root", passwd="",db="rh3")
+        conn = conex()
         cursor = conn.cursor()
         cursor.execute("insert into cursos (nombre,descripcion) values (%s,%s)",(nombre,descripcion))
         conn.commit()
@@ -1846,7 +2505,7 @@ def agr_cur():
 
 @app.route("/clubstu/<string:id>")
 def clubstu(id):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("select b.idusuario,a.nombre,a.descripcion,c.descripcion,a.idagcu  from agcuso as a inner join usuario as b inner join completadas as c on a.idusuario=b.idusuario where c.id=a.completado and a.idusuario = {0}".format(id))
     datos = cursor.fetchall()
@@ -1855,7 +2514,7 @@ def clubstu(id):
 @app.route("/clubvist2/<string:id>",methods=['POST'])
 def clubvist2(id):
     if request.method == 'POST':
-        conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
+        conn = conex()
         cursor = conn.cursor()
         cursor.execute("update agcuso set completado=%s where idagcu=%s",( 1 ,id) )
         conn.commit()
@@ -1863,7 +2522,7 @@ def clubvist2(id):
 
 @app.route("/curriculum/<string:id>")
 def curiculim(id):
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
+    conn = conex()
     cursor = conn.cursor()
     cursor.execute("select b.*,a.nombre,a.descripcion,c.descripcion,a.idagcu from agcuso as a inner join usuario as b inner join completadas as c on a.idusuario=b.idusuario where c.id=a.completado and a.idusuario = {0}".format(id))
     datos  = cursor.fetchall()

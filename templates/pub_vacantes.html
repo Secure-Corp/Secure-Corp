@@ -8,7 +8,7 @@
 <br>
 <br>
 
-<form class="row g-3"  action="/generate_pdf" method="POST">
+<form class="row g-3" id="vacanteForm" action="/generate_pdf" method="POST">
     <div class="col-md-12">
        <label for="nomPuesto" class="form-label">Nombre de la Vacante</label>
        <input type="text" class="form-control" name="nomPuesto" id="nomPuesto" value="{{dat.3}}" readonly="readonly"></input>
@@ -81,18 +81,18 @@
         <option>Anuncios en Periódicos y Revistas</option>
      </select>
     </div>
-    <button type="submit" bgcolor="#2B2D83" width="6%" class="btn btn-outline-info btn-sm">Crear pdf</button>
+    <button onclick="validarFormulario()" type="button" bgcolor="#2B2D83" width="6%" class="btn btn-outline-info btn-sm">Publicar Anuncio</button>
 </form>
 <br></br>
 
-<button onclick="validarFormulario()" bgcolor="#2B2D83" width="6%" class="btn btn-outline-info btn-sm">Publicar Anuncio</button>
- <!--Aquí lo que hace es que valide el forumlario, Obteniendo el valor con id="idFormaPublSi el valor está vacío, muestra una alerta utilizando la biblioteca swal (probablemente SweetAlert) indicando que se debe seleccionar una opción y retorna false.
-Si hay un valor seleccionado, muestra una alerta de éxito y después de 5 segundos redirige a la página "/vacantes_pub". -->
+<!--Aquí lo que hace es que valide el forumlario, Obteniendo el valor con id="idFormaPublSi el valor está vacío, muestra una alerta utilizando la biblioteca swal (probablemente SweetAlert) indicando que se debe seleccionar una opción y retorna false.
+Si hay un valor seleccionado, muestra una alerta de éxito y después de 3.5 segundos crea un PDF y redirige a la página principal de vacantes. -->
 <script>
     function validarFormulario() {
         var select = document.getElementById('idFormaPubl');
         if (select.value === "") {
-            swal("Por favor", "seleccione una opción.","error");
+            select.classList.add('error');
+            swal("Por favor", "Seleccione una opción.", "error");
             return false;
         } else {
             swal({
@@ -100,13 +100,31 @@ Si hay un valor seleccionado, muestra una alerta de éxito y después de 5 segun
                 text: "Redirigiendo...",
                 icon: "success",
                 button: false,
-                timer: 3500 // Duración de la alerta en milisegundos
+                timer: 2000 // Duración de la alerta en milisegundos
             }).then(function() {
-                window.location.href = "/vacantes_pub";
+                // Envía el formulario
+                document.getElementById('vacanteForm').submit();
+                
+                // Redirige a otra página después de un pequeño retraso para permitir que el PDF se genere
+                setTimeout(function() {
+                    window.location.href = "/vacantes_pub";
+                }, 500); // Tiempo de retraso
             });
         }
         return true;
     }
+
+    // Evento para cambiar el color del select cuando se selecciona una opción válida
+    document.getElementById('idFormaPubl').addEventListener('change', function() {
+        var select = document.getElementById('idFormaPubl');
+        if (select.value !== "") {
+            select.classList.remove('error');
+            select.classList.add('valid');
+        } else {
+            select.classList.remove('valid');
+            select.classList.add('error');
+        }
+    });
 </script>
 
     <div id="particles-js"></div>
