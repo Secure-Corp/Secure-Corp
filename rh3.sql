@@ -481,6 +481,7 @@ INSERT INTO `requisicion` (`idRequisicion`, `folio`, `fechaElab`, `fechaRecluta`
 CREATE TABLE IF NOT EXISTS `examen` (
   `idExamen` int(11) NOT NULL AUTO_INCREMENT, 
   `nombre` varchar(70) NOT NULL,
+  `rfc` varchar(20)NOT NULL,
   `preg1` varchar(250) NOT NULL,
   `preg2` varchar(250) NOT NULL,
   `preg3` varchar(250) NOT NULL,
@@ -499,6 +500,7 @@ CREATE TABLE IF NOT EXISTS `examen` (
 CREATE TABLE IF NOT EXISTS `calificaciones` (
   `idCalificacion` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) NOT NULL,
+  `rfc` varchar(20)NOT NULL,
   `calificacion` int(11) NOT NULL,
   `preg1` varchar(250) NOT NULL,
   `preg2` varchar(250) NOT NULL,

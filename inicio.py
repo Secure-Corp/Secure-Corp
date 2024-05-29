@@ -11,6 +11,10 @@ app = Flask(__name__)
 def home():
     return render_template("home.html")
 
+@app.route("/home")
+def home2():
+    return render_template("home.html")
+
 #Conexion a base de datos
 def conex():
     conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
@@ -487,6 +491,7 @@ def conex():
             CREATE TABLE IF NOT EXISTS `examen` (
             `idExamen` int(11) NOT NULL AUTO_INCREMENT, 
             `nombre` varchar(70) NOT NULL,
+            `rfc` varchar(20) NOT NULL,
             `preg1` varchar(250) NOT NULL,
             `preg2` varchar(250) NOT NULL,
             `preg3` varchar(250) NOT NULL,
@@ -506,6 +511,7 @@ def conex():
             `idCalificacion` int(11) NOT NULL AUTO_INCREMENT,
             `nombre` varchar(255) NOT NULL,
             `calificacion` int(11) NOT NULL,
+            `rfc` varchar(20) NOT NULL,
             `preg1` varchar(250) NOT NULL,
             `preg2` varchar(250) NOT NULL,
             `preg3` varchar(250) NOT NULL,
@@ -2068,14 +2074,19 @@ def generate_pdf():
 
 #Fin del codigo del Equipo2
 #examen psicometrico
-@app.route('/examen')
-def examen():
-    return render_template('examen.html')
+@app.route('/examen/<string:id>')
+def examen(id):
+    conn = conex()
+    cursor = conn.cursor()
+    cursor.execute("select RFC, nombre from candidato where idCandidato=%s ",(id))
+    dato=cursor.fetchone()
+    return render_template('examen.html',datos=dato)
  
 @app.route('/examen_enviar', methods=['POST'])
 def examen_enviar():
     if request.method == 'POST':
         nom=request.form['nombre']
+        rfc=request.form['rfc']
         p1=request.form['p1']
         p2=request.form['p2']
         p3=request.form['p3']
@@ -2090,15 +2101,15 @@ def examen_enviar():
         p12=request.form['p12']
         conn = conex()
         cursor = conn.cursor()
-        cursor.execute('INSERT INTO examen (nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)', (nom,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12))
+        cursor.execute('INSERT INTO examen (nombre, rfc, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)', (nom,rfc,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12))
         conn.commit()
-    return redirect(url_for('crud_examen'))
+    return redirect(url_for('home'))
 
 @app.route('/crud_examen')
 def crud_examen():
     conn = conex()
     cursor = conn.cursor()
-    cursor.execute('SELECT idExamen, nombre FROM examen order by idExamen')
+    cursor.execute('SELECT idExamen, nombre, rfc FROM examen order by idExamen')
     datos = cursor.fetchall()
     return render_template('examen_crudr.html', comentarios=datos)
 
@@ -2114,7 +2125,7 @@ def examen_borrar(id):
 def examen_calificar(id):
     conn = conex()
     cursor = conn.cursor()
-    cursor.execute("SELECT idExamen, nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12 FROM examen WHERE idExamen=%s", (id))
+    cursor.execute("SELECT idExamen, nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12, rfc FROM examen WHERE idExamen=%s", (id))
     dato=cursor.fetchone()
     return render_template('califica_examen.html', com=dato)
 
@@ -2136,12 +2147,16 @@ def examen_revisado(id):
         cali=cal1+cal2+cal3+cal4+cal5+cal6+cal7+cal8+cal9+cal10+cal11+cal12
         conn = conex()
         cursor = conn.cursor()
-        cursor.execute('SELECT nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12 FROM examen WHERE idExamen=%s',(id))
+        cursor.execute('SELECT nombre, rfc, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12 FROM examen WHERE idExamen=%s',(id))
         dato = cursor.fetchone()
+        print(dato)
         if dato:
-            nombre, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12 = dato
+            nombre, rfc, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12 = dato
             cursor.execute('DELETE FROM examen WHERE idExamen=%s',(id,))
-            cursor.execute('INSERT INTO calificaciones (nombre, calificacion, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (nombre, cali, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12))
+            conn.commit()
+            cursor.execute('UPDATE candidato SET evalPsicometPresene=%s, evalPsicometResult=%s WHERE RFC=%s',(1,cali, str(rfc)) )
+            conn.commit()
+            cursor.execute('INSERT INTO calificaciones (nombre, rfc, calificacion, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (nombre, rfc, cali, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12))
             conn.commit()
     return redirect(url_for('calificaciones'))
 
@@ -2149,7 +2164,7 @@ def examen_revisado(id):
 def calificaciones():
     conn = conex()
     cursor = conn.cursor()
-    cursor.execute('SELECT idCalificacion, nombre, calificacion FROM calificaciones order by idCalificacion')
+    cursor.execute('SELECT idCalificacion, nombre, rfc, calificacion FROM calificaciones order by idCalificacion')
     datos=cursor.fetchall()
     return render_template('calificaciones.html', comentarios=datos)
 
@@ -2165,7 +2180,7 @@ def calificacion_borrar(id):
 def calc_detalles(id):
     conn = conex()
     cursor = conn.cursor()
-    cursor.execute('SELECT idCalificacion, nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12, calificacion FROM calificaciones WHERE idCalificacion=%s',(id))
+    cursor.execute('SELECT idCalificacion, nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12, calificacion, rfc FROM calificaciones WHERE idCalificacion=%s',(id))
     datos =cursor.fetchone()
     return render_template('detalle_cali.html', com=datos)
 
