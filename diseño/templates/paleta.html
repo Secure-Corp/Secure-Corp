@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paleta de colores</title>
+    <style>
+        /* Aquí va tu CSS */
+        h1 {
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+        }
+
+        .uno {
+            background-color: #E6A139;
+            height: 250px;
+            width: 250px;
+            border: none;
+        }
+
+        .dos {
+            background-color: #E67628;
+            height: 250px;
+            width: 250px;
+            border: none;
+        }
+
+        .tres {
+            background-color: #506E86;
+            height: 250px;
+            width: 250px;
+            border: none;
+        }
+
+        .cuatro {
+            background-color: #2F3C4F;
+            height: 250px;
+            width: 250px;
+            border: none;
+        }
+
+        .cinco {
+            background-color: #1B232E;
+            color: white;
+            height: 250px;
+            width: 250px;
+            border: none;
+        }
+
+        .seis {
+            background-color: #73777B;
+            height: 250px;
+            width: 250px;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <div class="container">
+            <h1>PALETA DE COLORES</h1>
+            <button class="uno" onclick="copiarColor('#E6A139')">#E6A139</button>
+            <button class="dos" onclick="copiarColor('#E67628')">#E67628</button>
+            <button class="tres" onclick="copiarColor('#506E86')">#506E86</button>
+            <button class="cuatro" onclick="copiarColor('#2F3C4F')">#2F3C4F</button>
+            <button class="cinco" onclick="copiarColor('#1B232E')">#1B232E</button>
+            <button class="seis" onclick="copiarColor('#73777B')">#73777B</button>
+        </div>
+    </center>
+    <script>
+        function copiarColor(color) {
+            var areaDeTexto = document.createElement("textarea");
+            areaDeTexto.value = color;
+            document.body.appendChild(areaDeTexto);
+
+            areaDeTexto.select();
+            document.execCommand("copy");
+            document.body.removeChild(areaDeTexto);
+
+            alert("Color copiado: " + color);
+        }
+    </script>
+</body>
+
+</html>
