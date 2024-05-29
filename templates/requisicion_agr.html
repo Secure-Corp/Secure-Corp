@@ -5,7 +5,7 @@
 <form action="/requisicion_agr" method="POST">
     <div class="form-group">
         <label for="folio">Folio</label>
-        <input type="text" class="form-control" name="folio" id="folio" required>
+        <input type="text" class="form-control" name="folio" id="folio" required pattern="\d+">
     </div>
     <div class="form-group">
         <label for="fechaElab">Fecha de Elaboración</label>
@@ -21,19 +21,19 @@
     </div>
     <div class="form-group">
         <label for="motivoRequisicion">Motivo de Requisición</label>
-        <input type="text" class="form-control" name="motivoRequisicion" id="motivoRequisicion" required>
+        <input type="text" class="form-control" name="motivoRequisicion" id="motivoRequisicion" required pattern="[A-Za-z\s]+">
     </div>
     <div class="form-group">
         <label for="motivoEspecifique">Especificación de Motivo</label>
-        <input type="text" class="form-control" name="motivoEspecifique" id="motivoEspecifique">
+        <input type="text" class="form-control" name="motivoEspecifique" id="motivoEspecifique" pattern="[A-Za-z\s]*">
     </div>
     <div class="form-group">
         <label for="tipoVacante">Tipo de Vacante</label>
-        <input type="text" class="form-control" name="tipoVacante" id="tipoVacante" required>
+        <input type="text" class="form-control" name="tipoVacante" id="tipoVacante" required pattern="[A-Za-z\s]+">
     </div>
     <div class="form-group">
         <label for="nomSolicita">Solicitante</label>
-        <input type="text" class="form-control" name="nomSolicita" id="nomSolicita" required>
+        <input type="text" class="form-control" name="nomSolicita" id="nomSolicita" required pattern="[A-Za-z\s]+">
     </div>
     <div class="form-group">
         <label for="idPuesto">ID Puesto</label>
@@ -44,12 +44,12 @@
         <input type="number" class="form-control" name="idArea" id="idArea" required>
     </div>
     <div class="form-group">
-        <label for="nomAutoriza" class="form-label">Autorizante</label>
-        <input type="text" class="form-control" name="nomAutoriza" id="nomAutoriza" required>
+        <label for="nomAutoriza">Autorizante</label>
+        <input type="text" class="form-control" name="nomAutoriza" id="nomAutoriza" required pattern="[A-Za-z\s]+">
     </div>
     <div class="form-group">
-        <label for="nomRevisa" class="form-label">Revisor</label>
-        <input type="text" class="form-control" name="nomRevisa" id="nomRevisa"  required>
+        <label for="nomRevisa">Revisor</label>
+        <input type="text" class="form-control" name="nomRevisa" id="nomRevisa" required pattern="[A-Za-z\s]+">
     </div>
     <button type="submit" class="btn btn-primary">Agregar</button>
 </form>
