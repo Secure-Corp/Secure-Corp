@@ -1,74 +1,277 @@
-*{
-    height: 1000px;
-    margin: 0;
-    padding: 0;
-}
-.navigation{
-    position: fixed;
-    height: 70px;
-    right: 0;
-    left: 0;
-    background-color: rgb(0, 0, 0);
-    box-sizing: border-box;
-    -webkit-box-shadow:0px 17px 59px 11px black;
-    -moz-box-shadow: 0px 17px 59px 11px black;
-    box-shadow: 0px 17px 59px 11px black;
+@font-face {
+    font-family: "regular";
+    src: url(/diseño/static/fonts/Raleway-Regular.ttf);
 }
 
+@font-face {
+    font-family: "light";
+    src: url(/diseño/static/fonts/Raleway-Light.ttf);
+}
 
-.navigation h1{
+@font-face {
+    font-family: "extralight";
+    src: url(/diseño/static/fonts/Raleway-ExtraLight.ttf);
+}
+
+nav {
+    width: 100%;
+    transition: all ease-in-out 0.7s;
+    background: linear-gradient(90deg, rgba(27, 35, 46, 1) 0%, rgba(47, 60, 79, 1) 35%, rgba(80, 110, 134, 1) 100%);
+    border-bottom: 2.5px solid #E6A139;
+    padding: 10px 20px;
+    width: 100%;
+    height: 20%;
     position: fixed;
     top: 0;
     left: 0;
-    margin: 15px;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #000000;
-    background-image: -webkit-linear-gradient(
-        0deg,
-        #555555 0%,
-        #ffffff 46%,
-        #555555 86%
-    );
-    background-clip: text;
-    -webkit-background-clip: text;
-    text-emphasis-color: transparent;
-    -webkit-text-fill-color: transparent;
-}
-
-ul{
-    position: relative;
-    height: 70px;
-    left: 810px;
-}
-li {
-    display: inline-block;
-    margin-left: 5px;
-    margin-right: 5px;
-    width: 120px;
-    height: 40px;
-    padding-top: 25px;
-    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+    margin: 1;
+    font-family: "regular";
     list-style: none;
+}
+
+nav ul {
+    position: absolute;
+    top: 65px;
+    left: 0;
+    background: green;
+    width: 100%;
+    z-index: 50;
+}
+
+nav ul .opciones {
+    width: 100%;
     text-align: center;
-    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 80;
 }
 
-a{
-    color: white;
-    font-size: 15px;
-    font-family: Arial, Helvetica, sans-serif;
+nav ul .opciones li {
+    width: 180px;
+    margin: 20px 0;
+}
+
+nav ul .opciones li a {
+    color: #e5d8bf;
+    padding: 10px 30px;
+    border-bottom: 2px solid transparent;
+    transition: all ease-in .8s;
+}
+
+nav ul .opciones li a:hover {
+    border-bottom: 2px solid #c75a1c;
+    color: #f1f1f1;
+}
+
+@media screen and (min-width: 768px) {
+    nav ul {
+        position: initial;
+        clip-path: none;
+    }
+
+    nav ul .opciones {
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    nav ul .opciones li {
+        margin: 0 10px;
+        width: auto;
+    }
+
+    nav ul .opciones li a {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.navbar-toggler{
+    width: 15%;
+    background-color: #E6A139;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    margin-left: 40%;
+}
+
+.navbar-toggler-icon{
+    text-align: center;
+}
+
+
+.nav-log {
+    margin: 3%;
+    width: 18%;
+}
+
+#logo {
+    margin: 1%;
+    text-align: center;
+    position: relative;
+    font-family: "regular";
+    font-size: 220%;
+    color: #E6A139;
+}
+
+
+
+#barra {
+    font-family: "light";
+    margin: 10px;
+    text-align: center;
+    color: #E6A139;
+}
+
+#barra:hover {
+    background-color: #73777B;
+    font-family: "light";
+    margin: 10px;
+    width: auto;
+    color: #E67628;
+    transition: .09s;
+}
+
+
+#title {
+    background-color: #a1c1be;
+    color: #ffffff;
+    border-top: 10000px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: normal;
     text-decoration: none;
-    transition: 0.5s;
+    text-decoration-style: none;
+    padding: 30px;
 }
 
-a:hover {
-    background-color: #8080805b;
-    box-shadow: 0px 0px 400px 86px #777777;
-    -webkit-box-shadow: 0px 0px 400px 86px #777777;
-    -moz-box-shadow:  0px 0px 400px 86px #777777;
-    text-decoration: underline #777777;
-
+table {
+    background-color: #f3f4e5;
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: normal;
 }
 
+#ndp {
+    background-color: #59554e;
+    color: #ffffff;
+}
 
+#agregar {
+    background-color: #59554e;
+    box-shadow: rgba(255, 255, 255, 0.25) 0px 30px 60px -12px inset, rgba(255, 255, 255, 0.384) 0px 18px 36px -18px inset;
+    color: #ffffff;
+}
 
+#agregar:hover {
+    background-color: #59554e;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+
+#detalle {
+    box-shadow: #c5dddd 0px 30px 60px -12px inset, #0c0c0c 0px 18px 36px -18px inset;
+    color: #000000;
+    border: none;
+}
+
+#detalle:hover {
+    background-color: #a1c1be;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(95, 95, 95, 0.22) 0px 15px 12px;
+}
+
+#editar {
+
+    box-shadow: rgba(223, 226, 209, 0.603) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.466) 0px 18px 36px -18px inset;
+    color: #000000;
+    margin: 2px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+    border: none;
+}
+
+#editar:hover {
+    border: none;
+    background-color: #f3f4e5;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(95, 95, 95, 0.22) 0px 15px 12px;
+    margin: 2px;
+}
+
+#borrar {
+    box-shadow: rgba(223, 226, 209, 0.603) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.466) 0px 18px 36px -18px inset;
+    color: #000000;
+    border: none;
+    margin: 2px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+}
+
+#borrar:hover {
+    border: none;
+    background-color: #f3f4e5;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(95, 95, 95, 0.22) 0px 15px 12px;
+    margin: 2px;
+}
+
+#formulario {
+    width: 95%;
+    text-align: justify;
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+    margin: 25px;
+}
+
+#descripcion {
+    background-color: #e2e3d9;
+    color: #000000;
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+}
+
+#enviar {
+    background-color: #e2e3d9;
+    box-shadow: rgba(255, 255, 255, 0.25) 0px 30px 60px -12px inset, rgba(34, 34, 34, 0.3) 0px 18px 36px -18px inset;
+    color: #59554e;
+    border: none;
+}
+
+#enviar:hover {
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(95, 95, 95, 0.22) 0px 15px 12px;
+}
+
+#folio {
+    background-color: #59554e;
+    color: #f3f4e5;
+}
+
+#idVacante {
+    background-color: #59554e;
+    color: #f3f4e5;
+}
+
+#nomPuesto {
+    background-color: #59554e;
+    color: #f3f4e5;
+}
+
+.selectores {
+    display: none;
+}
+
+.error {
+    background-color: #e9b7bb;
+}
+
+.valid {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
