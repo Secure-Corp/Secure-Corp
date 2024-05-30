@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>Paleta de colores</title>
     <style>
         /* Aquí va tu CSS */
@@ -54,10 +56,87 @@
             width: 250px;
             border: none;
         }
+        /*ESTILOS DE SWITCH*/
+        .switch{
+            width:60px;
+            height: 30px;
+            padding:0 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            border-radius: 100px;
+            border: #333 solid 2px;
+            background-color: #132b41;
+        }
+        .switch i{
+            font-size: 1rem;
+            color: #fdc21c;  
+        }
+
+        .menu-options li:last-child::before{
+            content: "";
+            position: absolute;
+            height: 25px;
+            width: 25px;
+            border-radius: 50%;
+            background-color: #fff;
+            border: solid thin #000;
+            left: 0;
+            right: unset;
+        }
+        .menu-options li:last-child.active::before{
+            right: 0;
+            left: unset;
+            border: solid thin #fff;
+        }
+        .menu-options li:last-child.active i:first-child{
+            color: #fff;
+        }
+        .menu-options li:last-child.active{
+            background-color: chocolate;
+            border: solid 2px #fff;
+        }
+        body.active{
+            background-color: black;
+        }
+        body.active .uno{
+            background-color: #397EE6;
+            color: white;
+        }
+        body.active .dos{
+            background-color: #2898e6;
+            color: white;
+        }
+        body.active .tres{
+            background-color: #866850;
+            color: white;
+        }
+        body.active .cuatro{
+            background-color: #4f422f;
+            color: white;
+        }
+        body.active .cinco{
+            background-color: #2e261b;
+            color: white;
+        }
+        body.active .seis{
+            background-color: #7b7773;
+            color: white;
+        }
+        body.active h1{
+            color: white;
+        }
     </style>
 </head>
 
 <body>
+    <ul class="menu-options">
+        <li class="switch">
+            <i class='bx bxs-sun' ></i>
+            <i class='bx bxs-moon' ></i>
+        </li>
+    </ul>
     <center>
         <div class="container">
             <h1>PALETA DE COLORES</h1>
@@ -81,6 +160,13 @@
 
             alert("Color copiado: " + color);
         }
+        /*DARK MODE*/
+        const swith = document.querySelector(".switch");
+
+        swith.addEventListener("click", e=>{
+            swith.classList.toggle("active");
+            document.body.classList.toggle("active");
+        })
     </script>
 </body>
 
