@@ -77,7 +77,7 @@ nav ul .opciones {
 
 nav ul .opciones li {
   width: 100%;
-  margin: 20px 0;
+  margin: 20px;
 }
 
 nav ul .opciones li a {
@@ -129,13 +129,16 @@ nav ul .opciones li a:hover {
 }
 
 #desplegable {
-  background-color: #506E86;
+  width: 94%;
+  transition: all ease-in-out 0.7s;
+  background: linear-gradient(90deg, #E6A139 0%, #E67628 35%, #E6A139 100%);  color: #42393b;
+  padding: 10px 20px;
   font-family: "Poppins", sans-serif;
   font-weight: 200;
   font-style: normal;
   text-align: center;
-  margin: 10px;
-  width: 100%;
+  margin: 3%;
+  height: auto;
 }
 
 #inicio {
@@ -202,12 +205,11 @@ a{
   transition: 0.5s;
 }
 
-a:hover {
+.hola:hover {
   background-color: #e6a13958;
   box-shadow: 0px 0px 200px 40px #1B232E;
   -webkit-box-shadow: 0px 0px 200px 40px #E6A139;
   -moz-box-shadow:  0px 0px 200px 40px #E6A139;
   text-decoration: underline #E6A139;
-
 }
 
