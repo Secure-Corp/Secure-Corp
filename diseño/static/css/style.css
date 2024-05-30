@@ -91,17 +91,18 @@ nav ul .opciones li a:hover {
     }
 }
 
-.navbar-toggler{
-    width: 15%;
+.navbar-toggler {
     background-color: #E6A139;
     text-align: center;
     align-items: center;
-    display: flex;
-    margin-left: 40%;
+    margin-left:42%;
+    margin-right: 42%;
 }
 
-.navbar-toggler-icon{
+.navbar-toggler-icon {
     text-align: center;
+    align-items: center;
+    
 }
 
 
@@ -129,7 +130,6 @@ nav ul .opciones li a:hover {
 }
 
 #barra:hover {
-    background-color: #73777B;
     font-family: "light";
     margin: 10px;
     width: auto;
