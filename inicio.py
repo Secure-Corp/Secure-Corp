@@ -910,8 +910,7 @@ def requisicion():
 def obtener_requisicion(requisicion_id): 
     cbd.cursor.execute("SELECT * FROM requisicion WHERE idRequisicion = %s", (requisicion_id,))
     requisicion = cbd.cursor.fetchone()
-    cbd.cursor.close()
-    cbd.conn.close()
+    
     return requisicion
 
 @app.route('/mostrar_requisicion')
@@ -924,8 +923,7 @@ def mostrar_requisicion():
 def listar_requisiciones(): 
     cbd.cursor.execute("SELECT * FROM requisicion")
     requisiciones = cbd.cursor.fetchall()
-    cbd.cursor.close()
-    cbd.conn.close()
+    
     return render_template("lista_requi.html", requisiciones=requisiciones)
 # Ruta para agregar la requisición
 @app.route('/requisicion_agr')
