@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, sen
 import pymysql
 import os
 import webbrowser
-from fpdf import FPDF
+#from fpdf import FPDF
 #from weasyprint import HTML
 
 
@@ -958,8 +958,7 @@ def agregar_requisicion():
     cbd.cursor.execute("SELECT * FROM requisicion WHERE idRequisicion = LAST_INSERT_ID()")
     requisicion = cbd.cursor.fetchone()
 
-    cbd.cursor.close()
-    cbd.conn.close()
+    
     
     return render_template("requisicion.html", requisicion=requisicion)
 
@@ -974,8 +973,7 @@ def aceptar_requisicion():
     cbd.cursor.execute("SELECT * FROM requisicion WHERE idRequisicion = %s", (requisicion_id,))
     requisicion = cbd.cursor.fetchone()
 
-    cbd.cursor.close()
-    cbd.conn.close()
+    
 
     return render_template("requisicion.html", requisicion=requisicion)
 
