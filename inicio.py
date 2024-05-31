@@ -3,7 +3,7 @@ import pymysql
 import os
 import webbrowser
 from fpdf import FPDF
-from weasyprint import HTML
+#from weasyprint import HTML
 
 
 #Conexion a base de datos
