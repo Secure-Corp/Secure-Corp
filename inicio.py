@@ -19,7 +19,7 @@ def home2():
 def conex():
     conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
     cursor = conn.cursor()
-    cursor.execute("SHOW DATABASES LIKE 'tf1'")
+    cursor.execute("SHOW DATABASES LIKE 'rh3'")
     resu = cursor.fetchone()
     
     if resu:
@@ -2479,14 +2479,6 @@ def empleados_fedita(idE):
 #fin equipo 6
 
 #EQUIPO7 #
-@app.route("/tabla_con")
-def tabla_con():
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("select * from usuario order by idusuario")
-    datos  = cursor.fetchall()
-    return render_template("tabla_can.html", comentarios = datos)
-
 @app.route("/clubvist/<string:id>")
 def clubvist(id):
     conn = conex()
@@ -2495,13 +2487,23 @@ def clubvist(id):
     datos = cursor.fetchall()
     return render_template("clubs.html", comentarios = datos , pot=id)
 
+@app.route("/clubi")
+def clubi():
+    conn = conex()
+    cursor = conn.cursor()
+    cursor.execute("select * from cursos order by idcursos")
+    datos = cursor.fetchall()
+    conn.close()  
+    return render_template("cursos.html",comentarios=datos)
+
+
 @app.route("/cursoagr/<string:nombre>/<string:decripcion>/<string:id>")
 def cursoagr(nombre,decripcion,id):
     conn = conex()
     cursor = conn.cursor()
     cursor.execute("insert into agcuso (nombre,descripcion,idusuario,completado) values (%s,%s,%s,%s)",(nombre,decripcion,id,2))
     conn.commit()
-    return redirect(url_for('tabla_con'))
+    return redirect(url_for('empleados'))
 
 @app.route("/arg_curso")
 def agr_curso():
@@ -2512,17 +2514,20 @@ def agr_cur():
     if request.method == 'POST':
         nombre=request.form['nombre']
         descripcion=request.form['descripcion']
+        video=request.form['Video']
+        nombren=request.form['nombren']
+        Informacion=request.form['Informacion']
         conn = conex()
         cursor = conn.cursor()
-        cursor.execute("insert into cursos (nombre,descripcion) values (%s,%s)",(nombre,descripcion))
+        cursor.execute("insert into cursos (nombre,descripcion,Video,nombren,Informacion) values (%s,%s,%s,%s,%s)",(nombre,descripcion,video,nombren,Informacion))
         conn.commit()
-    return redirect(url_for('tabla_con'))
+    return redirect(url_for('clubi'))
 
 @app.route("/clubstu/<string:id>")
 def clubstu(id):
     conn = conex()
     cursor = conn.cursor()
-    cursor.execute("select b.idusuario,a.nombre,a.descripcion,c.descripcion,a.idagcu  from agcuso as a inner join usuario as b inner join completadas as c on a.idusuario=b.idusuario where c.id=a.completado and a.idusuario = {0}".format(id))
+    cursor.execute("select b.idEmpleado,a.nombre,a.descripcion,c.descripcion,a.idagcu  from agcuso as a inner join empleado as b inner join completadas as c on a.idusuario=b.idEmpleado where c.id=a.completado and a.idusuario = {0}".format(id))
     datos = cursor.fetchall()
     return render_template("cali.html", comentarios = datos)
     
@@ -2533,18 +2538,51 @@ def clubvist2(id):
         cursor = conn.cursor()
         cursor.execute("update agcuso set completado=%s where idagcu=%s",( 1 ,id) )
         conn.commit()
-        return redirect(url_for('tabla_con'))
+        return redirect(url_for('empleados'))
 
-@app.route("/curriculum/<string:id>")
-def curiculim(id):
-    conn = conex()
+@app.route("/editar_curso/<string:id>")
+def editar_curso(id):
+    conn = conex ()
     cursor = conn.cursor()
-    cursor.execute("select b.*,a.nombre,a.descripcion,c.descripcion,a.idagcu from agcuso as a inner join usuario as b inner join completadas as c on a.idusuario=b.idusuario where c.id=a.completado and a.idusuario = {0}".format(id))
-    datos  = cursor.fetchall()
-    return render_template("curiculum.html", comentarios = datos)
+    cursor.execute('select * from cursos where idcursos = %s', (id))
+    dato  = cursor.fetchall()
+    return render_template("editar_curso.html", comentar=dato[0])
+    
+@app.route("/clubi_edit/<string:id>",methods=['POST'])
+def clubi_edit(id):
+    if request.method == 'POST':
+        nombre=request.form['nombre']
+        descripcion=request.form['descripcion']
+        video=request.form['Video']
+        nombren=request.form['nombren']
+        Informacion=request.form['Informacion']
+        conn = conex()
+        cursor = conn.cursor()
+        cursor.execute("update cursos set nombre=%s,descripcion=%s,Video=%s,nombren=%s,Informacion=%s where idcursos=%s",(nombre,descripcion,video,nombren,Informacion,id) )
+        conn.commit()
+        return redirect(url_for('clubi'))
+    
 
-if __name__ == "__main__":
-    app.run(debug=True)
+    
+@app.route("/clubi_borr/<string:id>")
+def clubi_borr(id):
+        conn = conex()
+        cursor = conn.cursor()
+        cursor.execute("delete from cursos where idcursos=%s",(id) )
+        conn.commit()
+        conn.close() 
+        return redirect(url_for('clubi'))
+    
+@app.route("/clubi_ver/<string:id>")
+def clubi_ver(id):
+        conn = conex()
+        cursor = conn.cursor()
+        cursor.execute("select * from cursos where idcursos=%s",(id) )
+        conn.commit()
+        datos = cursor.fetchall()
+        conn.close()  
+        return render_template("ver.html",comentarios=datos)
+
 
 
 

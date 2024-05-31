@@ -5,6 +5,9 @@
     <table width="100%" border="1" cellpadding="0" bordercolor="#000000">
     <tbody>
     <tr>
+      <td bgcolor="#2B2D83" width="6%">
+        <center><a href="/arg_curso" class="btn btn-outline-info btn-sm ">Editar</a></center>
+      </td>
     <td color="FFFFFF" bgcolor="#465F5A" valign="top">
     <center><h3>Cursos del Candidatos</h3></center>
     <table width="100%" border="1" cellpadding="0" bordercolor="#000000">
@@ -13,14 +16,13 @@
       <tr>
         <td color="white" bgcolor="blue">Nombre:</td>
         <td color="white" bgcolor="blue">Descripcion:</td>
-        <td color="white" bgcolor="blue">completado:</td>
+        <td color="white" bgcolor="blue"></td>
+        <td color="white" bgcolor="blue"></td>
         <td color="white" bgcolor="blue"></td>
       </tr>
     </thead>
     <tbody>
     {% for i in comentarios %}
-   
-    <form action="/clubvist2/{{i.4}}" method="post">
         <tr>
         <td>
            {{i.1}}
@@ -28,11 +30,16 @@
         <td>
             {{i.2}}
          </td>
-         <td>
-            {{i.3}}
-         </td>
-         <td>
-         <button type="submit">Completar</button>
+        <td bgcolor="#3C3EC5" width="8%">
+            <td bgcolor="#2B2D83" width="6%">
+                <center><a href="/editar_curso/{{i.0}}" class="btn btn-outline-info btn-sm ">Editar</a></center>
+              </td>
+            <td bgcolor="#2B2D83" width="6%">
+                <center><a href="/clubi_borr/{{i.0}}" class="btn btn-outline-info btn-sm ">Borrar</a></center>
+            </td>
+            <td bgcolor="#2B2D83" width="6%">
+                <center><a href="/clubi_ver/{{i.0}}" class="btn btn-outline-info btn-sm ">Ver curso</a></center>
+            </td>
         </td>
         </tr>
       </form>
