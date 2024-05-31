@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Secure-Corp/diseño/static/css/ns.css">
+    <link rel="stylesheet" href="/diseño/static/css/ns.css">
     <title>Document</title>
 </head>
 
@@ -14,7 +14,7 @@
     <nav class="navbar  fixed-top">
         <div class="container-fluid">
             <div>
-                <img src="/Secure-Corp/diseño/static/abejaLOGO-removebg-preview.png" class="nav-log">
+                <img src="/diseño/static/abejaLOGO-removebg-preview.png" class="nav-log">
                 <a class="navbar-brand" id="logo" href="/">Secure Corp</a>
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
@@ -22,9 +22,10 @@
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
+            <div class="offcanvas offcanvas-end " tabindex="-1" id="offcanvasDarkNavbar"
                 aria-labelledby="offcanvasDarkNavbarLabel">
                 <div class="offcanvas-header">
+                    <img src="/diseño/static/abejaLOGO-removebg-preview.png" class="nav-log">
                     <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Secure Corp</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                         aria-label="Close"></button>
@@ -41,53 +42,57 @@
                         <li id="barra">
                             <a class="navbar-brand" href="/empleados" id="barra">Empleados</a>
                         </li>
-                </div>
-                </li>
-                <div class="navbar-nav">
-                    <li class="nav-item dropdown" id="barra">
-                        <a class="nav-link dropdown-toggle" href="#" id="barra" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Contratación
-                        </a>
-                        <ul class="dropdown-menu" id="desplegable" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="/puesto">PUESTO</a></li>
-                            <li><a class="dropdown-item" href="/requisicion">REQUISICIÓN</a></li>
-                            <li><a class="dropdown-item" href="/vacantes">VACANTES</a></li>
-                            <li><a class="dropdown-item" href="/candidatos">CANDIDATOS</a></li>
-                        </ul>
-                    </li>
-                </div>
-                <div class="navbar-nav">
-                    <li class="nav-item dropdown" id="barra">
-                        <a class="nav-link dropdown-toggle" href="#" id="barra" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Examenes
-                        </a>
-                        <ul class="dropdown-menu" id="depeglable" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="/crud_examen">Calificar</a></li>
-                            <li><a class="dropdown-item" href="/calificaciones">Calificaciones</a></li>
-                        </ul>
-
-
+                        </li>
                         <div class="navbar-nav">
-                    <li class="nav-item dropdown" id="barra">
-                        <a class="nav-link dropdown-toggle" href="#" id="barra" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Catálogos
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="desplegable"
-                            aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/area">Area</a></li>
-                            <li><a class="dropdown-item" href="/carrera">Carrera</a></li>
-                            <li><a class="dropdown-item" href="/escolaridad">Escolaridad</a></li>
-                            <li><a class="dropdown-item" href="/edocivil">Estado Civil</a></li>
-                            <li><a class="dropdown-item" href="/gradoAvance">Grado de avance</a></li>
-                            <li><a class="dropdown-item" href="/habilidad">Habilidades</a></li>
-                            <li><a class="dropdown-item" href="/idioma">Idiomas</a></li>
-                        </ul>
-                    </li>
+                            <li class="nav-item dropdown" id="barra">
+                                <a class="nav-link dropdown-toggle" href="#" id="barra" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Contratación
+                                </a>
+                                <ul class="dropdown-menu" id="desplegable" aria-labelledby="navbarDropdownMenuLink">
+                                    <li><a class="dropdown-item" href="/puesto">PUESTO</a></li>
+                                    <li><a class="dropdown-item" href="/requisicion">REQUISICIÓN</a></li>
+                                    <li><a class="dropdown-item" href="/vacantes">VACANTES</a></li>
+                                    <li><a class="dropdown-item" href="/candidatos">CANDIDATOS</a></li>
+                                </ul>
+                            </li>
+                        </div>
+                        <div class="navbar-nav">
+                            <li class="nav-item dropdown" id="barra">
+                                <a class="nav-link dropdown-toggle" href="#" id="barra" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Examenes
+                                </a>
+                                <ul class="dropdown-menu" id="depeglable" aria-labelledby="navbarDropdownMenuLink">
+                                    <li><a class="dropdown-item" href="/crud_examen">Calificar</a></li>
+                                    <li><a class="dropdown-item" href="/calificaciones">Calificaciones</a></li>
+                                </ul>
+
+
+                                <div class="navbar-nav">
+                            <li class="nav-item dropdown" id="barra">
+                                <a class="nav-link dropdown-toggle" href="#" id="barra" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Catálogos
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="desplegable"
+                                    aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="/area">Area</a></li>
+                                    <li><a class="dropdown-item" href="/carrera">Carrera</a></li>
+                                    <li><a class="dropdown-item" href="/escolaridad">Escolaridad</a></li>
+                                    <li><a class="dropdown-item" href="/edocivil">Estado Civil</a></li>
+                                    <li><a class="dropdown-item" href="/gradoAvance">Grado de avance</a></li>
+                                    <li><a class="dropdown-item" href="/habilidad">Habilidades</a></li>
+                                    <li><a class="dropdown-item" href="/idioma">Idiomas</a></li>
+                                </ul>
+                            </li>
+                        </div>
+                        </li>
                 </div>
-                    </li></div></ul></div></div></div>
+                </ul>
+            </div>
+        </div>
+        </div>
     </nav>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"

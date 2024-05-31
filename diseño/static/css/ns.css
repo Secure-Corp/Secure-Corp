@@ -1,25 +1,28 @@
 @font-face {
     font-family: "regular";
-    src: url(/Secure-Corp/diseño/static/fonts/Raleway-Regular.ttf);
+    src: url(/diseño/static/fonts/Raleway-Regular.ttf);
 }
 
 @font-face {
     font-family: "light";
-    src: url(/Secure-Corp/diseño/static/fonts/Raleway-Light.ttf);
+    src: url(/diseño/static/fonts/Raleway-Light.ttf);
 }
 
 @font-face {
     font-family: "extralight";
-    src: url(/Secure-Corp/diseño/static/fonts/Raleway-ExtraLight.ttf);
+    src: url(/diseño/static/fonts/Raleway-ExtraLight.ttf);
 }
 
 nav {
-    background: linear-gradient(90deg, rgba(27, 35, 46, 1) 0%, rgba(47, 60, 79, 1) 35%, rgba(80, 110, 134, 1) 100%);
+    background: rgb(0, 0, 0);
+    background: linear-gradient(90deg, rgba(27, 27, 27) 0%, rgba(27, 35, 46, 1) 35%, rgba(47, 60, 79, 1) 100%);
     border-bottom: 2.5px solid #E6A139;
 }
 
 .offcanvas {
-    background: linear-gradient(90deg, rgba(27, 35, 46, 1) 0%, rgba(47, 60, 79, 1) 35%, rgba(80, 110, 134, 1) 100%);
+    background: rgb(0, 0, 0);
+    background: linear-gradient(90deg, rgb(27, 27, 27) 0%, rgba(27, 35, 46, 1) 35%, rgba(47, 60, 79, 1) 100%);
+    border-right: 2.5px solid #E6A139;
     color: #E6A139;
     font-family: "regular";
 }
@@ -43,4 +46,10 @@ nav {
     margin: 10px;
     text-align: center;
     color: #E6A139;
+}
+
+.offcanvas-title {
+    color: #E6A139;
+    font-family: "regular";
+    font-size: 170%;
 }
