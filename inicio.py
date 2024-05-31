@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, sen
 import pymysql
 import os
 import webbrowser
-#from fpdf import FPDF
+from fpdf import FPDF
 #from weasyprint import HTML
 
 
@@ -1162,8 +1162,8 @@ def contrato_p(idC):
 
     # Output the PDF
     # Especificar una ruta absoluta para guardar el archivo PDF
-    archivo = "Contrato laboral.pdf"
-    output_path = os.path.join(os.path.expanduser('~'), 'Desktop', archivo)
+    archivo = "Contrato_laboral.pdf"
+    output_path = os.path.join(os.path.expanduser('~'),  archivo)
     webbrowser.open(output_path)
     pdf.output(output_path)
     print(f'Nombre:{archivo}')
