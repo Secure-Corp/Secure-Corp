@@ -4,12 +4,12 @@ import os
 import webbrowser
 from fpdf import FPDF
 
-
 #Conexion a base de datos
 from db.db import CBD
 cbd = CBD()
 cbd.conectar()
-
+conex = CBD()
+conex.__init__()
 
 app = Flask(__name__)
 
@@ -1610,27 +1610,25 @@ def empleados_editar(idE):
     cbd.cursor.execute('select a.idCarrera, a.descripcion from carrera a, empleado b where a.idCarrera = b.idCarrera and b.idEmpleado = %s', (idE))
     datos15 = cbd.cursor.fetchall()
 
-    cbd.cursor.execute('select a.idEmpleado, b.idIdioma, b.descripcion from empleado a, idioma b, puesto_has_idioma c '
-                   'where a.idEmpleado = c.idEmpleado and b.idIdioma = c.idIdioma and a.idEmpleado = %s', (idE))
-    datos16 = cbd.cursor.fetchall()
+    #cbd.cursor.execute('select a.idEmpleado, b.idIdioma, b.descripcion from empleado a, idioma b, puesto_has_idioma c '
+    #               'where a.idEmpleado = c.idEmpleado and b.idIdioma = c.idIdioma and a.idEmpleado = %s', (idE))
+    #datos16 = cbd.cursor.fetchall()
 
-    cbd.cursor.execute('select a.idEmpleado, b.idHabilidad, b.descripcion from empleado a, habilidad b, puesto_has_habilidad c '
-                   'where a.idEmpleado = c.idEmpleado and b.idHabilidad = c.idHabilidad and a.idEmpleado = %s', (idE))
-    datos17 = cbd.cursor.fetchall()
+    #cbd.cursor.execute('select a.idEmpleado, b.idHabilidad, b.descripcion from empleado a, habilidad b, puesto_has_habilidad c '
+    #               'where a.idEmpleado = c.idEmpleado and b.idHabilidad = c.idHabilidad and a.idEmpleado = %s', (idE))
+    #datos17 = cbd.cursor.fetchall()
 
 
     return render_template("empleados_edi.html", dat=dato[0], catEmpleado=datos1, catEdoCivil=datos2, catEscolaridad=datos3,
                            catGradoAvance=datos4, catCarrera=datos5, catIdioma=datos6, catHabilidad=datos7,
                            EdoCivil=datos12[0], Escolaridad=datos13[0], GradoAvance=datos14[0],
-                           Carrera=datos15[0], Idioma=datos16, Habilidad=datos17)
+                           Carrera=datos15[0])
 
 #-----------------------------------------------------------------------------------------------------------------------
 
 @app.route('/empleados_fedita/<string:idE>', methods=['POST'])
 def empleados_fedita(idE):
     if request.method == 'POST':
-        
-        idAr = request.form['idEmpleado']
         idEs = request.form['idRequisicion']
         idGA = request.form['idPuesto']
         idCa = request.form['idEstadoCivil']
@@ -1638,21 +1636,20 @@ def empleados_fedita(idE):
         idCi = request.form['idGradoAvance']
         idCo = request.form['idCarrera']
         CURP = request.form['CURP']
-        RFC = request.form['RFC']
+        #RFC = request.form['RFC']
         nombre = request.form['nombre']
         apellido = request.form['apellido']
         domCalle = request.form['domCalle']
         domNumExtInt = request.form['domNumExtInt']
         domColonia = request.form['domColonia']
         tel1 = request.form['tel1']
-        sueldo = request.form['sueldo']
+        #sueldo = request.form['sueldo']
         correoE = request.form['correoE']
         edad = request.form['edad']
         sexo = request.form['sexo']
  
 
-    cbd.cursor.execute('update candidato set idRequisicion = %s, idPuesto = %s, CURP = %s, RFC = %s, nombre = %s, apellido = %s, domCalle = %s, domNumExtInt = %s, domColonia = %s,'
-    ' tel1 = %s, sueldo = %s, correoE = %s, edad = %s, sexo = %s, idEstadoCivil = %s, idEscolaridad = %s, idGradoAvance = %s, idCarrera = %s where idEmpleado = %s', ( idAr, idEs, idGA, idCa, idCe, idCi, idCo, CURP, RFC, nombre, apellido, domCalle, domCalle, domColonia, tel1, sueldo, correoE, edad, sexo))
+    cbd.cursor.execute('update candidato set idRequisicion = %s, idPuesto = %s, CURP = %s, nombre = %s, apellido = %s, domCalle = %s, domNumExtInt = %s, domColonia = %s,tel1 = %s, correoE = %s, edad = %s, sexo = %s, idEstadoCivil = %s, idEscolaridad = %s, idGradoAvance = %s, idCarrera = %s where idEmpleado = %s', ( idEs, idGA, idCa, idCe, idCi, idCo, CURP, nombre, apellido, domCalle, domNumExtInt, domColonia, tel1,  correoE, edad, sexo))
     cbd.conn.commit()
 
     cbd.cursor.execute('delete from puesto_has_habilidad where idEmpleado =%s ', (idE))
