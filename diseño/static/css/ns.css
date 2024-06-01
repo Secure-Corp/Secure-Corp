@@ -465,12 +465,14 @@ body.active {
 body.active nav {
   background: rgb(0, 0, 0);
   background: linear-gradient(90deg, rgba(27, 27, 27) 0%, rgba(27, 35, 46, 1) 35%, rgba(47, 60, 79, 1) 100%);
+  transition: 0.9s;
 }
 
 body.active .offcanvas {
   background: rgb(0, 0, 0);
   background: linear-gradient(90deg, rgb(27, 27, 27) 0%, rgba(27, 35, 46, 1) 35%, rgba(47, 60, 79, 1) 100%);
   border-right: 2.5px solid #E6A139;
+  transition: 0.9s;
 }
 
 /*===================================================
