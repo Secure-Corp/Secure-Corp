@@ -1,3 +1,6 @@
+/*===================================================
+                Fuentes de texto
+===================================================*/
 @font-face {
   font-family: "regular";
   src: url(/diseño/static/fonts/Raleway-Regular.ttf);
@@ -13,9 +16,18 @@
   src: url(/diseño/static/fonts/Raleway-ExtraLight.ttf);
 }
 
+/*===================================================
+              Fin de Fuentes de texto
+===================================================*/
+
 body {
   background-color: #1B232E;
 }
+
+/*=============================
+              Nav
+===============================
+*/
 
 nav {
   background: rgb(0, 0, 0);
@@ -53,7 +65,6 @@ nav {
 
 .navbar-toggler {
   padding: .7% .8%;
-  margin: 0 10px;
   display: inline-block;
   text-decoration: none;
   text-transform: uppercase !important;
@@ -77,6 +88,7 @@ nav {
 }
 
 .navbar-toggler::before {
+  border-radius: 4px;
   content: '';
   width: 100%;
   height: 100%;
@@ -94,6 +106,7 @@ nav {
 }
 
 .navbar-toggler::after {
+  border-radius: 4px;
   content: '';
   width: 100%;
   height: 100%;
@@ -128,6 +141,14 @@ nav {
   transform: translateX(-100%);
 }
 
+/*====================================
+              Fin Nav
+====================================*/
+
+/*=====================================
+            Barra Lateral
+=====================================*/
+
 .offcanvas {
   background: rgb(0, 0, 0);
   background: linear-gradient(90deg, rgb(27, 27, 27) 0%, rgba(27, 35, 46, 1) 35%, rgba(47, 60, 79, 1) 100%);
@@ -152,11 +173,35 @@ nav {
   padding: 0%;
 }
 
+#x {
+  width: 10%;
+  height: 40%;
+  margin-left: 15%;
+  padding: 0%;
+}
+
+#x:hover {
+  width: 11%;
+  height: 41%;
+  margin-left: 15%;
+  padding: 0%;
+}
+
 #barra {
   font-family: "light";
   margin-top: 6%;
-  text-align: center;
+  text-align: justify;
   color: #E6A139;
+  margin-left: 10%;
+  margin-right: 4%;
+}
+
+#barra1 {
+  font-family: "light";
+  margin-top: 6%;
+  text-align: justify;
+  color: #E6A139;
+  margin-left: 19.5%;
 }
 
 .nav-link {
@@ -168,51 +213,39 @@ nav {
   margin-right: 0%;
 }
 
-.switch {
-  width: 60px;
-  height: 30px;
-  padding: 0 5px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-  border-radius: 100px;
-  border: #333 solid 2px;
-  background-color: #132b41;
+#desplegable {
+  padding: 1%;
+  background: rgb(230, 118, 40);
+  background: linear-gradient(90deg, rgb(230, 119, 40) 0%, rgba(230, 161, 57, 1) 35%);
+  font-family: "regular";
+  font-size: 90%;
 }
 
-.switch i {
-  font-size: 1rem;
-  color: #fdc21c;
+.dropdown-item {
+  padding: 4%;
+  background: rgb(230, 118, 40);
+  background: linear-gradient(90deg, rgba(230, 119, 40, 0.699) 0%, rgba(230, 161, 57, 1) 35%);
 }
 
-.menu-options li:last-child::before {
-  content: "";
-  position: absolute;
-  height: 25px;
-  width: 25px;
-  border-radius: 50%;
-  background-color: #fff;
-  border: solid thin #000;
-  left: 0;
-  right: unset;
+.dropdown-item:hover {
+  padding: 4%;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(27, 35, 46, 1) 50%, rgba(47, 60, 79, 1) 100%);
+  color: #E6A139;
 }
 
-.menu-options li:last-child.active::before {
-  right: 0;
-  left: unset;
-  border: solid thin #fff;
-}
+/*=====================================
+           Fin Barra Lateral
+======================================*/
 
-.menu-options li:last-child.active i:first-child {
-  color: #fff;
-}
+/*===================================================
+                  Button Dark Mode
+===================================================*/
 
-.menu-options li:last-child.active {
-  background-color: chocolate;
-  border: solid 2px #fff;
+.menu-options {
+  padding: 0%;
+  margin-right: 35%;
 }
-
 
 .theme-switch {
   --toggle-size: 110%;
@@ -421,6 +454,18 @@ nav {
   transform: translateY(-50%);
 }
 
+/*===================================================
+              Fin boton Dark Mode
+===================================================*/
+
+/*===================================================
+            configuraciones del dark mode
+====================================================*/
 body.active {
   background-color: black;
+}
+
+body.active .offcanvas {
+  background-color: white;
+  color: white;
 }

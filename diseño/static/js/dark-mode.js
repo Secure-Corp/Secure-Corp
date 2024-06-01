@@ -1,7 +1,6 @@
 /*DARK MODE*/
-const swith = document.querySelector(".theme-switch");
+const themeSwitchCheckbox = document.querySelector(".theme-switch__checkbox");
 
-swith.addEventListener("click", e=>{
-    swith.classList.toggle("active");
-    document.body.classList.toggle("active");
-})
+themeSwitchCheckbox.addEventListener("change", () => {
+    document.body.classList.toggle("active", themeSwitchCheckbox.checked);
+});
