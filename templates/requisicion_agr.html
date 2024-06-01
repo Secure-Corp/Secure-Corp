@@ -2,54 +2,90 @@
 
 {% block content %}
 <h1>Agregar Requisición</h1>
-<form action="/requisicion_agr" method="POST">
+<form id="requisicionForm" action="/requisicion_agr" method="POST" novalidate>
     <div class="form-group">
         <label for="folio">Folio</label>
-        <input type="text" class="form-control" name="folio" id="folio">
+        <input type="text" class="form-control" name="folio" id="folio" required maxlength="20">
+        <div class="invalid-feedback">
+            El folio es obligatorio y debe tener como máximo 20 caracteres.
+        </div>
     </div>
     <div class="form-group">
         <label for="fechaElab">Fecha de Elaboración</label>
         <input type="date" class="form-control" name="fechaElab" id="fechaElab" required min="{{ today_date }}">
+        <div class="invalid-feedback">
+            La fecha de elaboración es obligatoria.
+        </div>
     </div>
     <div class="form-group">
         <label for="fechaRecluta">Fecha de Reclutamiento</label>
         <input type="date" class="form-control" name="fechaRecluta" id="fechaRecluta" required>
+        <div class="invalid-feedback">
+            La fecha de reclutamiento es obligatoria.
+        </div>
     </div>
     <div class="form-group">
         <label for="fechaInicVac">Fecha de Inicio de Vacante</label>
         <input type="date" class="form-control" name="fechaInicVac" id="fechaInicVac" required>
+        <div class="invalid-feedback">
+            La fecha de inicio de vacante es obligatoria.
+        </div>
     </div>
     <div class="form-group">
         <label for="motivoRequisicion">Motivo de Requisición</label>
-        <input type="text" class="form-control" name="motivoRequisicion" id="motivoRequisicion" required pattern="[A-Za-z\s]+" minlength="5" maxlength="280">
+        <input type="text" class="form-control" name="motivoRequisicion" id="motivoRequisicion" required minlength="5" maxlength="280">
+        <div class="invalid-feedback">
+            El motivo es obligatorio y debe tener entre 5 y 280 caracteres.
+        </div>
     </div>
     <div class="form-group">
         <label for="motivoEspecifique">Especificación de Motivo</label>
-        <input type="text" class="form-control" name="motivoEspecifique" id="motivoEspecifique" pattern="[A-Za-z\s]*" minlength="30" maxlength="280">
+        <input type="text" class="form-control" name="motivoEspecifique" id="motivoEspecifique" minlength="30" maxlength="280">
+        <div class="invalid-feedback">
+            La especificación debe tener entre 30 y 280 caracteres.
+        </div>
     </div>
     <div class="form-group">
         <label for="tipoVacante">Tipo de Vacante</label>
-        <input type="text" class="form-control" name="tipoVacante" id="tipoVacante" required pattern="[A-Za-z\s]+">
+        <input type="text" class="form-control" name="tipoVacante" id="tipoVacante" required>
+        <div class="invalid-feedback">
+            El tipo de vacante es obligatorio.
+        </div>
     </div>
     <div class="form-group">
         <label for="nomSolicita">Solicitante</label>
-        <input type="text" class="form-control" name="nomSolicita" id="nomSolicita" required pattern="[A-Za-z\s]+">
+        <input type="text" class="form-control" name="nomSolicita" id="nomSolicita" required pattern="[A-Z\s]+">
+        <div class="invalid-feedback">
+            El nombre del solicitante debe contener solo letras mayúsculas y espacios.
+        </div>
     </div>
     <div class="form-group">
         <label for="idPuesto">ID Puesto</label>
-        <input type="number" class="form-control" name="idPuesto" id="idPuesto" required>
+        <input type="number" class="form-control" name="idPuesto" id="idPuesto" value="{{ next_id_puesto }}" required>
+        <div class="invalid-feedback">
+            El ID del puesto es obligatorio.
+        </div>
     </div>
     <div class="form-group">
         <label for="idArea">ID Área</label>
-        <input type="number" class="form-control" name="idArea" id="idArea" required>
+        <input type="number" class="form-control" name="idArea" id="idArea" value="{{ next_id_area }}" required>
+        <div class="invalid-feedback">
+            El ID del área es obligatorio.
+        </div>
     </div>
     <div class="form-group">
         <label for="nomAutoriza">Autorizante</label>
-        <input type="text" class="form-control" name="nomAutoriza" id="nomAutoriza" required pattern="[A-Za-z\s]+">
+        <input type="text" class="form-control" name="nomAutoriza" id="nomAutoriza" required pattern="[A-Z\s]+">
+        <div class="invalid-feedback">
+            El nombre del autorizante debe contener solo letras mayúsculas y espacios.
+        </div>
     </div>
     <div class="form-group">
         <label for="nomRevisa">Revisor</label>
-        <input type="text" class="form-control" name="nomRevisa" id="nomRevisa" required pattern="[A-Za-z\s]+">
+        <input type="text" class="form-control" name="nomRevisa" id="nomRevisa" required pattern="[A-Z\s]+">
+        <div class="invalid-feedback">
+            El nombre del revisor debe contener solo letras mayúsculas y espacios.
+        </div>
     </div>
     <button type="submit" class="btn btn-primary">Agregar</button>
 </form>
@@ -68,6 +104,16 @@
             document.getElementById('fechaRecluta').setAttribute('min', minDate);
             document.getElementById('fechaInicVac').setAttribute('min', minDate);
         });
+
+        // Validación del formulario
+        var form = document.getElementById('requisicionForm');
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
     });
 </script>
 {% endblock %}
