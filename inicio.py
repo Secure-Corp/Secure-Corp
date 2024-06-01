@@ -1321,14 +1321,19 @@ def generate_pdf():
 #Fin del codigo del Equipo2
 
 #examen psicometrico
-@app.route('/examen')
-def examen():
-    return render_template('examen.html')
+@app.route('/examen/<string:id>')
+def examen(id):
+    conn = conex()
+    cursor = conn.cursor()
+    cursor.execute("select RFC, nombre from candidato where idCandidato=%s ",(id))
+    dato=cursor.fetchone()
+    return render_template('examen.html',datos=dato)
  
 @app.route('/examen_enviar', methods=['POST'])
 def examen_enviar():
     if request.method == 'POST':
         nom=request.form['nombre']
+        rfc=request.form['rfc']
         p1=request.form['p1']
         p2=request.form['p2']
         p3=request.form['p3']
@@ -1699,6 +1704,16 @@ def clubvist(id):
     datos = cbd.cursor.fetchall()
     return render_template("clubs.html", comentarios = datos , pot=id)
 
+@app.route("/clubi")
+def clubi():
+    conn = conex()
+    cursor = conn.cursor()
+    cursor.execute("select * from cursos order by idcursos")
+    datos = cursor.fetchall()
+    conn.close()  
+    return render_template("cursos.html",comentarios=datos)
+
+
 @app.route("/cursoagr/<string:nombre>/<string:decripcion>/<string:id>")
 def cursoagr(nombre,decripcion,id): 
     cbd.cursor.execute("insert into agcuso (nombre,descripcion,idusuario,completado) values (%s,%s,%s,%s)",(nombre,decripcion,id,2))
@@ -1731,14 +1746,54 @@ def clubvist2(id):
         cbd.conn.commit()
         return redirect(url_for('tabla_con'))
 
+@app.route("/editar_curso/<string:id>")
+def editar_curso(id):
+    conn = conex ()
+    cursor = conn.cursor()
+    cursor.execute('select * from cursos where idcursos = %s', (id))
+    dato  = cursor.fetchall()
+    return render_template("editar_curso.html", comentar=dato[0])
+    
+@app.route("/clubi_edit/<string:id>",methods=['POST'])
+def clubi_edit(id):
+    if request.method == 'POST':
+        nombre=request.form['nombre']
+        descripcion=request.form['descripcion']
+        video=request.form['Video']
+        nombren=request.form['nombren']
+        Informacion=request.form['Informacion']
+        conn = conex()
+        cursor = conn.cursor()
+        cursor.execute("update cursos set nombre=%s,descripcion=%s,Video=%s,nombren=%s,Informacion=%s where idcursos=%s",(nombre,descripcion,video,nombren,Informacion,id) )
+        conn.commit()
+        return redirect(url_for('clubi'))
+    
+
+    
+@app.route("/clubi_borr/<string:id>")
+def clubi_borr(id):
+        conn = conex()
+        cursor = conn.cursor()
+        cursor.execute("delete from cursos where idcursos=%s",(id) )
+        conn.commit()
+        conn.close() 
+        return redirect(url_for('clubi'))
+    
+@app.route("/clubi_ver/<string:id>")
+def clubi_ver(id):
+        conn = conex()
+        cursor = conn.cursor()
+        cursor.execute("select * from cursos where idcursos=%s",(id) )
+        conn.commit()
+        datos = cursor.fetchall()
+        conn.close()  
+        return render_template("ver.html",comentarios=datos)
 @app.route("/curriculum/<string:id>")
 def curiculim(id): 
     cbd.cursor.execute("select b.*,a.nombre,a.descripcion,c.descripcion,a.idagcu from agcuso as a inner join usuario as b inner join completadas as c on a.idusuario=b.idusuario where c.id=a.completado and a.idusuario = {0}".format(id))
     datos  = cbd.cursor.fetchall()
     return render_template("curiculum.html", comentarios = datos)
 
-if __name__ == "__main__":
-    app.run(debug=True)
 
 
 

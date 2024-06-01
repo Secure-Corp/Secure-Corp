@@ -6,7 +6,11 @@
 <form class="row g-3" action="/examen_enviar" method="post">
     <div class="col-md-12">
         <label  class="minap">Nombre:</label>
-        <input type="text" class="form-control" name="nombre" id="nombre" required>
+        <input type="text" class="form-control" name="nombre" id="nombre" value="{{datos.1}}" readonly>
+    </div>
+    <div class="col-md-12">
+        <label  class="minap">RFC</label>
+        <input type="text" class="form-control" name="rfc" id="rfc"value="{{datos.0}}" readonly>
     </div>
     <div class="col-md-12">
         <label  class="minap">1- ¿Usted cuenta con una mala nutricion y digestion?</label>
@@ -98,7 +102,7 @@
         <input type="text" class="form-control" name="p12" id="p12" required>
     </div>
         <div class="col-12">
-            <button type="submit" class="btn btn-outline-light">Enviar</button>
+            <button type="submit" >Enviar</button>
          </div>
       </div>
    </form>
