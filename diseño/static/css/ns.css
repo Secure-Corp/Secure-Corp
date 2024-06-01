@@ -30,8 +30,10 @@ body {
 */
 
 nav {
+  height: 17.5%;
   background-color: white;
   border-bottom: 2.5px solid #E6A139;
+  transition: 0.9s;
 }
 
 .nav-log {
