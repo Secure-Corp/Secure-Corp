@@ -9,8 +9,7 @@ from fpdf import FPDF
 from db.db import CBD
 cbd = CBD()
 cbd.conectar()
-conex = CBD()
-conex.__init__()
+
 
 app = Flask(__name__)
 
