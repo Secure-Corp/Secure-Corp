@@ -21,7 +21,7 @@
 ===================================================*/
 
 body {
-  background-color: #1B232E;
+  background-color: white;
 }
 
 /*=============================
@@ -30,8 +30,7 @@ body {
 */
 
 nav {
-  background: rgb(0, 0, 0);
-  background: linear-gradient(90deg, rgba(27, 27, 27) 0%, rgba(27, 35, 46, 1) 35%, rgba(47, 60, 79, 1) 100%);
+  background-color: white;
   border-bottom: 2.5px solid #E6A139;
 }
 
@@ -150,8 +149,7 @@ nav {
 =====================================*/
 
 .offcanvas {
-  background: rgb(0, 0, 0);
-  background: linear-gradient(90deg, rgb(27, 27, 27) 0%, rgba(27, 35, 46, 1) 35%, rgba(47, 60, 79, 1) 100%);
+  background-color: white;
   border-right: 2.5px solid #E6A139;
   color: #E6A139;
   font-family: "regular";
@@ -174,17 +172,18 @@ nav {
 }
 
 #x {
-  width: 10%;
-  height: 40%;
+  width: 8.5%;
+  height: 38%;
   margin-left: 15%;
   padding: 0%;
 }
 
 #x:hover {
-  width: 11%;
-  height: 41%;
+  width: 9%;
+  height: 39%;
   margin-left: 15%;
   padding: 0%;
+  background-color: #E6A139;
 }
 
 #barra {
@@ -215,23 +214,20 @@ nav {
 
 #desplegable {
   padding: 1%;
-  background: rgb(230, 118, 40);
-  background: linear-gradient(90deg, rgb(230, 119, 40) 0%, rgba(230, 161, 57, 1) 35%);
+  background-color: #E6A139;
   font-family: "regular";
   font-size: 90%;
 }
 
 .dropdown-item {
   padding: 4%;
-  background: rgb(230, 118, 40);
-  background: linear-gradient(90deg, rgba(230, 119, 40, 0.699) 0%, rgba(230, 161, 57, 1) 35%);
+  background-color: #E6A139;
 }
 
 .dropdown-item:hover {
   padding: 4%;
-  background: rgb(0, 0, 0);
-  background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(27, 35, 46, 1) 50%, rgba(47, 60, 79, 1) 100%);
-  color: #E6A139;
+  background: rgb(230, 161, 57);
+  background: linear-gradient(90deg, rgba(230, 161, 57, 1) 27%, rgba(230, 118, 40, 1) 95%);
 }
 
 /*=====================================
@@ -461,11 +457,22 @@ nav {
 /*===================================================
             configuraciones del dark mode
 ====================================================*/
+
 body.active {
-  background-color: black;
+  background-color: #1B232E;
+}
+
+body.active nav {
+  background: rgb(0, 0, 0);
+  background: linear-gradient(90deg, rgba(27, 27, 27) 0%, rgba(27, 35, 46, 1) 35%, rgba(47, 60, 79, 1) 100%);
 }
 
 body.active .offcanvas {
-  background-color: white;
-  color: white;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(90deg, rgb(27, 27, 27) 0%, rgba(27, 35, 46, 1) 35%, rgba(47, 60, 79, 1) 100%);
+  border-right: 2.5px solid #E6A139;
 }
+
+/*===================================================
+        Fin de configuraciones del dark mode
+====================================================*/
