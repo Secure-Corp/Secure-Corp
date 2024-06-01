@@ -3,7 +3,6 @@ import pymysql
 import os
 import webbrowser
 from fpdf import FPDF
-from weasyprint import HTML
 
 
 #Conexion a base de datos
@@ -1232,43 +1231,95 @@ def vacantes_pub():
                            catGradoAvance = '    ', catCarrera = '    ', catIdioma = ' ', catHabilidad = ' ')
 
 #Funcion para Generar un Anuncio de Vacantes por PDF Equipo2
-#Libreria Usada WeasyPrint (Instalacion: pip install weasyprint       Despues se instalaran y configurara la dependencia)
 @app.route('/generate_pdf', methods=['POST'])
 def generate_pdf():
-    # Obtener datos del formulario
-    data = {
-        "nomPuesto": request.form['nomPuesto'],
-        "codPuesto": request.form['codPuesto'],
-        "idArea": request.form['idArea'],
-        "puestoJefeSup": request.form['puestoJefeSup'],
-        "jornada": request.form['jornada'],
-        "remunMensual": request.form['remunMensual'],
-        "prestaciones": request.form['prestaciones'],
-        "descripcionGeneral": request.form['descripcionGeneral'],
-        "funciones": request.form['funciones'],
-        "edad": request.form['edad'],
-        "sexo": request.form['sexo'],
-        "idEstadoCivil": request.form['idEstadoCivil'],
-        "idEscolaridad": request.form['idEscolaridad'],
-        "idGradoAvance": request.form['idGradoAvance'],
-        "idFormaPubl": request.form['idFormaPubl']
-    }
+        # Obtener datos del formulario
+        data = {
+            "nomPuesto": request.form['nomPuesto'],
+            "codPuesto": request.form['codPuesto'],
+            "idArea": request.form['idArea'],
+            "puestoJefeSup": request.form['puestoJefeSup'],
+            "jornada": request.form['jornada'],
+            "remunMensual": request.form['remunMensual'],
+            "prestaciones": request.form['prestaciones'],
+            "descripcionGeneral": request.form['descripcionGeneral'],
+            "funciones": request.form['funciones'],
+            "edad": request.form['edad'],
+            "sexo": request.form['sexo'],
+            "idEstadoCivil": request.form['idEstadoCivil'],
+            "idEscolaridad": request.form['idEscolaridad'],
+            "idGradoAvance": request.form['idGradoAvance'],
+            "idFormaPubl": request.form['idFormaPubl']
+        }
+        # Crear PDF con FPDF
+        class PDF(FPDF):
+            def header(self):
+                self.set_font('Arial', 'B', 24)
+                self.cell(0, 10, 'ESTAMOS CONTRATANDO', 0, 1, 'C')
+                self.ln(10)
 
-    # Renderizar plantilla HTML con los datos
-    rendered_html = render_template('pdf.html', data=data)
+            def chapter_title(self, title, level=1):
+                self.set_font('Arial', 'B', 14 if level == 1 else 12)
+                # Cambiar color de los títulos y subtítulos
+                self.set_text_color(94, 156, 160)  # Color: #5e9ca0
+                self.cell(0, 10, title, 0, 1, 'C')
+                self.ln(5)
+                self.set_text_color(0)  # Restaurar color por defecto
 
-    # Convertir el HTML a PDF
-    pdf = HTML(string=rendered_html).write_pdf()
+            def chapter_body(self, body):
+                self.set_font('Arial', '', 12)
+                self.multi_cell(0, 10, body)
 
-    # Guardar el PDF en el sistema de archivos
-    pdf_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static', 'vacante.pdf')
-    with open(pdf_path, 'wb') as f:
-        f.write(pdf)
+            def add_vacancy_data(self, data):
+                self.chapter_title(data["nomPuesto"], level=1)
+                # Subrayar el nombre de la vacante
+                self.set_draw_color(0, 0, 0)
+                self.line(10, self.get_y() - 5, 200, self.get_y() - 5)
+                self.chapter_body(f"Código de Vacante: {data['codPuesto']}")
+                self.chapter_body(f"Área de adscripción: {data['idArea']}")
+                self.chapter_body(f"Puesto del Jefe Superior: {data['puestoJefeSup']}")
+                self.chapter_body(f"Jornada: {data['jornada']}")
+                self.chapter_body(f"Remuneración Mensual: {data['remunMensual']}")
+                self.chapter_body(f"Prestaciones: {data['prestaciones']}")
+                self.chapter_title("Descripción General", level=1)
+                self.chapter_body(data["descripcionGeneral"])
+                self.chapter_title("Funciones", level=1)
+                self.chapter_body(data["funciones"])
+                self.chapter_title("Requisitos", level=1)
+                self.chapter_body(f"Edad: {data['edad']}")
+                self.chapter_body(f"Sexo: {data['sexo']}")
+                self.chapter_body(f"Estado Civil: {data['idEstadoCivil']}")
+                self.chapter_body(f"Escolaridad: {data['idEscolaridad']}")
+                self.chapter_body(f"Grado Avance: {data['idGradoAvance']}")
+                self.chapter_body(f"Forma de Publicación: {data['idFormaPubl']}")
+                self.set_text_color(51, 102, 255)
+                # Alinear la información de contacto a la derecha
+                self.cell(0, 10, "Envia tus Datos", 0, 1, 'R')
+                self.set_text_color(0)
+                self.cell(0, 10, "SecureCorp@gmail.com", 0, 1, 'R')
+                self.cell(0, 10, "(+52) 449 4534 534", 0, 1, 'R')
+                self.cell(0, 10, "www.SecureCorp/Contratacion.com", 0, 1, 'R')#Aqui se podria poner el link de la pagina cuando se suba a PythonAnywhere
 
-    # Devolver el PDF como respuesta
-    return send_file(pdf_path, as_attachment=True, download_name='vacante.pdf')
+        pdf = PDF()
+        pdf.add_page()
+        pdf.add_vacancy_data(data)
+        
+        # Ruta donde se guardará el PDF
+        # Especificar una ruta absoluta para guardar el archivo PDF en la carpeta "Descargas"
+        archivo = "PublicacionDeVacantes.pdf"
+        output_path = os.path.join(os.path.expanduser('~'), 'Downloads', archivo)
+        pdf.output(output_path)
+        print(f'Nombre: {archivo}')
+        print(f'Archivo PDF guardado en {output_path}')
+
+        # Abrir el archivo PDF con el navegador web
+        webbrowser.open(f'file://{output_path}')
+
+        # Redirigir a la página de vacantes
+        return redirect(url_for('vacantes'))
 
 #Fin del codigo del Equipo2
+
 #examen psicometrico
 @app.route('/examen')
 def examen():
