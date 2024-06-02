@@ -36,16 +36,16 @@
 
   <div class="col-md-6">
     <label for="curp" class="form-label">CURP</label>
-    <input type="text" class="form-control datos" name="curp" id="curp" readonly value="{{ datos[6] }}"></input>
+    <input type="text" class="form-control datos" name="curp" id="curp" readonly disabled value="{{ datos[6] }}"></input>
   </div>
   <div class="col-md-6">
     <label for="rfc" class="form-label">RFC</label>
-    <input type="text" class="form-control datos" name="rfc" id="rfc" readonly value="{{ datos[7] }}"></input>
+    <input type="text" class="form-control datos" name="rfc" id="rfc" readonly disabled value="{{ datos[7] }}"></input>
   </div>
 
   <div class="col-md-12">
     <label for="nombre" class="form-label">Nombre</label>
-    <input type="text" class="form-control datos" name="nombre" id="nombre" readonly value="{{ datos[8] }}"></input>
+    <input type="text" class="form-control datos" name="nombre" id="nombre" readonly disabled value="{{ datos[8] }}"></input>
   </div>
 
 
@@ -54,31 +54,31 @@
 
   <div class="col-md-4">
     <label for="Calle" class="form-label">Calle</label>
-    <input type="text" class="form-control datos" name="Calle" id="Calle" readonly value="{{ datos[9] }}"></input>
+    <input type="text" class="form-control datos" name="Calle" id="Calle" readonly disabled value="{{ datos[9] }}"></input>
   </div>
   <div class="col-md-4">
     <label for="numExtInt" class="form-label">Num Ext/Int</label>
-    <input type="number" class="form-control datos" name="numExtInt" id="numExtInt" readonly value="{{ datos[10] }}"></input>
+    <input type="number" class="form-control datos" name="numExtInt" id="numExtInt" readonly disabled value="{{ datos[10] }}"></input>
   </div>
   <div class="col-md-4">
     <label for="domColonia" class="form-label">Fraccionamiento/Colonia</label>
-    <input type="text" class="form-control datos" name="domColonia" id="domColonia" readonly value="{{ datos[11] }}"></input>
+    <input type="text" class="form-control datos" name="domColonia" id="domColonia" readonly disabled value="{{ datos[11] }}"></input>
   </div>
   <div class="col-md-4">
     <label for="tel1" class="form-label">Telefono 1</label>
-    <input type="text" class="form-control datos" pattern="\d{3}-\d{3}-\d{4}" name="tel1" id="tel1" readonly value="{{ datos[12] }}"></input>
+    <input type="text" class="form-control datos" pattern="\d{3}-\d{3}-\d{4}" name="tel1" id="tel1" readonly disabled value="{{ datos[12] }}"></input>
   </div>
   <div class="col-md-4">
     <label for="tel2" class="form-label">Telefono 2</label>
-    <input type="text" class="form-control datos" pattern="\d{3}-\d{3}-\d{4}" name="tel2" id="tel2" readonly value="{{ datos[13] }}"></input>
+    <input type="text" class="form-control datos" pattern="\d{3}-\d{3}-\d{4}" name="tel2" id="tel2" readonly disabled value="{{ datos[13] }}"></input>
   </div>
   <div class="col-md-4">
     <label for="correo" class="form-label">Correo</label>
-    <input type="email" class="form-control datos" name="correo" id="correo" readonly value="{{ datos[14] }}"></input>
+    <input type="email" class="form-control datos" name="correo" id="correo" readonly disabled value="{{ datos[14] }}"></input>
   </div>
   <div class="col-md-4">
     <label for="Edad" class="form-label">Edad</label>
-    <input type="number" class="form-control datos" name="Edad" id="Edad" readonly value="{{ datos[15] }}"></input>
+    <input type="number" class="form-control datos" name="Edad" id="Edad" readonly disabled value="{{ datos[15] }}"></input>
   </div>
   <div class="col-md-4">
     <label for="sexo" class="form-label">Sexo</label>
@@ -221,9 +221,19 @@
 </div>
 
   <div class="col-md-4" id="campoEvalPsicomRes">
-    <label for="campoEvalPsicom" class="form-label">Resultado Evaluacion Psicometrica</label>
+    <label for="campoEvalPsicom" class="form-label">Observaciones de Evaluacion Psicométrica</label>
     <input type="text" name="campoEvalPsicom" id="campoEvalPsicom" readonly value="{{datos[32]}}" class="form-control evaluacion" disabled>
   </div>
+  <div class="col-md-4" id="calificacion">
+    <label for="calificacion" class="form-label">Calificación de la Evaluacion Psicométrica</label>
+    <input type="text" name="calificacion" id="calificacion" readonly value="{{datos[43]}}" class="form-control evaluacion" disabled>
+  </div>
+  <div class="col-md-4" id="aprobado">
+    <label for="aprobado" class="form-label">¿Aprobado en examen Psicométrico?</label>
+    <select name="aprobado" id="aprobado" class="form-select" disabled>
+       <option selected="true" disabled="disabled">{{datos[42]}}</option>
+    </select>
+ </div>
 
 
   <div class="col-md-4">

@@ -224,20 +224,18 @@
    </div>
 
 
-   <div class="col-md-4">
+   <div class="col-md-4" hidden>
       <label for="evalPsicomReq" class="form-label">Evaluacion Psicometrica Requerida</label>
-      <select name="evalPsicomReq" id="evalPsicomReq" class="form-select evaluacion"
-         onchange="mostrarPres('evalPsicomReq', 'campoEvalPsicomReq', 'campoEvalPsicomRes')">
+      <select name="evalPsicomReq" id="evalPsicomReq" class="form-select evaluacion">
          <option  disabled="disabled" value="0" hidden>Elige...</option>
          <option value="0" {% if datosOp.27 == 0 %}selected{% endif %}>No</option>
          <option value="1" {% if datosOp.27 == 1 %}selected{% endif %}>Sí</option>
       </select>
    </div>
 
-   <div class="col-md-4 selectores" id="campoEvalPsicomReq">
+   <!--div class="col-md-4 selectores" id="campoEvalPsicomReq">
       <label for="evalPsicomPres" class="form-label">Evaluacion Psicometrica Presentada</label>
-      <select name="evalPsicomPres" id="evalPsicomPres" class="form-select evaluacion"
-         onchange="mostrarRes('evalPsicomPres', 'campoEvalPsicomRes')">
+      <select name="evalPsicomPres" id="evalPsicomPres" class="form-select evaluacion">
          <option  value="0" disabled hidden>Elige...</option>
          <option value="0" {% if datosOp.28 == 0 %}selected{% endif %}>No</option>
          <option value="1" {% if datosOp.28 == 1 %}selected{% endif %}>Sí</option>
@@ -247,7 +245,7 @@
    <div class="col-md-4 selectores" id="campoEvalPsicomRes">
       <label for="campoEvalPsicom" class="form-label">Resultado Evaluacion Psicometrica</label>
       <input type="text" required name="campoEvalPsicom" id="campoEvalPsicom" value="{{datosOp.29}}" class="form-control evaluacion" minlength="5" maxlength="40" disabled>
-   </div>
+   </div-->
 
 
 

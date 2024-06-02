@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {reqId: 'entrevistaReq', presId: 'campoEntrevistaReq', resId: 'campoEntrevistaRes'},
       {reqId: 'evalMedicaReq', presId: 'campoEvalMedicaReq', resId: 'campoEvalMedicaRes'},
       {reqId: 'evalPsicoloReq', presId: 'campoEvalPsicoloReq', resId: 'campoEvalPsicoloRes'},
-      {reqId: 'evalPsicomReq', presId: 'campoEvalPsicomReq', resId: 'campoEvalPsicomRes'},
+      //{reqId: 'evalPsicomReq', presId: 'campoEvalPsicomReq', resId: 'campoEvalPsicomRes'},
       {reqId: 'evalTecniReq', presId: 'campoEvalTecniReq', resId: 'campoEvalTecniRes'},
       {reqId: 'evalConoReq', presId: 'campoEvalConoReq', resId: 'campoEvalConoRes'},
       {reqId: 'entrevistaFinReq', presId: 'campoEntrevistaFinReq', resId: 'campoEntrevistaFinRes'}
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {presId: 'entrevistaPres', campoId: 'campoEntrevistaRes'},
       {presId: 'evalMedicaPres', campoId: 'campoEvalMedicaRes'},
       {presId: 'evalPsicoloPres', campoId: 'campoEvalPsicoloRes'},
-      {presId: 'evalPsicomPres', campoId: 'campoEvalPsicomRes'},
+      //{presId: 'evalPsicomPres', campoId: 'campoEvalPsicomRes'},
       {presId: 'evalTecniPres', campoId: 'campoEvalTecniRes'},
       {presId: 'evalConoPres', campoId: 'campoEvalConoRes'},
       {presId: 'entrevistaFinPres', campoId: 'campoEntrevistaFinRes'}
