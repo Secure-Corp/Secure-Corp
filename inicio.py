@@ -1604,9 +1604,8 @@ def empleado_fagrega():
     return redirect(url_for('empleado'))
 
 
-#editar
-@app.route('/empleados_editar/<string:idP>')
-def empleados_editar(idP):
+@app.route('/empleado_editar/<string:idP>')
+def empleado_editar(idP):
     conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
     cursor = conn.cursor()
 
@@ -1659,15 +1658,15 @@ def empleados_editar(idP):
     datos17 = cursor.fetchall()
 
 
-    return render_template("empleados_edi.html", dat=dato[0], catArea=datos1, catEdoCivil=datos2, catEscolaridad=datos3,
+    return render_template("empleado_edi.html", dat=dato[0], catArea=datos1, catEdoCivil=datos2, catEscolaridad=datos3,
                            catGradoAvance=datos4, catCarrera=datos5, catIdioma=datos6, catHabilidad=datos7,
                            Area=datos11[0], EdoCivil=datos12[0], Escolaridad=datos13[0], GradoAvance=datos14[0],
                            Carrera=datos15[0], Idioma=datos16, Habilidad=datos17)
 
 
 #editar puesto
-@app.route('/empleados_fedita/<string:idP>', methods=['POST'])
-def empleados_fedita(idP):
+@app.route('/empleado_fedita/<string:idP>', methods=['POST'])
+def empleado_fedita(idP):
     if request.method == 'POST':
         codP = request.form['codPuesto']
         idAr = request.form['idArea']
@@ -1724,7 +1723,6 @@ def empleados_fedita(idP):
             cursor.execute('insert into puesto_has_habilidad(idEmpleado,idHabilidad) values (%s,%s)', (idP, i))
             conn.commit()
     return redirect(url_for('empleado'))
-
 
 #fin equipo 6
 
