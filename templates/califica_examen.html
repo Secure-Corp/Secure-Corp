@@ -15,11 +15,13 @@
     <div class="col-md-12">
         <label class="minap">1- ¿Usted cuenta con una mala nutricion y digestion?</label>
         <input type="text" class="form-control" name="p1" id="p1" value="{{com.2}}" disabled>
+        <input type="number" class="califica" name="preg1" id="preg1" min="0" max="1" placeholder="calificacion" required>
         <input type="number" class="califica" name="preg1" id="preg1" min="0" max="1" required placeholder="calificacion">
     </div>
     <div class="col-md-12">
         <label  class="minap">2- ¿Cual es tu mayor fortaleza y como la usas en tu vida cotidiana?</label>
         <input type="text" class="form-control" name="p2" id="p2" value="{{com.3}}" disabled>
+        <input type="number" class="califica" name="preg2" id="preg2" min="0" max="1" placeholder="calificacion" required>
         <input type="number" class="califica" name="preg2" id="preg2" min="0" max="1" required placeholder="calificacion">
     </div>
     <div class="col-md-12">
@@ -27,11 +29,13 @@
         <select name="p3" id="p3" class="form-select" disabled >
             <option selected="true" disabled="disabled" value="{{com.4}}">{{com.4}}</option>
         </select>
+        <input type="number" class="califica" name="preg3" id="preg3" min="0" max="1" placeholder="calificacion" required>
         <input type="number" class="califica" name="preg3" id="preg3" min="0" max="1" required placeholder="calificacion">
     </div>
     <div class="col-md-12">
         <label class="minap">4- ¿Cómo manejas los conflictos interpersonales en el trabajo o en la escuela?</label>
         <input type="text" class="form-control" name="p4" id="p4" value="{{com.5}}" disabled>
+        <input type="number" class="califica" name="preg4" id="preg4" min="0" max="1" placeholder="calificacion" required>
         <input type="number" class="califica" name="preg4" id="preg4" min="0" max="1" required placeholder="calificacion">
     </div>
     <div class="col-md-12">
@@ -39,6 +43,7 @@
         <select name="p5" id="p5" class="form-select" disabled>
             <option selected="true" disabled="disabled" value="{{com.6}}">{{com.6}}</option>
         </select>
+        <input type="number" class="califica" name="preg5" id="preg5" min="0" max="1" placeholder="calificacion" required>
         <input type="number" class="califica" name="preg5" id="preg5" min="0" max="1" required placeholder="calificacion">
     </div>
     <div class="col-md-12">
@@ -46,11 +51,13 @@
         <select name="p6" id="p6" class="form-select" disabled>
             <option selected="true" disabled="disabled" value="{{com.7}}">{{com.7}}</option>
         </select>
+        <input type="number" class="califica" name="preg6" id="preg6" min="0" max="1" placeholder="calificacion" required>
         <input type="number" class="califica" name="preg6" id="preg6" min="0" max="1" required placeholder="calificacion">
     </div>
     <div class="col-md-12">
         <label class="minap">7- ¿Cómo te adaptas a trabajar en equipo?</label>
         <input type="text" class="form-control" name="p7" id="p7" value="{{com.8}}" disabled>
+        <input type="number" class="califica" name="preg7" id="preg7" min="0" max="1" placeholder="calificacion" required>
         <input type="number" class="califica" name="preg7" id="preg7" min="0" max="1" required placeholder="calificacion">
     </div>
     <div class="col-md-12">
@@ -59,6 +66,7 @@
         <select name="p8" id="p8" class="form-select" disabled>
             <option selected="true" disabled="disabled">{{com.9}}</option>
         </select>
+        <input type="number" class="califica" name="preg8" id="preg8" min="0" max="1" placeholder="calificacion" required>
         <input type="number" class="califica" name="preg8" id="preg8" min="0" max="1" required placeholder="calificacion">
     </div>
     <div class="col-md-12">
@@ -67,26 +75,38 @@
         <select name="p9" id="p9" class="form-select" disabled>
             <option selected="true" disabled="disabled">{{com.10}}</option>
         </select>
-        <input type="number" class="califica" name="preg9" id="preg9" min="0" max="1" required placeholder="calificacion">
+        <input type="number" class="califica" name="preg9" id="preg9" min="0" max="1" placeholder="calificacion" required>
     </div>
     <div class="col-md-12">
         <label class="minap">10- ¿Es alergico a algun alimento?</label>
         <select name="p10" id="p10" class="form-select" disabled>
             <option selected="true" disabled="disabled">{{com.11}}</option>
         </select>
-        <input type="number" class="califica" name="preg10" id="preg10" min="0" max="1" required placeholder="calificacion">
+        <input type="number" class="califica" name="preg10" id="preg10" min="0" max="1" placeholder="calificacion" required>
     </div>
     <div class="col-md-12">
         <label class="minap">11- ¿Tiene baja resistencia, dificultad para respirar al realizar algun ejercicio?</label>
         <select name="p11" id="p11" class="form-select" disabled>
             <option selected="true" disabled="disabled">{{com.12}}</option>
         </select>
-        <input type="number" class="califica" name="preg11" id="preg11" min="0" max="1" required placeholder="calificacion">
+        <input type="number" class="califica" name="preg11" id="preg11" min="0" max="1" placeholder="calificacion" required>
     </div>
     <div class="col-md-12">
         <label  class="minap">12- ¿Cómo te sientes acerca de recibir retroalimentación sobre tu trabajo?</label>
         <input type="text" class="form-control" name="p12" id="p12" value="{{com.13}}" disabled>
-        <input type="number" class="califica" name="preg12" id="preg12" min="0" max="1" required placeholder="calificacion">
+        <input type="number" class="califica" name="preg12" id="preg12" min="0" max="1" placeholder="calificacion" required>
+    </div>
+    <div class="col-md-12">
+        <label class="minap">Observaciones</label>
+        <input type="text" id="observaciones" name="observaciones" maxlength="200" class="form-control" required>
+    </div>
+    <div class="col-md-12">
+        <label class="minap">¿Candidato aprobado?</label>
+        <select name="aprobado" id="aprobado" class="form-select" required>
+            <option selected="true" disabled="disabled">Elige...</option>
+            <option value="Aprobado">Aprobado</option>
+            <option value="Reprobado">Reprobado</option>
+        </select>
     </div>
         <div class="col-12">
             <button type="submit" >Calificar</button>

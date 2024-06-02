@@ -222,10 +222,19 @@
     </div>
  
     <div class="col-md-4" id="campoEvalPsicomRes">
-       <label for="campoEvalPsicom" class="form-label">Resultado Evaluacion Psicometrica</label>
+       <label for="campoEvalPsicom" class="form-label">Observaciones de Evaluacion Psicometrica</label>
        <input type="text" name="campoEvalPsicom" id="campoEvalPsicom" readonly value="{{datosCand[32]}}" class="form-control evaluacion" disabled>
     </div>
- 
+    <div class="col-md-4" id="calificacion">
+      <label for="calificacion" class="form-label">Calificacion del Evaluacion Psicometrica</label>
+      <input type="text" name="calificacion" id="calificacion" readonly value="{{datosCand[43]}}/12" class="form-control evaluacion" disabled>
+    </div>
+    <div class="col-md-4" id="aprobado">
+      <label for="aprobado" class="form-label">¿Aprobado en exemen Psicometrico?</label>
+      <select name="aprobado" id="aprobado" class="form-select" disabled>
+         <option selected="true" disabled="disabled">{{datosCand[42]}}</option>
+      </select>
+   </div>
  
     <div class="col-md-4">
        <label for="evalTecniReq" class="form-label">Evaluacion Tecnica Requerida</label>
@@ -308,7 +317,6 @@
        <label for="campoEntrevistaFin" class="form-label">Resultado Entrevista Final</label>
        <input type="text" name="campoEntrevistaFin" id="campoEntrevistaFin" readonly value="{{datosCand[41]}}" class="form-control evaluacion" disabled>
      </div>
-     
      {% if examen == 0 %}
      <h3 id="title">
       <center>
