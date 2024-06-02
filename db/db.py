@@ -315,36 +315,21 @@ class CBD():
 
     def crearTablaPuestoHab(self):
         try:
-            self.cursor.execute("CREATE TABLE if not exists puesto_has_habilidad (idPuesto int(11) NOT NULL, idHabilidad int(11) NOT NULL)")
+            self.cursor.execute("CREATE TABLE IF NOT EXISTS `puesto_has_habilidad` (  `idPuesto` int(11) NOT NULL,  `idEmpleado` int(11) NOT NULL,  `idHabilidad` int(11) NOT NULL,  PRIMARY KEY (`idPuesto`, `idEmpleado`,`idHabilidad`),  KEY `idHabilidad` (`idHabilidad`)) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;")
             self.cursor.execute("SELECT COUNT(*) FROM puesto_has_habilidad")
             count = self.cursor.fetchone()[0]
             if count == 0:
-                self.cursor.execute("INSERT INTO puesto_has_habilidad (idPuesto, idHabilidad) VALUES (1, 1)")
-                self.cursor.execute("INSERT INTO puesto_has_habilidad (idPuesto, idHabilidad) VALUES (2, 4)")
-                self.cursor.execute("INSERT INTO puesto_has_habilidad (idPuesto, idHabilidad) VALUES (2, 5)")
-                self.cursor.execute("INSERT INTO puesto_has_habilidad (idPuesto, idHabilidad) VALUES (3, 2)")
-                self.cursor.execute("INSERT INTO puesto_has_habilidad (idPuesto, idHabilidad) VALUES (3, 3)")
-                self.cursor.execute("INSERT INTO puesto_has_habilidad (idPuesto, idHabilidad) VALUES (3, 4)")
-                self.cursor.execute("INSERT INTO puesto_has_habilidad (idPuesto, idHabilidad) VALUES (3, 5)")
-                self.cursor.execute("INSERT INTO puesto_has_habilidad (idPuesto, idHabilidad) VALUES (3, 6)")
-                self.cursor.execute("INSERT INTO puesto_has_habilidad (idPuesto, idHabilidad) VALUES (3, 7)")
-                self.cursor.execute("INSERT INTO puesto_has_habilidad (idPuesto, idHabilidad) VALUES (3, 8)")
-                self.cursor.execute("INSERT INTO puesto_has_habilidad (idPuesto, idHabilidad) VALUES (3, 9)")
-                self.cursor.execute("INSERT INTO puesto_has_habilidad (idPuesto, idHabilidad) VALUES (3, 10)")
-                self.cursor.execute("INSERT INTO puesto_has_habilidad (idPuesto, idHabilidad) VALUES (3, 11)")
-                self.cursor.execute("INSERT INTO puesto_has_habilidad (idPuesto, idHabilidad) VALUES (3, 12)")
+                self.cursor.execute("INSERT INTO `puesto_has_habilidad` (`idPuesto`,  `idEmpleado`, `idHabilidad`) VALUES(1,1, 1),(3,3, 4),(3,3, 5),(5,3, 2),(5,5, 3),(5,5, 4),(5,5, 5),(5,5, 6),(5,5, 7),(5,5, 8),(5,5, 9),(5,5, 10),(5,5, 11),(5,5, 12);")
         except pymysql.Error as err:
             print("\nError al crear la tabla puesto_has_habilidad: {0}".format(err))
 
     def crearTablaPuestoIdi(self):
         try:
-            self.cursor.execute("CREATE TABLE if not exists puesto_has_idioma (idPuesto int(11) NOT NULL, idIdioma int(11) NOT NULL)")
+            self.cursor.execute("CREATE TABLE IF NOT EXISTS `puesto_has_idioma` (`idPuesto` int(11) NOT NULL,`idEmpleado` int(11) NOT NULL,`idIdioma` int(11) NOT NULL,PRIMARY KEY (`idPuesto`, `idEmpleado`,`idIdioma`),KEY `idIdioma` (`idIdioma`)) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;")
             self.cursor.execute("SELECT COUNT(*) FROM puesto_has_idioma")
             count = self.cursor.fetchone()[0]
             if count == 0:
-                self.cursor.execute("INSERT INTO puesto_has_idioma (idPuesto, idIdioma) VALUES (1, 2)")
-                self.cursor.execute("INSERT INTO puesto_has_idioma (idPuesto, idIdioma) VALUES (2, 1)")
-                self.cursor.execute("INSERT INTO puesto_has_idioma (idPuesto, idIdioma) VALUES (3, 2)")
+                self.cursor.execute("INSERT INTO `puesto_has_idioma` (`idPuesto`,`idEmpleado`, `idIdioma`) VALUES(1, 1, 2),(3, 3, 1),(5, 5, 2);")
         except pymysql.Error as err:
             print("\nError al crear la tabla puesto_has_idioma: {0}".format(err))
 
