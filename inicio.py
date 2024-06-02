@@ -1478,7 +1478,6 @@ def empleados_fdetalle(idE):
 def empleados_borrar(idE): 
     cbd.cursor.execute('DELETE FROM empleado WHERE idEmpleado = %s', (idE,))
     cbd.conn.commit()
-    cbd.conn.close()  
     return redirect(url_for('empleados'))
 
 
@@ -1590,57 +1589,57 @@ def empleados_fagrega2():
 
 @app.route('/empleados_editar/<string:idE>')
 def empleados_editar(idE):
-    cursor = cbd.cursor()
 
-    cursor.execute('SELECT idEmpleado, idRequisicion, idPuesto, CURP, RFC, nombre, apellido, domCalle, domNumExtInt, domColonia, '
+
+    cbd.cursor.execute('SELECT idEmpleado, idRequisicion, idPuesto, CURP, RFC, nombre, apellido, domCalle, domNumExtInt, domColonia, '
                    'tel1, sueldo, correoE, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera '
                    'FROM empleado WHERE idEmpleado = %s', (idE,))
-    dato = cursor.fetchall()
+    dato = cbd.cursor.fetchall()
 
-    cursor.execute('SELECT idEmpleado, idEmpleado FROM empleado')
-    datos1 = cursor.fetchall()
+    cbd.cursor.execute('SELECT idEmpleado, idEmpleado FROM empleado')
+    datos1 = cbd.cursor.fetchall()
 
-    cursor.execute('SELECT idEstadoCivil, descripcion FROM estado_civil')
-    datos2 = cursor.fetchall()
+    cbd.cursor.execute('SELECT idEstadoCivil, descripcion FROM estado_civil')
+    datos2 = cbd.cursor.fetchall()
 
-    cursor.execute('SELECT idEscolaridad, descripcion FROM escolaridad')
-    datos3 = cursor.fetchall()
+    cbd.cursor.execute('SELECT idEscolaridad, descripcion FROM escolaridad')
+    datos3 = cbd.cursor.fetchall()
 
-    cursor.execute('SELECT idGradoAvance, descripcion FROM grado_avance')
-    datos4 = cursor.fetchall()
+    cbd.cursor.execute('SELECT idGradoAvance, descripcion FROM grado_avance')
+    datos4 = cbd.cursor.fetchall()
 
-    cursor.execute('SELECT idCarrera, descripcion FROM carrera')
-    datos5 = cursor.fetchall()
+    cbd.cursor.execute('SELECT idCarrera, descripcion FROM carrera')
+    datos5 = cbd.cursor.fetchall()
 
-    cursor.execute('SELECT idIdioma, descripcion FROM idioma')
-    datos6 = cursor.fetchall()
+    cbd.cursor.execute('SELECT idIdioma, descripcion FROM idioma')
+    datos6 = cbd.cursor.fetchall()
 
-    cursor.execute('SELECT idHabilidad, descripcion FROM habilidad')
-    datos7 = cursor.fetchall()
+    cbd.cursor.execute('SELECT idHabilidad, descripcion FROM habilidad')
+    datos7 = cbd.cursor.fetchall()
 
-    cursor.execute('SELECT a.idEstadoCivil, a.descripcion FROM estado_civil a, empleado b '
+    cbd.cursor.execute('SELECT a.idEstadoCivil, a.descripcion FROM estado_civil a, empleado b '
                    'WHERE a.idEstadoCivil = b.idEstadoCivil AND b.idEmpleado = %s', (idE,))
-    datos12 = cursor.fetchall()
+    datos12 = cbd.cursor.fetchall()
 
-    cursor.execute('SELECT a.idEscolaridad, a.descripcion FROM escolaridad a, empleado b '
+    cbd.cursor.execute('SELECT a.idEscolaridad, a.descripcion FROM escolaridad a, empleado b '
                    'WHERE a.idEscolaridad = b.idEscolaridad AND b.idEmpleado = %s', (idE,))
-    datos13 = cursor.fetchall()
+    datos13 = cbd.cursor.fetchall()
 
-    cursor.execute('SELECT a.idGradoAvance, a.descripcion FROM grado_avance a, empleado b '
+    cbd.cursor.execute('SELECT a.idGradoAvance, a.descripcion FROM grado_avance a, empleado b '
                    'WHERE a.idGradoAvance = b.idGradoAvance AND b.idEmpleado = %s', (idE,))
-    datos14 = cursor.fetchall()
+    datos14 = cbd.cursor.fetchall()
 
-    cursor.execute('SELECT a.idCarrera, a.descripcion FROM carrera a, empleado b '
+    cbd.cursor.execute('SELECT a.idCarrera, a.descripcion FROM carrera a, empleado b '
                    'WHERE a.idCarrera = b.idCarrera AND b.idEmpleado = %s', (idE,))
-    datos15 = cursor.fetchall()
+    datos15 = cbd.cursor.fetchall()
 
-    cursor.execute('SELECT a.idEmpleado, b.idIdioma, b.descripcion FROM empleado a, idioma b, puesto_has_idioma c '
+    cbd.cursor.execute('SELECT a.idEmpleado, b.idIdioma, b.descripcion FROM empleado a, idioma b, puesto_has_idioma c '
                    'WHERE a.idEmpleado = c.idEmpleado AND b.idIdioma = c.idIdioma AND a.idEmpleado = %s', (idE,))
-    datos16 = cursor.fetchall()
+    datos16 = cbd.cursor.fetchall()
 
-    cursor.execute('SELECT a.idEmpleado, b.idHabilidad, b.descripcion FROM empleado a, habilidad b, puesto_has_habilidad c '
+    cbd.cursor.execute('SELECT a.idEmpleado, b.idHabilidad, b.descripcion FROM empleado a, habilidad b, puesto_has_habilidad c '
                    'WHERE a.idEmpleado = c.idEmpleado AND b.idHabilidad = c.idHabilidad AND a.idEmpleado = %s', (idE,))
-    datos17 = cursor.fetchall()
+    datos17 = cbd.cursor.fetchall()
 
     return render_template("empleados_edi.html", dat=dato[0], catEmpleado=datos1, catEdoCivil=datos2, catEscolaridad=datos3,
                            catGradoAvance=datos4, catCarrera=datos5, catIdioma=datos6, catHabilidad=datos7,
@@ -1671,8 +1670,8 @@ def empleados_fedita(idE):
         sexo = request.form['sexo']
 
         try:
-            cursor = cbd.cursor()
-            cursor.execute('UPDATE empleado SET idRequisicion = %s, idPuesto = %s, CURP = %s, RFC = %s, nombre = %s, apellido = %s, domCalle = %s, '
+            cbd.cursor = cbd.cursor()
+            cbd.cursor.execute('UPDATE empleado SET idRequisicion = %s, idPuesto = %s, CURP = %s, RFC = %s, nombre = %s, apellido = %s, domCalle = %s, '
                            'domNumExtInt = %s, domColonia = %s, tel1 = %s, sueldo = %s, correoE = %s, edad = %s, sexo = %s, '
                            'idEstadoCivil = %s, idEscolaridad = %s, idGradoAvance = %s, idCarrera = %s WHERE idEmpleado = %s', 
                            (idRequisicion, idPuesto, CURP, RFC, nombre, apellido, domCalle, domNumExtInt, domColonia, tel1, sueldo, correoE, edad, sexo,
@@ -1680,25 +1679,25 @@ def empleados_fedita(idE):
             cbd.conn.commit()
 
             # Actualizar idiomas
-            cursor.execute('DELETE FROM puesto_has_idioma WHERE idEmpleado = %s', (idE,))
+            cbd.cursor.execute('DELETE FROM puesto_has_idioma WHERE idEmpleado = %s', (idE,))
             cbd.conn.commit()
 
-            cursor.execute('SELECT idIdioma FROM idioma')
-            idiomas = cursor.fetchall()
+            cbd.cursor.execute('SELECT idIdioma FROM idioma')
+            idiomas = cbd.cursor.fetchall()
             for idio in idiomas:
                 if f'i{idio[0]}' in request.form:
-                    cursor.execute('INSERT INTO puesto_has_idioma (idEmpleado, idIdioma) VALUES (%s, %s)', (idE, idio[0]))
+                    cbd.cursor.execute('INSERT INTO puesto_has_idioma (idEmpleado, idIdioma) VALUES (%s, %s)', (idE, idio[0]))
             cbd.conn.commit()
 
             # Actualizar habilidades
-            cursor.execute('DELETE FROM puesto_has_habilidad WHERE idEmpleado = %s', (idE,))
+            cbd.cursor.execute('DELETE FROM puesto_has_habilidad WHERE idEmpleado = %s', (idE,))
             cbd.conn.commit()
 
-            cursor.execute('SELECT idHabilidad FROM habilidad')
-            habilidades = cursor.fetchall()
+            cbd.cursor.execute('SELECT idHabilidad FROM habilidad')
+            habilidades = cbd.cursor.fetchall()
             for hab in habilidades:
                 if f'h{hab[0]}' in request.form:
-                    cursor.execute('INSERT INTO puesto_has_habilidad (idEmpleado, idHabilidad) VALUES (%s, %s)', (idE, hab[0]))
+                    cbd.cursor.execute('INSERT INTO puesto_has_habilidad (idEmpleado, idHabilidad) VALUES (%s, %s)', (idE, hab[0]))
             cbd.conn.commit()
 
         except Exception as e:
