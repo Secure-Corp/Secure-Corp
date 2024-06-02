@@ -2,8 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, flash, sen
 import pymysql
 import os
 import webbrowser
-from fpdf import FPDF
-from weasyprint import HTML
+#from fpdf import FPDF
+#from weasyprint import HTML
 
 
 #Conexion a base de datos
@@ -19,6 +19,9 @@ app = Flask(__name__)
 def home():
     return render_template("home.html")
 
+@app.route("/home")
+def home2():
+    return render_template("home.html")
 #GITHUB
 
 
@@ -752,11 +755,11 @@ def capturarCandidato():
         cbd.cursor.execute("INSERT INTO candidato (idVacante, idRequisicion, idPuesto, CURP, RFC, nombre, domCalle, domNumExtInt, domColonia, tel1, tel2, correoE, edad, sexo, "
                         "idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, entrevSelecReq, entrevSelecPresen, entrevSelecResult, evalMedicaReq, evalMedicaPresen, "
                         "evalMedicaResult, evalPsicolgReq, evalPsicologPresen, evalPsicologResult, evalPsicometReq, evalPsicometPresene, evalPsicometResult, "
-                        "evalTecnicaReq, evalTecnicaPresen, evalTecnicaResult, evalConocReq, evalConocPresen, evalConocResult, entrevFinalReq, entrevFinalPresen, entrevFinalResul) "
-                        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
-                        (idVacan, ids[0][0], ids[0][1], curp, rfc, nombre, calle, num, colonia, tel1, tel2, correo, edad, sex, edoc, esco, gdoavan, carre, entrereq, entrepres, entreresul, 
+                        "evalTecnicaReq, evalTecnicaPresen, evalTecnicaResult, evalConocReq, evalConocPresen, evalConocResult, entrevFinalReq, entrevFinalPresen, entrevFinalResul, aprobado, calificacion) "
+                        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+                        (idVacan, ids[0][0], ids[0][1], curp, rfc, nombre, calle, num, colonia, tel1, tel2, correo, edad, sex, edoc, esco, gdoavan, carre, entrereq, entrepres, entreresul , 
                         evalMedicReq, evalMedicPres, evalMedicResul, evalPsicolReq, evalPsicolPres, evalPsicolResul, evalPsicomReq, evalPsicomPres, evalPsicomResul, evalTecReq, evalTecPres,
-                        evalTecResul, evalConocReq, evalConocPres, evalConocResul, entreFinReq, entreFinPres, entreFinResul))
+                        evalTecResul, evalConocReq, evalConocPres, evalConocResul, entreFinReq, entreFinPres, entreFinResul, '', ''))
         cbd.conn.commit()
 
     return redirect(url_for("candidatos"))
@@ -765,7 +768,7 @@ def capturarCandidato():
 def detallesCandidato(idC): 
     cbd.cursor.execute("SELECT a.idCandidato, a.idVacante, a.idRequisicion, a.idPuesto, b.folio, c.nomPuesto, a.CURP, a.RFC, a.nombre, a.domCalle, a.domNumExtInt, a.domColonia, a.tel1, a.tel2, a.correoE, a.edad, a.sexo, a.idEstadoCivil, a.idEscolaridad, a.idGradoAvance, a.idCarrera, "
                    "a.entrevSelecReq, a.entrevSelecPresen, a.entrevSelecResult, a.evalMedicaReq, a.evalMedicaPresen, a.evalMedicaResult, a.evalPsicolgReq, a.evalPsicologPresen, a.evalPsicologResult, a.evalPsicometReq, a.evalPsicometPresene, a.evalPsicometResult, "
-                   "a.evalTecnicaReq, a.evalTecnicaPresen, a.evalTecnicaResult, a.evalConocReq, a.evalConocPresen, a.evalConocResult, a.entrevFinalReq, a.entrevFinalPresen, a.entrevFinalResul FROM candidato a, requisicion b, puesto c "
+                   "a.evalTecnicaReq, a.evalTecnicaPresen, a.evalTecnicaResult, a.evalConocReq, a.evalConocPresen, a.evalConocResult, a.entrevFinalReq, a.entrevFinalPresen, a.entrevFinalResul, a.aprobado, a.calificacion FROM candidato a, requisicion b, puesto c "
                    "WHERE a.idCandidato=%s AND a.idRequisicion=b.idRequisicion AND a.idPuesto=c.idPuesto", (idC))
     datosCand = cbd.cursor.fetchall()
 
@@ -781,7 +784,19 @@ def detallesCandidato(idC):
     cbd.cursor.execute("SELECT b.descripcion FROM candidato a, carrera b WHERE a.idCandidato=%s AND a.idCarrera=b.idCarrera", (idC))
     carreCand = cbd.cursor.fetchall()
 
-    return render_template("detallesCand.html", datosCand = datosCand[0], edocCand = edocCand[0][0], escoCand = escoCand[0][0], gdoavanCand = gdoavanCand[0][0], carreCand = carreCand[0][0])
+    cbd.cursor.execute("SELECT evalPsicometReq FROM candidato WHERE idCandidato=%s", (idC,))
+    requerida = cbd.cursor.fetchone()
+    sino=int(requerida[0])
+
+    if  sino == 1:
+        cbd.cursor.execute("SELECT evalPsicometPresene FROM candidato WHERE idCandidato=%s", (idC,))
+        examen1 = cbd.cursor.fetchone()
+        examens = int(examen1[0])
+        print(examens)
+    else:
+        examens = 1
+
+    return render_template("detallesCand.html", idc=idC, datosCand = datosCand[0], edocCand = edocCand[0][0], escoCand = escoCand[0][0], gdoavanCand = gdoavanCand[0][0], carreCand = carreCand[0][0], examen=examens)
 
 @app.route("/unselectCand/<string:idV>")
 def deseleccionarCandidato(idV): 
@@ -1270,14 +1285,17 @@ def generate_pdf():
 
 #Fin del codigo del Equipo2
 #examen psicometrico
-@app.route('/examen')
-def examen():
-    return render_template('examen.html')
+@app.route('/examen/<string:id>')
+def examen(id):
+    cbd.cursor.execute("select RFC, nombre from candidato where idCandidato=%s ",(id))
+    dato=cbd.cursor.fetchone()
+    return render_template('examen.html', datos=dato)
  
 @app.route('/examen_enviar', methods=['POST'])
 def examen_enviar():
     if request.method == 'POST':
         nom=request.form['nombre']
+        rfc=request.form['rfc']
         p1=request.form['p1']
         p2=request.form['p2']
         p3=request.form['p3']
@@ -1290,13 +1308,13 @@ def examen_enviar():
         p10=request.form['p10']
         p11=request.form['p11']
         p12=request.form['p12'] 
-        cbd.cursor.execute('INSERT INTO examen (nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)', (nom,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12))
+        cbd.cursor.execute('INSERT INTO examen (nombre, rfc, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)', (nom,rfc,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12))
         cbd.conn.commit()
-    return redirect(url_for('crud_examen'))
+    return redirect(url_for('home'))
 
 @app.route('/crud_examen')
 def crud_examen(): 
-    cbd.cursor.execute('SELECT idExamen, nombre FROM examen order by idExamen')
+    cbd.cursor.execute('SELECT idExamen, nombre, rfc FROM examen order by idExamen')
     datos = cbd.cursor.fetchall()
     return render_template('examen_crudr.html', comentarios=datos)
 
@@ -1308,13 +1326,15 @@ def examen_borrar(id):
 
 @app.route('/examen_calificar/<string:id>')
 def examen_calificar(id): 
-    cbd.cursor.execute("SELECT idExamen, nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12 FROM examen WHERE idExamen=%s", (id))
+    cbd.cursor.execute("SELECT idExamen, nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12, rfc FROM examen WHERE idExamen=%s", (id))
     dato=cbd.cursor.fetchone()
     return render_template('califica_examen.html', com=dato)
 
 @app.route('/examen_revisado/<string:id>', methods=['POST'])
 def examen_revisado(id):
     if request.method == 'POST':
+        apro=request.form['aprobado']
+        obs=request.form['observaciones']
         cal1=int(request.form['preg1'])
         cal2=int(request.form['preg2'])
         cal3=int(request.form['preg3'])
@@ -1328,18 +1348,21 @@ def examen_revisado(id):
         cal11=int(request.form['preg11'])
         cal12=int(request.form['preg12'])
         cali=cal1+cal2+cal3+cal4+cal5+cal6+cal7+cal8+cal9+cal10+cal11+cal12 
-        cbd.cursor.execute('SELECT nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12 FROM examen WHERE idExamen=%s',(id))
+        cbd.cursor.execute('SELECT nombre, rfc, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12 FROM examen WHERE idExamen=%s',(id))
         dato = cbd.cursor.fetchone()
         if dato:
-            nombre, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12 = dato
+            nombre, rfc, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12 = dato
             cbd.cursor.execute('DELETE FROM examen WHERE idExamen=%s',(id,))
-            cbd.cursor.execute('INSERT INTO calificaciones (nombre, calificacion, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (nombre, cali, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12))
+            cbd.conn.commit()
+            cbd.cursor.execute('UPDATE candidato SET evalPsicometPresene=%s, evalPsicometResult=%s, aprobado=%s, calificacion=%s WHERE RFC=%s',(1,obs, apro , cali,str(rfc)))
+            cbd.conn.commit()
+            cbd.cursor.execute('INSERT INTO calificaciones (nombre, rfc, calificacion, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12, aprobado, observaciones) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (nombre, rfc, cali, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, apro, obs))
             cbd.conn.commit()
     return redirect(url_for('calificaciones'))
 
 @app.route('/calificaciones')
 def calificaciones(): 
-    cbd.cursor.execute('SELECT idCalificacion, nombre, calificacion FROM calificaciones order by idCalificacion')
+    cbd.cursor.execute('SELECT idCalificacion, nombre, rfc, calificacion FROM calificaciones order by idCalificacion')
     datos=cbd.cursor.fetchall()
     return render_template('calificaciones.html', comentarios=datos)
 
@@ -1351,8 +1374,8 @@ def calificacion_borrar(id):
 
 @app.route('/calificacion_detalles/<string:id>')
 def calc_detalles(id): 
-    cbd.cursor.execute('SELECT idCalificacion, nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12, calificacion FROM calificaciones WHERE idCalificacion=%s',(id))
-    datos =cbd.cursor.fetchone()
+    cbd.cursor.execute('SELECT idCalificacion, nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12, calificacion, rfc, aprobado, observaciones FROM calificaciones WHERE idCalificacion=%s',(id))
+    datos=cbd.cursor.fetchone()
     return render_template('detalle_cali.html', com=datos)
 
 @app.route('/regreso')
