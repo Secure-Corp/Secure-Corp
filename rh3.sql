@@ -554,39 +554,38 @@ COMMIT;
 
 
 -- Empleados
-
-CREATE TABLE `empleado` (
+CREATE TABLE IF NOT EXISTS `empleado` (
   `idEmpleado` int(11) NOT NULL AUTO_INCREMENT,
-  `idRequisicion` int(11) NOT NULL,
-  `idPuesto` int(11) NOT NULL,
-  `CURP` varchar(30) NOT NULL,
-  `RFC` varchar(20) NOT NULL,
-  `nombre` varchar(40) NOT NULL,
-  `descripcion` varchar(255) DEFAULT NULL,
-  `apellido` varchar(40) NOT NULL,
-  `domCalle` varchar(40) NOT NULL,
-  `domNumExtInt` varchar(30) NOT NULL,
-  `domColonia` varchar(40) NOT NULL,
-  `tel1` varchar(20) NOT NULL,
-  `sueldo` varchar(20) NOT NULL,
-  `correoE` varchar(40) NOT NULL,
-  `edad` int(11) NOT NULL,
-  `sexo` varchar(10) NOT NULL,
+  `codPuesto` varchar(15) NOT NULL,
+  `idArea` int(11) NOT NULL,
+  `nomEmpleado` varchar(50) NOT NULL,
+  `jornada` varchar(70) NOT NULL,
+  `descripcionGeneral` varchar(250) NOT NULL,
+  `edad` varchar(50) NOT NULL,
+  `sexo` varchar(15) NOT NULL,
   `idEstadoCivil` int(11) NOT NULL,
   `idEscolaridad` int(11) NOT NULL,
   `idGradoAvance` int(11) NOT NULL,
   `idCarrera` int(11) NOT NULL,
-  PRIMARY KEY (`idEmpleado`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
+  `experiencia` varchar(70) NOT NULL,
+  `conocimientos` varchar(70) NOT NULL,
+  `manejoEquipo` varchar(70) NOT NULL,
+  `responsabilidades` varchar(70) NOT NULL,
+  PRIMARY KEY (`idEmpleado`),
+  KEY `idEscolaridad` (`idEscolaridad`),
+  KEY `idEstadoCivil` (`idEstadoCivil`),
+  KEY `idGradoAvance` (`idGradoAvance`),
+  KEY `idCarrera` (`idCarrera`),
+  KEY `area` (`idArea`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Volcado de datos para la tabla `empleados`
+-- Volcado de datos para la tabla `empleado`
 --
 
-INSERT INTO `empleado` (`idEmpleado`, `idRequisicion`, `idPuesto`, `CURP`, `RFC`, `nombre`, `apellido`, `domCalle`, `domNumExtInt`, `domColonia`, `tel1`, `sueldo`, `correoE`, `edad`, `sexo`, `idEstadoCivil`, `idEscolaridad`, `idGradoAvance`, `idCarrera`) VALUES
-(1, 1, 1, 'ROGH760106MASDML03', 'dfadf', 'Carlitos', 'Muntez', 'Villas', '#23', 'palmas', '4491102343', '$233', 'carlitos@gmail.com', 23, 'Macho', 1, 2, 1, 1),
-(2, 1, 1, 'ROML551119HASDCR08', 'dfajy', 'Pepe', 'Maciado', 'Potreros', '#26', 'cruz', '4491739435', '$2223', 'pepe@gmail.com', 23, 'Indistinto', 3, 2, 3, 1);
+INSERT INTO `empleado` (`idEmpleado`, `codPuesto`, `idArea`, `nomEmpleado`, `jornada`, `descripcionGeneral`, `edad`, `sexo`, `idEstadoCivil`, `idEscolaridad`, `idGradoAvance`, `idCarrera`, `experiencia`, `conocimientos`, `manejoEquipo`, `responsabilidades`) VALUES
+(1, 'V009', 5, 'Carlos Julian ', 'LUNES A VIERNES', 'VENDER', '34 AÑOS', 'Hombre', 1, 3, 2, 2, '2 AÑOS', 'VENTAS', 'DE COMPUTO',  'INVENTARIO' ),
+(3, 'v0008', 3, 'Aranza Mendoza',  'LUNES A VIERNES', 'trabajar', '21 AÑOS', 'Indistinto', 1, 2, 2, 1, '2 AÑOS', 'VENTAS', 'DE COMPUTO',  'INVENTARIO');
 
 
  
