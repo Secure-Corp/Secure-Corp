@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, send_file
-import pymysql
 import os
 import webbrowser
 from fpdf import FPDF
