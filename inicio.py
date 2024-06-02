@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, send_file
-import pymysql
 import os
 import webbrowser
 #from fpdf import FPDF
@@ -10,8 +9,7 @@ import webbrowser
 from db.db import CBD
 cbd = CBD()
 cbd.conectar()
-conex = CBD()
-conex.__init__()
+
 
 app = Flask(__name__)
 
@@ -433,14 +431,14 @@ def puesto_fedita(idP):
         reqP = request.form['reqPsicologicos']
         resp = request.form['responsabilidades']
         conT = request.form['condicionesTrabajo']
- 
+
 
     cbd.cursor.execute('update puesto set codPuesto = %s, idArea = %s, nomPuesto = %s, puestoJefeSup = %s, jornada = %s, '
-                   'remunMensual = %s, prestaciones = %s, descripcionGeneral = %s, funciones = %s, edad = %s, sexo = %s, '
-                   'idEstadoCivil = %s, idEscolaridad = %s, idGradoAvance = %s, idCarrera = %s, experiencia = %s, '
-                   'conocimientos = %s, manejoEquipo = %s, reqFisicos = %s, reqPsicologicos = %s, responsabilidades = %s, '
-                   'condicionesTrabajo = %s where idPuesto = %s', (codP, idAr, nomP, pueJ, jorn, remu, pres, desc, func, eda,
-                   sex, idEC, idEs, idGA, idCa, expe, cono, manE, reqF, reqP, resp, conT, idP))
+                    'remunMensual = %s, prestaciones = %s, descripcionGeneral = %s, funciones = %s, edad = %s, sexo = %s, '
+                    'idEstadoCivil = %s, idEscolaridad = %s, idGradoAvance = %s, idCarrera = %s, experiencia = %s, '
+                    'conocimientos = %s, manejoEquipo = %s, reqFisicos = %s, reqPsicologicos = %s, responsabilidades = %s, '
+                    'condicionesTrabajo = %s where idPuesto = %s', (codP, idAr, nomP, pueJ, jorn, remu, pres, desc, func, eda,
+                    sex, idEC, idEs, idGA, idCa, expe, cono, manE, reqF, reqP, resp, conT, idP))
     cbd.conn.commit()
 
     cbd.cursor.execute('delete from puesto_has_habilidad where idPuesto =%s ', (idP))
@@ -1247,43 +1245,95 @@ def vacantes_pub():
                            catGradoAvance = '    ', catCarrera = '    ', catIdioma = ' ', catHabilidad = ' ')
 
 #Funcion para Generar un Anuncio de Vacantes por PDF Equipo2
-#Libreria Usada WeasyPrint (Instalacion: pip install weasyprint       Despues se instalaran y configurara la dependencia)
 @app.route('/generate_pdf', methods=['POST'])
 def generate_pdf():
-    # Obtener datos del formulario
-    data = {
-        "nomPuesto": request.form['nomPuesto'],
-        "codPuesto": request.form['codPuesto'],
-        "idArea": request.form['idArea'],
-        "puestoJefeSup": request.form['puestoJefeSup'],
-        "jornada": request.form['jornada'],
-        "remunMensual": request.form['remunMensual'],
-        "prestaciones": request.form['prestaciones'],
-        "descripcionGeneral": request.form['descripcionGeneral'],
-        "funciones": request.form['funciones'],
-        "edad": request.form['edad'],
-        "sexo": request.form['sexo'],
-        "idEstadoCivil": request.form['idEstadoCivil'],
-        "idEscolaridad": request.form['idEscolaridad'],
-        "idGradoAvance": request.form['idGradoAvance'],
-        "idFormaPubl": request.form['idFormaPubl']
-    }
+        # Obtener datos del formulario
+        data = {
+            "nomPuesto": request.form['nomPuesto'],
+            "codPuesto": request.form['codPuesto'],
+            "idArea": request.form['idArea'],
+            "puestoJefeSup": request.form['puestoJefeSup'],
+            "jornada": request.form['jornada'],
+            "remunMensual": request.form['remunMensual'],
+            "prestaciones": request.form['prestaciones'],
+            "descripcionGeneral": request.form['descripcionGeneral'],
+            "funciones": request.form['funciones'],
+            "edad": request.form['edad'],
+            "sexo": request.form['sexo'],
+            "idEstadoCivil": request.form['idEstadoCivil'],
+            "idEscolaridad": request.form['idEscolaridad'],
+            "idGradoAvance": request.form['idGradoAvance'],
+            "idFormaPubl": request.form['idFormaPubl']
+        }
+        # Crear PDF con FPDF
+        class PDF(FPDF):
+            def header(self):
+                self.set_font('Arial', 'B', 24)
+                self.cell(0, 10, 'ESTAMOS CONTRATANDO', 0, 1, 'C')
+                self.ln(10)
 
-    # Renderizar plantilla HTML con los datos
-    rendered_html = render_template('pdf.html', data=data)
+            def chapter_title(self, title, level=1):
+                self.set_font('Arial', 'B', 14 if level == 1 else 12)
+                # Cambiar color de los títulos y subtítulos
+                self.set_text_color(94, 156, 160)  # Color: #5e9ca0
+                self.cell(0, 10, title, 0, 1, 'C')
+                self.ln(5)
+                self.set_text_color(0)  # Restaurar color por defecto
 
-    # Convertir el HTML a PDF
-    pdf = HTML(string=rendered_html).write_pdf()
+            def chapter_body(self, body):
+                self.set_font('Arial', '', 12)
+                self.multi_cell(0, 10, body)
 
-    # Guardar el PDF en el sistema de archivos
-    pdf_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static', 'vacante.pdf')
-    with open(pdf_path, 'wb') as f:
-        f.write(pdf)
+            def add_vacancy_data(self, data):
+                self.chapter_title(data["nomPuesto"], level=1)
+                # Subrayar el nombre de la vacante
+                self.set_draw_color(0, 0, 0)
+                self.line(10, self.get_y() - 5, 200, self.get_y() - 5)
+                self.chapter_body(f"Código de Vacante: {data['codPuesto']}")
+                self.chapter_body(f"Área de adscripción: {data['idArea']}")
+                self.chapter_body(f"Puesto del Jefe Superior: {data['puestoJefeSup']}")
+                self.chapter_body(f"Jornada: {data['jornada']}")
+                self.chapter_body(f"Remuneración Mensual: {data['remunMensual']}")
+                self.chapter_body(f"Prestaciones: {data['prestaciones']}")
+                self.chapter_title("Descripción General", level=1)
+                self.chapter_body(data["descripcionGeneral"])
+                self.chapter_title("Funciones", level=1)
+                self.chapter_body(data["funciones"])
+                self.chapter_title("Requisitos", level=1)
+                self.chapter_body(f"Edad: {data['edad']}")
+                self.chapter_body(f"Sexo: {data['sexo']}")
+                self.chapter_body(f"Estado Civil: {data['idEstadoCivil']}")
+                self.chapter_body(f"Escolaridad: {data['idEscolaridad']}")
+                self.chapter_body(f"Grado Avance: {data['idGradoAvance']}")
+                self.chapter_body(f"Forma de Publicación: {data['idFormaPubl']}")
+                self.set_text_color(51, 102, 255)
+                # Alinear la información de contacto a la derecha
+                self.cell(0, 10, "Envia tus Datos", 0, 1, 'R')
+                self.set_text_color(0)
+                self.cell(0, 10, "SecureCorp@gmail.com", 0, 1, 'R')
+                self.cell(0, 10, "(+52) 449 4534 534", 0, 1, 'R')
+                self.cell(0, 10, "www.SecureCorp/Contratacion.com", 0, 1, 'R')#Aqui se podria poner el link de la pagina cuando se suba a PythonAnywhere
 
-    # Devolver el PDF como respuesta
-    return send_file(pdf_path, as_attachment=True, download_name='vacante.pdf')
+        pdf = PDF()
+        pdf.add_page()
+        pdf.add_vacancy_data(data)
+        
+        # Ruta donde se guardará el PDF
+        # Especificar una ruta absoluta para guardar el archivo PDF en la carpeta "Descargas"
+        archivo = "PublicacionDeVacantes.pdf"
+        output_path = os.path.join(os.path.expanduser('~'), 'Downloads', archivo)
+        pdf.output(output_path)
+        print(f'Nombre: {archivo}')
+        print(f'Archivo PDF guardado en {output_path}')
+
+        # Abrir el archivo PDF con el navegador web
+        webbrowser.open(f'file://{output_path}')
+
+        # Redirigir a la página de vacantes
+        return redirect(url_for('vacantes'))
 
 #Fin del codigo del Equipo2
+
 #examen psicometrico
 @app.route('/examen/<string:id>')
 def examen(id):
@@ -1395,35 +1445,33 @@ def empleados():
 
 
 @app.route('/empleados_fdetalle/<string:idE>', methods=['GET'])
-def empleados_fdetalle(idE): 
-
-    cbd.cursor.execute('select idEmpleado, nombre from empleado order by idEmpleado')
+def empleados_fdetalle(idE):
+    
+    cbd.cursor.execute('SELECT idEmpleado, nombre FROM empleado ORDER BY idEmpleado')
     datos = cbd.cursor.fetchall()
 
-    cbd.cursor.execute('select idRequisicion, idPuesto, CURP, RFC, nombre, apellido, domCalle, domNumExtInt, domColonia,'
-                   ' tel1, sueldo, correoE, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera from empleado where '
-                   ' idEmpleado = %s', (idE))
-    dato = cbd.cursor.fetchall()
+    cbd.cursor.execute('SELECT idRequisicion, idPuesto, CURP, RFC, nombre, apellido, domCalle, domNumExtInt, domColonia, tel1, sueldo, correoE, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera FROM empleado WHERE idEmpleado = %s', (idE,))
+    dato = cbd.cursor.fetchone()
 
-    cbd.cursor.execute('select a.idRequisicion, a.folio from requisicion a, empleado b where a.idRequisicion = b.idRequisicion and b.idEmpleado = %s', (idE))
-    datos2 = cbd.cursor.fetchall()
-    
-    cbd.cursor.execute('select a.idPuesto, a.descripcionGeneral from puesto a, empleado b where a.idPuesto = b.idPuesto and b.idEmpleado = %s', (idE))
-    datos3 = cbd.cursor.fetchall()
+    cbd.cursor.execute('SELECT a.idRequisicion, a.folio FROM requisicion a JOIN empleado b ON a.idRequisicion = b.idRequisicion WHERE b.idEmpleado = %s', (idE,))
+    datos2 = cbd.cursor.fetchone()
 
-    cbd.cursor.execute('select a.idEstadoCivil, a.descripcion from estado_civil a, empleado b where a.idEstadoCivil = b.idEstadoCivil and b.idEmpleado = %s', (idE))
-    datos4 = cbd.cursor.fetchall()
+    cbd.cursor.execute('SELECT a.idPuesto, a.descripcionGeneral FROM puesto a JOIN empleado b ON a.idPuesto = b.idPuesto WHERE b.idEmpleado = %s', (idE,))
+    datos3 = cbd.cursor.fetchone()
 
-    cbd.cursor.execute('select a.idEscolaridad, a.descripcion from escolaridad a, empleado b where a.idEscolaridad = b.idEscolaridad and b.idEmpleado = %s', (idE))
-    datos5 = cbd.cursor.fetchall()
+    cbd.cursor.execute('SELECT a.idEstadoCivil, a.descripcion FROM estado_civil a JOIN empleado b ON a.idEstadoCivil = b.idEstadoCivil WHERE b.idEmpleado = %s', (idE,))
+    datos4 = cbd.cursor.fetchone()
 
-    cbd.cursor.execute('select a.idGradoAvance, a.descripcion from grado_avance a, empleado b where a.idGradoAvance = b.idGradoAvance and b.idEmpleado = %s', (idE))
-    datos6 = cbd.cursor.fetchall()
+    cbd.cursor.execute('SELECT a.idEscolaridad, a.descripcion FROM escolaridad a JOIN empleado b ON a.idEscolaridad = b.idEscolaridad WHERE b.idEmpleado = %s', (idE,))
+    datos5 = cbd.cursor.fetchone()
 
-    cbd.cursor.execute('select a.idCarrera, a.descripcion from carrera a, empleado b where a.idCarrera = b.idCarrera and b.idEmpleado = %s', (idE))
-    datos7 = cbd.cursor.fetchall()
+    cbd.cursor.execute('SELECT a.idGradoAvance, a.descripcion FROM grado_avance a JOIN empleado b ON a.idGradoAvance = b.idGradoAvance WHERE b.idEmpleado = %s', (idE,))
+    datos6 = cbd.cursor.fetchone()
 
-    return render_template("empleados.html", pue = datos, dat=dato[0], catRequisicion=datos2, catPuesto=datos3, catEdoCivil=datos4, catEscolaridad=datos5, catGradoAvance=datos6, catCarrera=datos7)
+    cbd.cursor.execute('SELECT a.idCarrera, a.descripcion FROM carrera a JOIN empleado b ON a.idCarrera = b.idCarrera WHERE b.idEmpleado = %s', (idE,))
+    datos7 = cbd.cursor.fetchone()
+
+    return render_template("empleados.html", pue=datos, dat=dato, catRequisicion=datos2, catPuesto=datos3, catEdoCivil=datos4, catEscolaridad=datos5, catGradoAvance=datos6, catCarrera=datos7)
 
 
 @app.route('/empleados_borrar/<string:idE>')
@@ -1541,75 +1589,74 @@ def empleados_fagrega2():
 #------------------------------------------------------------------------------------------------------------------
 
 @app.route('/empleados_editar/<string:idE>')
-def empleados_editar(idE): 
+def empleados_editar(idE):
+    cursor = cbd.cursor()
 
-    cbd.cursor.execute('select idEmpleado, idRequisicion, idPuesto, CURP, RFC, nombre, apellido, domCalle, domNumExtInt, domColonia,'
-                   ' tel1, sueldo, correoE, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera from empleado where '
-                   ' idEmpleado = %s', (idE))
-    dato = cbd.cursor.fetchall()
+    cursor.execute('SELECT idEmpleado, idRequisicion, idPuesto, CURP, RFC, nombre, apellido, domCalle, domNumExtInt, domColonia, '
+                   'tel1, sueldo, correoE, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera '
+                   'FROM empleado WHERE idEmpleado = %s', (idE,))
+    dato = cursor.fetchall()
 
-    cbd.cursor.execute('select idEmpleado, idEmpleado from empleado ')
-    datos1 = cbd.cursor.fetchall()
+    cursor.execute('SELECT idEmpleado, idEmpleado FROM empleado')
+    datos1 = cursor.fetchall()
 
-    cbd.cursor.execute('select idEstadoCivil, descripcion from estado_civil ')
-    datos2 = cbd.cursor.fetchall()
+    cursor.execute('SELECT idEstadoCivil, descripcion FROM estado_civil')
+    datos2 = cursor.fetchall()
 
-    cbd.cursor.execute('select idEscolaridad, descripcion from escolaridad ')
-    datos3 = cbd.cursor.fetchall()
+    cursor.execute('SELECT idEscolaridad, descripcion FROM escolaridad')
+    datos3 = cursor.fetchall()
 
-    cbd.cursor.execute('select idGradoAvance, descripcion from grado_avance ')
-    datos4 = cbd.cursor.fetchall()
+    cursor.execute('SELECT idGradoAvance, descripcion FROM grado_avance')
+    datos4 = cursor.fetchall()
 
-    cbd.cursor.execute('select idCarrera, descripcion from carrera ')
-    datos5 = cbd.cursor.fetchall()
+    cursor.execute('SELECT idCarrera, descripcion FROM carrera')
+    datos5 = cursor.fetchall()
 
-    cbd.cursor.execute('select idIdioma, descripcion from idioma ')
-    datos6 = cbd.cursor.fetchall()
+    cursor.execute('SELECT idIdioma, descripcion FROM idioma')
+    datos6 = cursor.fetchall()
 
-    cbd.cursor.execute('select idHabilidad, descripcion from habilidad ')
-    datos7 = cbd.cursor.fetchall()
+    cursor.execute('SELECT idHabilidad, descripcion FROM habilidad')
+    datos7 = cursor.fetchall()
 
-    #djsijdisjdi
+    cursor.execute('SELECT a.idEstadoCivil, a.descripcion FROM estado_civil a, empleado b '
+                   'WHERE a.idEstadoCivil = b.idEstadoCivil AND b.idEmpleado = %s', (idE,))
+    datos12 = cursor.fetchall()
 
-    cbd.cursor.execute('select a.idEstadoCivil, a.descripcion from estado_civil a, empleado b where a.idEstadoCivil = b.idEstadoCivil and b.idEmpleado = %s',(idE))
-    datos12 = cbd.cursor.fetchall()
+    cursor.execute('SELECT a.idEscolaridad, a.descripcion FROM escolaridad a, empleado b '
+                   'WHERE a.idEscolaridad = b.idEscolaridad AND b.idEmpleado = %s', (idE,))
+    datos13 = cursor.fetchall()
 
-    cbd.cursor.execute('select a.idEscolaridad, a.descripcion from escolaridad a, empleado b where a.idEscolaridad = b.idEscolaridad and b.idEmpleado = %s',(idE))
-    datos13 = cbd.cursor.fetchall()
+    cursor.execute('SELECT a.idGradoAvance, a.descripcion FROM grado_avance a, empleado b '
+                   'WHERE a.idGradoAvance = b.idGradoAvance AND b.idEmpleado = %s', (idE,))
+    datos14 = cursor.fetchall()
 
-    cbd.cursor.execute('select a.idGradoAvance, a.descripcion from grado_avance a, empleado b where a.idGradoAvance = b.idGradoAvance and b.idEmpleado = %s',(idE))
-    datos14 = cbd.cursor.fetchall()
+    cursor.execute('SELECT a.idCarrera, a.descripcion FROM carrera a, empleado b '
+                   'WHERE a.idCarrera = b.idCarrera AND b.idEmpleado = %s', (idE,))
+    datos15 = cursor.fetchall()
 
-    cbd.cursor.execute('select a.idCarrera, a.descripcion from carrera a, empleado b where a.idCarrera = b.idCarrera and b.idEmpleado = %s', (idE))
-    datos15 = cbd.cursor.fetchall()
+    cursor.execute('SELECT a.idEmpleado, b.idIdioma, b.descripcion FROM empleado a, idioma b, puesto_has_idioma c '
+                   'WHERE a.idEmpleado = c.idEmpleado AND b.idIdioma = c.idIdioma AND a.idEmpleado = %s', (idE,))
+    datos16 = cursor.fetchall()
 
-    cbd.cursor.execute('select a.idEmpleado, b.idIdioma, b.descripcion from empleado a, idioma b, puesto_has_idioma c '
-                   'where a.idEmpleado = c.idEmpleado and b.idIdioma = c.idIdioma and a.idEmpleado = %s', (idE))
-    datos16 = cbd.cursor.fetchall()
-
-    cbd.cursor.execute('select a.idEmpleado, b.idHabilidad, b.descripcion from empleado a, habilidad b, puesto_has_habilidad c '
-                   'where a.idEmpleado = c.idEmpleado and b.idHabilidad = c.idHabilidad and a.idEmpleado = %s', (idE))
-    datos17 = cbd.cursor.fetchall()
-
+    cursor.execute('SELECT a.idEmpleado, b.idHabilidad, b.descripcion FROM empleado a, habilidad b, puesto_has_habilidad c '
+                   'WHERE a.idEmpleado = c.idEmpleado AND b.idHabilidad = c.idHabilidad AND a.idEmpleado = %s', (idE,))
+    datos17 = cursor.fetchall()
 
     return render_template("empleados_edi.html", dat=dato[0], catEmpleado=datos1, catEdoCivil=datos2, catEscolaridad=datos3,
                            catGradoAvance=datos4, catCarrera=datos5, catIdioma=datos6, catHabilidad=datos7,
-                           EdoCivil=datos12[0], Escolaridad=datos13[0], GradoAvance=datos14[0],
-                           Carrera=datos15[0], Idioma=datos16, Habilidad=datos17)
-
-#-----------------------------------------------------------------------------------------------------------------------
+                           EdoCivil=datos12[0], Escolaridad=datos13[0], GradoAvance=datos14[0], Carrera=datos15[0],
+                           Idioma=datos16, Habilidad=datos17)
 
 @app.route('/empleados_fedita/<string:idE>', methods=['POST'])
 def empleados_fedita(idE):
     if request.method == 'POST':
-        
-        idAr = request.form['idEmpleado']
-        idEs = request.form['idRequisicion']
-        idGA = request.form['idPuesto']
-        idCa = request.form['idEstadoCivil']
-        idCe = request.form['idEscolaridad']
-        idCi = request.form['idGradoAvance']
-        idCo = request.form['idCarrera']
+        # Capturar datos del formulario
+        idRequisicion = request.form['idRequisicion']
+        idPuesto = request.form['idPuesto']
+        idEstadoCivil = request.form['idEstadoCivil']
+        idEscolaridad = request.form['idEscolaridad']
+        idGradoAvance = request.form['idGradoAvance']
+        idCarrera = request.form['idCarrera']
         CURP = request.form['CURP']
         RFC = request.form['RFC']
         nombre = request.form['nombre']
@@ -1622,39 +1669,44 @@ def empleados_fedita(idE):
         correoE = request.form['correoE']
         edad = request.form['edad']
         sexo = request.form['sexo']
- 
 
-    cbd.cursor.execute('update candidato set idRequisicion = %s, idPuesto = %s, CURP = %s, RFC = %s, nombre = %s, apellido = %s, domCalle = %s, domNumExtInt = %s, domColonia = %s,'
-    ' tel1 = %s, sueldo = %s, correoE = %s, edad = %s, sexo = %s, idEstadoCivil = %s, idEscolaridad = %s, idGradoAvance = %s, idCarrera = %s where idEmpleado = %s', ( idAr, idEs, idGA, idCa, idCe, idCi, idCo, CURP, RFC, nombre, apellido, domCalle, domCalle, domColonia, tel1, sueldo, correoE, edad, sexo))
-    cbd.conn.commit()
-
-    cbd.cursor.execute('delete from puesto_has_habilidad where idEmpleado =%s ', (idE))
-    cbd.conn.commit()
-    cbd.cursor.execute('delete from puesto_has_idioma where idEmpleado =%s ', (idE))
-    cbd.conn.commit()
-
-    cbd.cursor.execute('select count(*) from idioma ')
-    dato = cbd.cursor.fetchall()
-    nidio = dato[0]
-    ni = nidio[0] + 1
-
-    for i in range(1, ni):
-        idio = 'i' + str(i)
-        if idio in request.form:
-            cbd.cursor.execute('insert into puesto_has_idioma(idEmpleado,idIdioma) values (%s,%s)', (idE, i))
+        try:
+            cursor = cbd.cursor()
+            cursor.execute('UPDATE empleado SET idRequisicion = %s, idPuesto = %s, CURP = %s, RFC = %s, nombre = %s, apellido = %s, domCalle = %s, '
+                           'domNumExtInt = %s, domColonia = %s, tel1 = %s, sueldo = %s, correoE = %s, edad = %s, sexo = %s, '
+                           'idEstadoCivil = %s, idEscolaridad = %s, idGradoAvance = %s, idCarrera = %s WHERE idEmpleado = %s', 
+                           (idRequisicion, idPuesto, CURP, RFC, nombre, apellido, domCalle, domNumExtInt, domColonia, tel1, sueldo, correoE, edad, sexo,
+                            idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, idE))
             cbd.conn.commit()
 
-    cbd.cursor.execute('select count(*) from habilidad ')
-    dato = cbd.cursor.fetchall()
-    nhab = dato[0]
-    nh = nhab[0] + 1
-
-    for i in range(1, nh):
-        habi = 'h' + str(i)
-        if habi in request.form:
-            cbd.cursor.execute('insert into puesto_has_habilidad(idEmpleado,idHabilidad) values (%s,%s)', (idE, i))
+            # Actualizar idiomas
+            cursor.execute('DELETE FROM puesto_has_idioma WHERE idEmpleado = %s', (idE,))
             cbd.conn.commit()
+
+            cursor.execute('SELECT idIdioma FROM idioma')
+            idiomas = cursor.fetchall()
+            for idio in idiomas:
+                if f'i{idio[0]}' in request.form:
+                    cursor.execute('INSERT INTO puesto_has_idioma (idEmpleado, idIdioma) VALUES (%s, %s)', (idE, idio[0]))
+            cbd.conn.commit()
+
+            # Actualizar habilidades
+            cursor.execute('DELETE FROM puesto_has_habilidad WHERE idEmpleado = %s', (idE,))
+            cbd.conn.commit()
+
+            cursor.execute('SELECT idHabilidad FROM habilidad')
+            habilidades = cursor.fetchall()
+            for hab in habilidades:
+                if f'h{hab[0]}' in request.form:
+                    cursor.execute('INSERT INTO puesto_has_habilidad (idEmpleado, idHabilidad) VALUES (%s, %s)', (idE, hab[0]))
+            cbd.conn.commit()
+
+        except Exception as e:
+            print(f"Error al actualizar empleado: {e}")
+            cbd.conn.rollback()
+
     return redirect(url_for('empleados'))
+
 
 #fin equipo 6
 
@@ -1711,6 +1763,3 @@ def curiculim(id):
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-
