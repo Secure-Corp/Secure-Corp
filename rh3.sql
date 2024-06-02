@@ -394,11 +394,11 @@ INSERT INTO `puesto` (`idPuesto`, `codPuesto`, `idArea`, `nomPuesto`, `puestoJef
 --
 -- Estructura de tabla para la tabla `puesto_has_habilidad`
 --
-
 CREATE TABLE IF NOT EXISTS `puesto_has_habilidad` (
   `idPuesto` int(11) NOT NULL,
+  `idEmpleado` int(11) NOT NULL,
   `idHabilidad` int(11) NOT NULL,
-  PRIMARY KEY (`idPuesto`,`idHabilidad`),
+  PRIMARY KEY (`idPuesto`, `idEmpleado`,`idHabilidad`),
   KEY `idHabilidad` (`idHabilidad`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -406,21 +406,21 @@ CREATE TABLE IF NOT EXISTS `puesto_has_habilidad` (
 -- Volcado de datos para la tabla `puesto_has_habilidad`
 --
 
-INSERT INTO `puesto_has_habilidad` (`idPuesto`, `idHabilidad`) VALUES
-(1, 1),
-(2, 4),
-(2, 5),
-(3, 2),
-(3, 3),
-(3, 4),
-(3, 5),
-(3, 6),
-(3, 7),
-(3, 8),
-(3, 9),
-(3, 10),
-(3, 11),
-(3, 12);
+INSERT INTO `puesto_has_habilidad` (`idPuesto`,  `idEmpleado`, `idHabilidad`) VALUES
+(1,1, 1),
+(3,3, 4),
+(3,3, 5),
+(5,3, 2),
+(5,5, 3),
+(5,5, 4),
+(5,5, 5),
+(5,5, 6),
+(5,5, 7),
+(5,5, 8),
+(5,5, 9),
+(5,5, 10),
+(5,5, 11),
+(5,5, 12);
 
 -- --------------------------------------------------------
 
@@ -430,8 +430,9 @@ INSERT INTO `puesto_has_habilidad` (`idPuesto`, `idHabilidad`) VALUES
 
 CREATE TABLE IF NOT EXISTS `puesto_has_idioma` (
   `idPuesto` int(11) NOT NULL,
+  `idEmpleado` int(11) NOT NULL,
   `idIdioma` int(11) NOT NULL,
-  PRIMARY KEY (`idPuesto`,`idIdioma`),
+  PRIMARY KEY (`idPuesto`, `idEmpleado`,`idIdioma`),
   KEY `idIdioma` (`idIdioma`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -439,10 +440,10 @@ CREATE TABLE IF NOT EXISTS `puesto_has_idioma` (
 -- Volcado de datos para la tabla `puesto_has_idioma`
 --
 
-INSERT INTO `puesto_has_idioma` (`idPuesto`, `idIdioma`) VALUES
-(1, 2),
-(2, 1),
-(3, 2);
+INSERT INTO `puesto_has_idioma` (`idPuesto`,`idEmpleado`, `idIdioma`) VALUES
+(1, 1, 2),
+(3, 3, 1),
+(5, 5, 2);
 
 -- --------------------------------------------------------
 
