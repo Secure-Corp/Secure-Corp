@@ -373,8 +373,8 @@ class CBD():
             self.cursor.execute("SELECT COUNT(*) FROM vacante")
             count = self.cursor.fetchone()[0]
             if count == 0:
-                self.cursor.execute("INSERT INTO vacante (conseVR, fuenteCandidato, inicioFechaPublic, finFechaPublic, publicada, observaciones, candidatoSelecc, fechaContratacion, idRequisicion, idPuesto) VALUES (0, 'Interno', '2023-11-23', '2023-11-27', 1, 'VACANTE PARA CONTRATAR PERSONAL, 0, '2023-12-12', 1, 1)")
-                self.cursor.execute("INSERT INTO vacante (conseVR, fuenteCandidato, inicioFechaPublic, finFechaPublic, publicada, observaciones, candidatoSelecc, fechaContratacion, idRequisicion, idPuesto) VALUES (0, 'Externo', '2023-09-13', '2023-12-27', 1, 'VACANTE PARA REEMPLZAR PERSONAL, 0, '2024-01-25', 2, 2)")
+                self.cursor.execute("INSERT INTO vacante (conseVR, fuenteCandidato, inicioFechaPublic, finFechaPublic, publicada, observaciones, candidatoSelecc, fechaContratacion, idRequisicion, idPuesto) VALUES (0, 'Interno', '2023-11-23', '2023-11-27', 1, 'VACANTE PARA CONTRATAR PERSONAL', 0, '2023-12-12', 1, 1)")
+                self.cursor.execute("INSERT INTO vacante (conseVR, fuenteCandidato, inicioFechaPublic, finFechaPublic, publicada, observaciones, candidatoSelecc, fechaContratacion, idRequisicion, idPuesto) VALUES (0, 'Externo', '2023-09-13', '2023-12-27', 1, 'VACANTE PARA REEMPLAZAR PERSONAL', 0, '2024-01-25', 2, 2)")
         except pymysql.Error as err:
             print("\nError al crear la tabla vacante: {0}".format(err))
 
