@@ -31,10 +31,10 @@ body {
   */
 
 nav {
-    height: 14.5%;
+    height: 17.5%;
     background-color: rgba(255, 255, 255, 0.932);
     opacity: 1;
-    border-bottom: 2.5px solid #E6A139;
+    border-bottom: .2rem solid #E6A139;
     transition: 0.9s;
 }
 
@@ -154,7 +154,7 @@ nav {
 .offcanvas {
     background-color: rgba(255, 255, 255, 0.986);
     opacity: 1;
-    border-right: 2.5px solid #E6A139;
+    border-right: .2rem solid #E6A139;
     color: #E6A139;
     font-family: "regular";
     text-align: center;
@@ -473,7 +473,9 @@ table {
 
 #title {
     margin-top: 8%;
+    margin-bottom: 3%;
     background-color: #506E86;
+    border-bottom: .2rem solid #E6A139;
     padding: 1.5%;
     color: rgba(255, 255, 255, 0.932);
     text-align: center;
@@ -584,10 +586,9 @@ table {
     font-size: 90%;
     width: 100%;
     padding: 2.1% 33%;
-    border-radius: 70%;
+    border-radius: .2rem;
     color: white;
     cursor: pointer;
-    border-radius: 0%;
     background-color: #506E86;
     transition: transform 0.3s ease-in-out;
     text-decoration: none;
@@ -607,24 +608,74 @@ table {
 
 #btn2 {
     font-size: 90%;
-    width: 200%;
+    width: 100%;
     padding: .8% 33%;
-    border-radius: 70%;
+    border-radius: .2rem;
     color: white;
     cursor: pointer;
-    border-radius: 0%;
-    background-color: #506E86;
+    background-color: #2F3C4F;
     transition: transform 0.3s ease-in-out;
     text-decoration: none;
 }
 
 #btn2:hover {
+    background-color: #1B232E;
+    box-shadow: 0 .2rem #E67628;
+    transform: translateY(4px);
+}
+
+#btn2:active {
+    background-color: #1B232E;
+    box-shadow: 0 .2rem #E67628;
+    transform: translateY(4px);
+}
+
+#enviar {
+    text-align: center;
+    font-size: 90%;
+    width: 100%;
+    padding: 5% 33%;
+    border-radius: .2rem;
+    color: white;
+    cursor: pointer;
+    background-color: #506E86;
+    transition: transform 0.3s ease-in-out;
+    text-decoration: none;
+}
+
+#enviar:hover {
     background-color: #2F3C4F;
     box-shadow: 0 .2rem #666;
     transform: translateY(4px);
 }
 
-#btn2:active {
+#enviar:active {
+    background-color: #2F3C4F;
+    box-shadow: 0 .2rem #666;
+    transform: translateY(4px);
+}
+
+#btn3 {
+    text-align: center;
+    align-items: center;
+    font-size: 90%;
+    width: 100%;
+    padding: 10% 33%;
+    border-radius: .2rem;
+    color: white;
+    cursor: pointer;
+    background-color: #506E86;
+    transition: transform 0.3s ease-in-out;
+    text-decoration: none;
+}
+
+#btn3:hover {
+    background-color: #2F3C4F;
+    box-shadow: 0 .2rem #666;
+    transform: translateY(4px);
+}
+
+#btn3:active {
     background-color: #2F3C4F;
     box-shadow: 0 .2rem #666;
     transform: translateY(4px);
@@ -639,22 +690,58 @@ table {
     padding-left: 2%;
 }
 
-.btnsolo{
+.tablefondo1 {
+    font-size: 95%;
+    background: rgb(80, 110, 134);
+    background: linear-gradient(90deg, rgba(80, 110, 134, 1) 62%, rgba(115, 119, 123, 1) 100%);
+    color: #dedfe4;
+    border: .1rem solid rgba(255, 255, 255, 0.932);
+    padding-left: 2%;
+}
+
+.btnsolo {
     width: 90%;
     margin-top: 5%;
     margin-left: 5%;
     margin-right: 5%;
     text-align: center;
     align-items: center;
-} 
+}
 
 /*===================================================
                 Fin de Tablas
 ====================================================*/
 
+/*===================================================
+                    Formulario
+===================================================*/
+
+#subtitle {
+    margin-top: 8%;
+    margin-bottom: 3%;
+    background-color: #73777B;
+    border-bottom: .2rem solid #506E86;
+    padding: .7%;
+    color: rgba(255, 255, 255, 0.932);
+    text-align: center;
+}
+
 #formulario {
     width: 95%;
+    border-radius: .4rem;
+    margin-bottom: 5%;
+    padding: 2%;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    background-color: #506E86;
+    font-family: "regular";
+    color: #E6A139;
+    text-align: center;
 }
+
+/*===================================================
+                Fin de formulario
+===================================================*/
 
 /*===================================================
               configuraciones del dark mode

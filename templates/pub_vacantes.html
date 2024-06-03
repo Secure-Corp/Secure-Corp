@@ -8,7 +8,7 @@
 <br>
 <br>
 
-<form class="row g-3" id="vacanteForm" action="/generate_pdf" method="POST">
+<form class="row g-3" id="formulario" action="/generate_pdf" method="POST">
     <div class="col-md-12">
        <label for="nomPuesto" class="form-label">Nombre de la Vacante</label>
        <input type="text" class="form-control" name="nomPuesto" id="nomPuesto" value="{{dat.3}}" readonly="readonly"></input>
@@ -81,7 +81,7 @@
         <option>Anuncios en Periódicos y Revistas</option>
      </select>
     </div>
-    <button onclick="validarFormulario()" type="button" bgcolor="#2B2D83" width="6%" class="btn btn-outline-info btn-sm">Publicar Anuncio</button>
+    <button onclick="validarFormulario()" type="button" class="btn" id="btn2">Publicar Anuncio</button>
 </form>
 <br></br>
 

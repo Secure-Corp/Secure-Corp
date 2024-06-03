@@ -1,48 +1,50 @@
 {% extends "layout.html" %}
 
 {% block content %}
-          <div id="title">
-              <h3>VACANTES DISPONIBLES</h3>
-          </div>
+<div id="title">
+  <h3>VACANTES DISPONIBLES</h3>
+</div>
 
-          <table>
-            <thead id="ndp">
-              <tr>
-                <td><b>Folio Requisición</b></td>
-                <td><b>ID de la Vacante</b></td>
-                <td><b>Nombre del Puesto</b></td>
-              </tr>
-            </thead>
-            <tbody>
-              {% for i in datos %}
-              <tr>
-                <td class="tablefondo">
-                  {{i.0}}
-                </td>
-                <td class="tablefondo">
-                  {{i.1}}
-                </td>
-                <td class="tablefondo">
-                  {{i.2}}
-                </td>
-                <td><a href="/capturarCand/{{i.1}}" class="btn" id="btn1">Capturar candidato</a>
-                </td>
-                <td><a href="/seleccionCand/{{i.1}}" class="btn" id="btn1">Selección</a>
-                </td>
-                <td width="10%">
-                  {% if i[3] == 0 %}
-                    <center><button class="button" id="selectCand" disabled style="border: none;">No hay candidato seleccionado</button></center>
-                  {% elif i[3] != 0 %}
-                    <center><a href="/candSelec/{{i[3]}}/{{i[1]}}" class="btn" id="editar">Candidato seleccionado</a></center>
-                  {% endif %}
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<table>
+  <thead id="ndp">
+    <tr>
+      <td><b>Folio Requisición</b></td>
+      <td><b>ID de la Vacante</b></td>
+      <td><b>Nombre del Puesto</b></td>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in datos %}
+    <tr>
+      <td class="tablefondo1">
+        {{i.0}}
+      </td>
+      <td class="tablefondo1">
+        {{i.1}}
+      </td>
+      <td class="tablefondo1">
+        {{i.2}}
+      </td>
+      <td><a href="/capturarCand/{{i.1}}" class="btn" id="enviar">Capturar candidato</a>
+      </td>
+      <td>
+        <center><a href="/seleccionCand/{{i.1}}" class="button" id="btn3">Selección</a></center>
+      </td>
+      <td>
+        {% if i[3] == 0 %}
+        <center><button class="button" id="selectCand" disabled style="border: none;">No hay candidato
+            seleccionado</button></center>
+        {% elif i[3] != 0 %}
+        <center><a href="/candSelec/{{i[3]}}/{{i[1]}}" class="btn" id="editar">Candidato seleccionado</a></center>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
 </center>
 {% endblock %}
