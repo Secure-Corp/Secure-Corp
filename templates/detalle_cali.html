@@ -76,6 +76,20 @@
         <label  class="minap">12- ¿Cómo te sientes acerca de recibir retroalimentación sobre tu trabajo?</label>
         <input type="text" class="form-control" name="p12" id="p12" value="{{com.13}}" disabled>
     </div>
+    <div class="col-md-12">
+        <label class="minap">Observaciones</label>
+        <input type="text" id="observaciones" name="observaciones" value="{{com.17}}" class="form-control" readonly>
+    </div>
+    <div class="col-md-12">
+        <label class="minap">¿Candidato aprobado?</label>
+        <select name="aprobado" id="aprobado" class="form-select" disabled>
+            <option selected="true" disabled="disabled">{{com.16}}</option>
+        </select>
+    </div>
+    <div class="col-md-12">
+        <label class="minap">Calificacion</label>
+        <input type="text" id="calificacion" name="calificacion" value="{{com.14}}/12" class="form-control" readonly>
+    </div>
         <div class="col-12">
             <button type="submit" >Regresar</button>
          </div>

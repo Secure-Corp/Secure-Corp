@@ -82,6 +82,13 @@ function validarEvaluaciones() {
         }
         
     }
+
+    let evalPsicomReq = document.getElementById("evalPsicomReq");
+    if (evalPsicomReq.selectedIndex == 0 || !evalPsicomReq.validity.valid) {
+        evalPsicomReq.style.background = '#FFDDDD';
+        valido = false;
+    }
+
     return valido;
 }
 

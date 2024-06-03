@@ -1,9 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, send_file
-import pymysql
 import os
 import webbrowser
-#from fpdf import FPDF
-#from weasyprint import HTML
+from fpdf import FPDF
+
+
+
+#Conexion a base de datos
+from db.db import CBD
+cbd = CBD()
+cbd.conectar()
+
 
 app = Flask(__name__)
 
@@ -14,853 +20,154 @@ def home():
 @app.route("/home")
 def home2():
     return render_template("home.html")
+#GITHUB
 
-#Conexion a base de datos
-def conex():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', port=3306, db='rh3')
-    cursor = conn.cursor()
-    cursor.execute("SHOW DATABASES LIKE 'rh3'")
-    resu = cursor.fetchone()
-    
-    if resu:
-        print("BASE DE DATOS EXISTENTE")
-    else:
-        print("BASE DE DATOS INEXISTENTE")
-        cursor.execute("CREATE SCHEMA IF NOT EXISTS `rh3` DEFAULT CHARACTER SET utf8mb4")
-        cursor.execute("USE `rh3`")
-        sql_statements = """
-            CREATE DATABASE IF NOT EXISTS `rh3` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-            USE `rh3`;
-
-            -- --------------------------------------------------------
-
-            --
-            -- Estructura de tabla para la tabla `area`
-            --
-
-            CREATE TABLE IF NOT EXISTS `area` (
-            `idArea` int(11) NOT NULL AUTO_INCREMENT,
-            `descripcion` varchar(60) NOT NULL,
-            PRIMARY KEY (`idArea`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-            --
-            -- Volcado de datos para la tabla `area`
-            --
-
-            INSERT INTO `area` (`idArea`, `descripcion`) VALUES
-            (1, 'DIRECCION GENERAL'),
-            (2, 'ADMINISTRACION Y RECURSOS HUMANOS'),
-            (3, 'PRODUCCION'),
-            (4, 'FINANZAS Y CONTABILIDAD'),
-            (5, 'MERCADOTECNIA'),
-            (6, 'INFORMATICA');
-
-            -- --------------------------------------------------------
-
-            --
-            -- Estructura de tabla para la tabla `candidato`
-            --
-
-            CREATE TABLE IF NOT EXISTS `candidato` (
-            `idCandidato` int(11) NOT NULL AUTO_INCREMENT,
-            `idVacante` int(11) NOT NULL,
-            `idRequisicion` int(11) NOT NULL,
-            `idPuesto` int(11) NOT NULL,
-            `CURP` varchar(30) NOT NULL,
-            `RFC` varchar(20) NOT NULL,
-            `nombre` varchar(40) NOT NULL,
-            `domCalle` varchar(40) NOT NULL,
-            `domNumExtInt` varchar(30) NOT NULL,
-            `domColonia` varchar(40) NOT NULL,
-            `tel1` varchar(20) NOT NULL,
-            `tel2` varchar(20) NOT NULL,
-            `correoE` varchar(40) NOT NULL,
-            `edad` int(11) NOT NULL,
-            `sexo` varchar(10) NOT NULL,
-            `idEstadoCivil` int(11) NOT NULL,
-            `idEscolaridad` int(11) NOT NULL,
-            `idGradoAvance` int(11) NOT NULL,
-            `idCarrera` int(11) NOT NULL,
-            `entrevSelecReq` tinyint(4) NOT NULL,
-            `entrevSelecPresen` tinyint(4) NOT NULL,
-            `entrevSelecResult` varchar(40) NOT NULL,
-            `evalMedicaReq` tinyint(4) NOT NULL,
-            `evalMedicaPresen` tinyint(4) NOT NULL,
-            `evalMedicaResult` varchar(40) NOT NULL,
-            `evalPsicolgReq` tinyint(4) NOT NULL,
-            `evalPsicologPresen` tinyint(4) NOT NULL,
-            `evalPsicologResult` varchar(40) NOT NULL,
-            `evalPsicometReq` tinyint(4) NOT NULL,
-            `evalPsicometPresene` tinyint(4) NOT NULL,
-            `evalPsicometResult` varchar(40) NOT NULL,
-            `evalTecnicaReq` tinyint(4) NOT NULL,
-            `evalTecnicaPresen` tinyint(4) NOT NULL,
-            `evalTecnicaResult` varchar(41) NOT NULL,
-            `evalConocReq` tinyint(4) NOT NULL,
-            `evalConocPresen` tinyint(4) NOT NULL,
-            `evalConocResult` varchar(40) NOT NULL,
-            `entrevFinalReq` tinyint(4) NOT NULL,
-            `entrevFinalPresen` tinyint(4) NOT NULL,
-            `entrevFinalResul` varchar(40) NOT NULL,
-            PRIMARY KEY (`idCandidato`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-            --
-            -- Volcado de datos para la tabla `candidato`
-            --
-
-            INSERT INTO `candidato` (`idCandidato`, `idVacante`, `idRequisicion`, `idPuesto`, `CURP`, `RFC`, `nombre`, `domCalle`, `domNumExtInt`, `domColonia`, `tel1`, `tel2`, `correoE`, `edad`, `sexo`, `idEstadoCivil`, `idEscolaridad`, `idGradoAvance`, `idCarrera`, `entrevSelecReq`, `entrevSelecPresen`, `entrevSelecResult`, `evalMedicaReq`, `evalMedicaPresen`, `evalMedicaResult`, `evalPsicolgReq`, `evalPsicologPresen`, `evalPsicologResult`, `evalPsicometReq`, `evalPsicometPresene`, `evalPsicometResult`, `evalTecnicaReq`, `evalTecnicaPresen`, `evalTecnicaResult`, `evalConocReq`, `evalConocPresen`, `evalConocResult`, `entrevFinalReq`, `entrevFinalPresen`, `entrevFinalResul`) VALUES
-            (1, 1, 1, 1, 'ROGH760106MASDML03', 'dfadf', 'fasdfads', 'adsfa', '23', 'erqwr', '32', '23', 'rqwr', 23, 'Indistinto', 1, 2, 1, 1, 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, ''),
-            (2, 1, 1, 1, 'ROML551119HASDCR08', 'dfadf', 'juan', 'adsfa', '23', 'erqwr', '32', '23', 'rqwr', 23, 'Indistinto', 3, 2, 3, 1, 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '');
-
-            -- --------------------------------------------------------
-
-            --
-            -- Estructura de tabla para la tabla `carrera`
-            --
-
-            CREATE TABLE IF NOT EXISTS `carrera` (
-            `idCarrera` int(11) NOT NULL AUTO_INCREMENT,
-            `descripcion` varchar(50) NOT NULL,
-            PRIMARY KEY (`idCarrera`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-            --
-            -- Volcado de datos para la tabla `carrera`
-            --
-
-            INSERT INTO `carrera` (`idCarrera`, `descripcion`) VALUES
-            (1, 'NO APLICA'),
-            (2, 'ADMINISTRACION DE EMPRESAS'),
-            (3, 'ADMINISTRACIÓN DE PRODUCCIÓN Y SERVICIOS'),
-            (4, 'ADMINISTRACIÓN FINANCIERA'),
-            (5, 'COMERCIO INTERNACIONAL'),
-            (6, 'COMERCIO ELECTRONICO'),
-            (7, 'COMUNICACION'),
-            (8, 'CONTADOR '),
-            (9, 'DERECHO'),
-            (10, 'ECONOMIA'),
-            (11, 'GESTION TURISTICA'),
-            (12, 'LOGISTICA EMPRESARIAL'),
-            (13, 'MERCADOTECNIA'),
-            (14, 'SISTEMAS COMPUTACIONALES Y AFINES'),
-            (15, 'INDUSTRIAL'),
-            (16, 'ELECTRICA'),
-            (17, 'ROBOTICA'),
-            (18, 'RELACIONES INDUSTRIALES'),
-            (19, 'PSICOLOGIA'),
-            (20, 'ELECTRONICA'),
-            (21, 'GESTION EMPRESARIAL');
-
-            -- --------------------------------------------------------
-
-            --
-            -- Estructura de tabla para la tabla `docto_solic`
-            --
-
-            CREATE TABLE IF NOT EXISTS `docto_solic` (
-            `idDoctoSolic` int(11) NOT NULL AUTO_INCREMENT,
-            `descripcion` varchar(70) NOT NULL,
-            `original` varchar(2) NOT NULL,
-            `numCopias` int(5) NOT NULL,
-            PRIMARY KEY (`idDoctoSolic`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-            --
-            -- Volcado de datos para la tabla `docto_solic`
-            --
-
-            INSERT INTO `docto_solic` (`idDoctoSolic`, `descripcion`, `original`, `numCopias`) VALUES
-            (1, 'Solicitud de empleo', 'SI', 1),
-            (2, 'CURRICULUM VITAE con fotografía', 'SI', 1),
-            (3, 'Carta de presentación', 'SI', 1),
-            (4, 'Carta de recomendación', 'SI', 1),
-            (5, 'Comprobante de domicilio reciente', 'NO', 2),
-            (6, 'Acta de nacimiento', 'SI', 1),
-            (7, 'Número del seguro social', 'NO', 2),
-            (8, 'CURP', 'NO', 2),
-            (9, 'Credencial para votar', 'NO', 2),
-            (10, 'Licencia automovilista', 'NO', 2),
-            (11, 'Licencia chofer', 'NO', 2),
-            (12, 'Certificado Carrera Comercial o Técnica', 'NO', 2),
-            (13, 'Certificado Preparatoria o Equivalente', 'NO', 2),
-            (14, 'Certificado Licenciatura o Equivalente', 'NO', 2),
-            (15, 'Constancia de Estudios', 'SI', 2),
-            (16, 'Carta de Pasante Carrera Técnica', 'NO', 2),
-            (17, 'Carta de Pasante Licenciatura', 'NO', 2),
-            (18, 'Carta de Pasante Posgrado', 'NO', 2),
-            (19, 'Cédula Profesional', 'NO', 2),
-            (20, 'Título Licenciatura', 'NO', 2),
-            (21, 'Título Posgrado', 'NO', 2),
-            (22, 'Certificado Médico', 'SI', 2),
-            (23, 'Antecedentes No penales', 'Si', 1);
-
-            -- --------------------------------------------------------
-
-            --
-            -- Estructura de tabla para la tabla `escolaridad`
-            --
-
-            CREATE TABLE IF NOT EXISTS `escolaridad` (
-            `idEscolaridad` int(11) NOT NULL AUTO_INCREMENT,
-            `descripcion` varchar(50) NOT NULL,
-            PRIMARY KEY (`idEscolaridad`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-            --
-            -- Volcado de datos para la tabla `escolaridad`
-            --
-
-            INSERT INTO `escolaridad` (`idEscolaridad`, `descripcion`) VALUES
-            (1, 'NO APLICA / NO REQUERIDA '),
-            (2, 'PREPARATORIA'),
-            (3, 'CARRERA TÉCNICA O COMERCIAL'),
-            (4, 'BACHILLERATO TÉCNICO O ESPECIALIZADO'),
-            (5, 'TÉCNICO SUPERIOR UNIVERSITARIO'),
-            (6, 'LICENCIATURA / INGENIERÍA / PROFESIONAL'),
-            (7, 'MAESTRIA'),
-            (8, 'DOCTORADO'),
-            (9, 'KINDER');
-
-            -- --------------------------------------------------------
-
-            --
-            -- Estructura de tabla para la tabla `estado_civil`
-            --
-
-            CREATE TABLE IF NOT EXISTS `estado_civil` (
-            `idEstadoCivil` int(11) NOT NULL AUTO_INCREMENT,
-            `descripcion` varchar(50) NOT NULL,
-            PRIMARY KEY (`idEstadoCivil`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-            --
-            -- Volcado de datos para la tabla `estado_civil`
-            --
-
-            INSERT INTO `estado_civil` (`idEstadoCivil`, `descripcion`) VALUES
-            (1, 'INDISTINTO'),
-            (2, 'SOLTERO'),
-            (3, 'CASADO'),
-            (4, 'UNION LIBRE');
-
-            -- --------------------------------------------------------
-
-            --
-            -- Estructura de tabla para la tabla `grado_avance`
-            --
-
-            CREATE TABLE IF NOT EXISTS `grado_avance` (
-            `idGradoAvance` int(11) NOT NULL AUTO_INCREMENT,
-            `descripcion` varchar(45) NOT NULL,
-            PRIMARY KEY (`idGradoAvance`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-            --
-            -- Volcado de datos para la tabla `grado_avance`
-            --
-
-            INSERT INTO `grado_avance` (`idGradoAvance`, `descripcion`) VALUES
-            (1, 'NO APLICA'),
-            (2, 'CURSANDO'),
-            (3, 'TERMINADO'),
-            (4, 'INCONCLUSO'),
-            (5, 'PASANTE'),
-            (6, 'TITULADO');
-
-            -- --------------------------------------------------------
-
-            --
-            -- Estructura de tabla para la tabla `habilidad`
-            --
-
-            CREATE TABLE IF NOT EXISTS `habilidad` (
-            `idHabilidad` int(11) NOT NULL AUTO_INCREMENT,
-            `descripcion` varchar(150) NOT NULL,
-            PRIMARY KEY (`idHabilidad`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-            --
-            -- Volcado de datos para la tabla `habilidad`
-            --
-
-            INSERT INTO `habilidad` (`idHabilidad`, `descripcion`) VALUES
-            (1, 'NO REQUERIDAS'),
-            (2, 'FACILIDAD DE PALABRA'),
-            (3, 'MANEJO DE CONFLICTOS'),
-            (4, 'CAPACIDAD PARA TRABAJAR BAJO PRESION'),
-            (5, 'CAPACIDAD DE TRABAJO EN EQUIPO'),
-            (6, 'TOMA DE DECISIONES'),
-            (7, 'PENSAMIENTO CREATIVO'),
-            (8, 'PENSAMIENTO CRITICO'),
-            (9, 'MANEJO DE EMOCIONES'),
-            (10, 'PROACTIVIDAD'),
-            (11, 'PROFESIONALIDAD'),
-            (12, 'ESCUCHA ACTIVA');
-
-            -- --------------------------------------------------------
-
-            --
-            -- Estructura de tabla para la tabla `idioma`
-            --
-
-            CREATE TABLE IF NOT EXISTS `idioma` (
-            `idIdioma` int(11) NOT NULL AUTO_INCREMENT,
-            `descripcion` varchar(50) NOT NULL,
-            PRIMARY KEY (`idIdioma`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-            --
-            -- Volcado de datos para la tabla `idioma`
-            --
-
-            INSERT INTO `idioma` (`idIdioma`, `descripcion`) VALUES
-            (1, 'NO REQUERIDO'),
-            (2, 'INGLES BASICO'),
-            (3, 'INGLES INTERMEDIO'),
-            (4, 'INGLES AVANZADO'),
-            (5, 'JAPONES BASICO'),
-            (6, 'JAPONES CONVERSACIONAL'),
-            (7, 'JAPONES ESCRITO Y CONVERSACIONAL'),
-            (9, 'ALEMAN AVANZADO');
-
-            -- --------------------------------------------------------
-
-            --
-            -- Estructura de tabla para la tabla `mediopublic`
-            --
-
-            CREATE TABLE IF NOT EXISTS `mediopublic` (
-            `idMedioPublic` int(11) NOT NULL AUTO_INCREMENT,
-            `descripcion` varchar(70) NOT NULL,
-            PRIMARY KEY (`idMedioPublic`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-            --
-            -- Volcado de datos para la tabla `mediopublic`
-            --
-
-            INSERT INTO `mediopublic` (`idMedioPublic`, `descripcion`) VALUES
-            (1, 'Convocatoria en áreas estratégicas de la empresa'),
-            (2, 'Sitio web de la empresa'),
-            (3, 'Servicio estatal de empleo'),
-            (4, 'Redes sociales para empleo'),
-            (5, 'Agencia particular de empleo'),
-            (6, 'Radio'),
-            (7, 'Televisión'),
-            (8, 'Periódico Digital');
-
-            -- --------------------------------------------------------
-
-            --
-            -- Estructura de tabla para la tabla `puesto`
-            --
-
-            CREATE TABLE IF NOT EXISTS `puesto` (
-            `idPuesto` int(11) NOT NULL AUTO_INCREMENT,
-            `codPuesto` varchar(15) NOT NULL,
-            `idArea` int(11) NOT NULL,
-            `nomPuesto` varchar(50) NOT NULL,
-            `puestoJefeSup` varchar(50) NOT NULL,
-            `jornada` varchar(70) NOT NULL,
-            `remunMensual` int(11) NOT NULL,
-            `prestaciones` varchar(70) NOT NULL,
-            `descripcionGeneral` varchar(250) NOT NULL,
-            `funciones` varchar(250) NOT NULL,
-            `edad` varchar(50) NOT NULL,
-            `sexo` varchar(15) NOT NULL,
-            `idEstadoCivil` int(11) NOT NULL,
-            `idEscolaridad` int(11) NOT NULL,
-            `idGradoAvance` int(11) NOT NULL,
-            `idCarrera` int(11) NOT NULL,
-            `experiencia` varchar(70) NOT NULL,
-            `conocimientos` varchar(70) NOT NULL,
-            `manejoEquipo` varchar(70) NOT NULL,
-            `reqFisicos` varchar(70) NOT NULL,
-            `reqPsicologicos` varchar(70) NOT NULL,
-            `responsabilidades` varchar(70) NOT NULL,
-            `condicionesTrabajo` varchar(70) NOT NULL,
-            PRIMARY KEY (`idPuesto`),
-            KEY `idEscolaridad` (`idEscolaridad`),
-            KEY `idEstadoCivil` (`idEstadoCivil`),
-            KEY `idGradoAvance` (`idGradoAvance`),
-            KEY `idCarrera` (`idCarrera`),
-            KEY `area` (`idArea`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-            --
-            -- Volcado de datos para la tabla `puesto`
-            --
-
-            INSERT INTO `puesto` (`idPuesto`, `codPuesto`, `idArea`, `nomPuesto`, `puestoJefeSup`, `jornada`, `remunMensual`, `prestaciones`, `descripcionGeneral`, `funciones`, `edad`, `sexo`, `idEstadoCivil`, `idEscolaridad`, `idGradoAvance`, `idCarrera`, `experiencia`, `conocimientos`, `manejoEquipo`, `reqFisicos`, `reqPsicologicos`, `responsabilidades`, `condicionesTrabajo`) VALUES
-            (1, 'V009', 5, 'SUPERVISOR DE TIENDA ', 'SUPERVISOR', 'LUNES A VIERNES', 5000, 'DE LEY', 'VENTAS AL PÚBLICO', 'VENDER', '18 A 45 AÑOS', 'Hombre', 1, 3, 2, 2, '2 AÑOS', 'VENTAS', 'DE COMPUTO', 'AGUDEZA VISUAL', 'MEMORIA A CORTO Y LARGO PLAZO', 'INVENTARIO', 'AGRADABLES'),
-            (3, 'v0008', 3, 'OBRERO', 'SUPERVISOR', 'LUNES A VIERNES', 5000, 'DE LEY', 'maquilar', 'trabajar', '18 A 45 AÑOS', 'Indistinto', 1, 2, 2, 1, '2 AÑOS', 'VENTAS', 'DE COMPUTO', 'AGUDEZA VISUAL', 'MEMORIA A CORTO Y LARGO PLAZO', 'INVENTARIO', 'AGRADABLES'),
-            (5, 'p001', 5, 'JEFE DE MERCADOTECNIA', 'GERENTE', 'LUNES A VIERNES 8:30am 4:30am SABADOS 9:00am  A 2:00am', 6500, 'DE LEY', 'COORDINAR A PERSONAL DE MERCADOTECNIA', 'CORDINACIÓN', '25 A 50', 'Indistinto', 1, 3, 4, 13, '2 AÑOS', 'VENTAS', 'DE COMPUTO', 'NO NECESARIOS', 'MEMORIA A CORTO Y LARGO PLAZO', 'NO ESPECIFICADAS', 'AGRADABLES');
-
-            -- --------------------------------------------------------
-
-            --
-            -- Estructura de tabla para la tabla `puesto_has_habilidad`
-            --
-
-            CREATE TABLE IF NOT EXISTS `puesto_has_habilidad` (
-            `idPuesto` int(11) NOT NULL,
-            `idHabilidad` int(11) NOT NULL,
-            PRIMARY KEY (`idPuesto`,`idHabilidad`),
-            KEY `idHabilidad` (`idHabilidad`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-            --
-            -- Volcado de datos para la tabla `puesto_has_habilidad`
-            --
-
-            INSERT INTO `puesto_has_habilidad` (`idPuesto`, `idHabilidad`) VALUES
-            (1, 1),
-            (3, 4),
-            (3, 5),
-            (5, 2),
-            (5, 3),
-            (5, 4),
-            (5, 5),
-            (5, 6),
-            (5, 7),
-            (5, 8),
-            (5, 9),
-            (5, 10),
-            (5, 11),
-            (5, 12);
-
-            -- --------------------------------------------------------
-
-            --
-            -- Estructura de tabla para la tabla `puesto_has_idioma`
-            --
-
-            CREATE TABLE IF NOT EXISTS `puesto_has_idioma` (
-            `idPuesto` int(11) NOT NULL,
-            `idIdioma` int(11) NOT NULL,
-            PRIMARY KEY (`idPuesto`,`idIdioma`),
-            KEY `idIdioma` (`idIdioma`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-            --
-            -- Volcado de datos para la tabla `puesto_has_idioma`
-            --
-
-            INSERT INTO `puesto_has_idioma` (`idPuesto`, `idIdioma`) VALUES
-            (1, 2),
-            (3, 1),
-            (5, 2);
-
-            -- --------------------------------------------------------
-
-            --
-            -- Estructura de tabla para la tabla `requisicion`
-            --
-
-            CREATE TABLE IF NOT EXISTS `requisicion` (
-            `idRequisicion` int(11) NOT NULL AUTO_INCREMENT,
-            `folio` varchar(25) NOT NULL,
-            `fechaElab` date NOT NULL,
-            `fechaRecluta` date NOT NULL,
-            `fechaInicVac` date NOT NULL,
-            `motivoRequisicion` varchar(30) NOT NULL,
-            `motivoEspecifique` varchar(70) NOT NULL,
-            `tipoVacante` varchar(15) NOT NULL,
-            `nomSolicita` varchar(70) NOT NULL,
-            `nomAutoriza` varchar(70) NOT NULL,
-            `nomRevisa` varchar(70) NOT NULL,
-            `autorizada` tinyint(1) NOT NULL,
-            `idPuesto` int(11) NOT NULL,
-            `idArea` int(11) NOT NULL,
-            PRIMARY KEY (`idRequisicion`),
-            KEY `idPuesto` (`idPuesto`),
-            KEY `idArea` (`idArea`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-            --
-            -- Volcado de datos para la tabla `requisicion`
-            --
-
-            INSERT INTO `requisicion` (`idRequisicion`, `folio`, `fechaElab`, `fechaRecluta`, `fechaInicVac`, `motivoRequisicion`, `motivoEspecifique`, `tipoVacante`, `nomSolicita`, `nomAutoriza`, `nomRevisa`, `autorizada`, `idPuesto`, `idArea`) VALUES
-            (1, '1', '0000-00-00', '0000-00-00', '0000-00-00', '1', '', '', 'LUIS, JEFE DE VENTAS', 'luis', 'juan', 1, 1, 1),
-            (10, '2', '2023-11-23', '2023-11-27', '2023-12-01', 'Otro', 'temporada', 'Temporal', 'LUIS, JEFE DE VENTAS', 'luis', 'juan', 1, 1, 1);
-
-
-            CREATE TABLE IF NOT EXISTS `examen` (
-            `idExamen` int(11) NOT NULL AUTO_INCREMENT, 
-            `nombre` varchar(70) NOT NULL,
-            `rfc` varchar(20) NOT NULL,
-            `preg1` varchar(250) NOT NULL,
-            `preg2` varchar(250) NOT NULL,
-            `preg3` varchar(250) NOT NULL,
-            `preg4` varchar(250) NOT NULL,
-            `preg5` varchar(250) NOT NULL,
-            `preg6` varchar(250) NOT NULL,
-            `preg7` varchar(250) NOT NULL,
-            `preg8` varchar(250) NOT NULL,
-            `preg9` varchar(250) NOT NULL,
-            `preg10` varchar(250) NOT NULL,
-            `preg11` varchar(250) NOT NULL,
-            `preg12` varchar(250) NOT NULL,
-            PRIMARY KEY (`idExamen`)
-            );
-
-            CREATE TABLE IF NOT EXISTS `calificaciones` (
-            `idCalificacion` int(11) NOT NULL AUTO_INCREMENT,
-            `nombre` varchar(255) NOT NULL,
-            `calificacion` int(11) NOT NULL,
-            `rfc` varchar(20) NOT NULL,
-            `preg1` varchar(250) NOT NULL,
-            `preg2` varchar(250) NOT NULL,
-            `preg3` varchar(250) NOT NULL,
-            `preg4` varchar(250) NOT NULL,
-            `preg5` varchar(250) NOT NULL,
-            `preg6` varchar(250) NOT NULL,
-            `preg7` varchar(250) NOT NULL,
-            `preg8` varchar(250) NOT NULL,
-            `preg9` varchar(250) NOT NULL,
-            `preg10` varchar(250) NOT NULL,
-            `preg11` varchar(250) NOT NULL,
-            `preg12` varchar(250) NOT NULL,
-            PRIMARY KEY (`idCalificacion`)
-            );
-
-
-
-            -- --------------------------------------------------------
-
-            --
-            -- Estructura de tabla para la tabla `vacante`
-            --
-
-            CREATE TABLE IF NOT EXISTS `vacante` (
-            `idVacante` int(11) NOT NULL AUTO_INCREMENT,
-            `conseVR` int(11) NOT NULL,
-            `fuenteCandidato` varchar(40) NOT NULL,
-            `inicioFechaPublic` date NOT NULL,
-            `finFechaPublic` date NOT NULL,
-            `publicada` tinyint(4) NOT NULL,
-            `observaciones` varchar(40) NOT NULL,
-            `candidatoSelecc` int(11) NOT NULL,
-            `fechaContratacion` date NOT NULL,
-            `idRequisicion` int(11) NOT NULL,
-            `idPuesto` int(11) NOT NULL,
-            PRIMARY KEY (`idVacante`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-            --
-            -- Volcado de datos para la tabla `vacante`
-            --
-
-            INSERT INTO `vacante` (`idVacante`, `conseVR`, `fuenteCandidato`, `inicioFechaPublic`, `finFechaPublic`, `publicada`, `observaciones`, `candidatoSelecc`, `fechaContratacion`, `idRequisicion`, `idPuesto`) VALUES
-            (1, 0, 'Interno', '2023-11-23', '2023-11-27', 1, 'gfgf', 0, '0000-00-00', 1, 1);
-            COMMIT;
-
-
-            -- Empleados
-
-            CREATE TABLE `empleado` (
-            `idEmpleado` int(11) NOT NULL AUTO_INCREMENT,
-            `idRequisicion` int(11) NOT NULL,
-            `idPuesto` int(11) NOT NULL,
-            `CURP` varchar(30) NOT NULL,
-            `RFC` varchar(20) NOT NULL,
-            `nombre` varchar(40) NOT NULL,
-            `descripcion` varchar(255) DEFAULT NULL,
-            `apellido` varchar(40) NOT NULL,
-            `domCalle` varchar(40) NOT NULL,
-            `domNumExtInt` varchar(30) NOT NULL,
-            `domColonia` varchar(40) NOT NULL,
-            `tel1` varchar(20) NOT NULL,
-            `sueldo` varchar(20) NOT NULL,
-            `correoE` varchar(40) NOT NULL,
-            `edad` int(11) NOT NULL,
-            `sexo` varchar(10) NOT NULL,
-            `idEstadoCivil` int(11) NOT NULL,
-            `idEscolaridad` int(11) NOT NULL,
-            `idGradoAvance` int(11) NOT NULL,
-            `idCarrera` int(11) NOT NULL,
-            PRIMARY KEY (`idEmpleado`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-
-            --
-            -- Volcado de datos para la tabla `empleados`
-            --
-
-            INSERT INTO `empleado` (`idEmpleado`, `idRequisicion`, `idPuesto`, `CURP`, `RFC`, `nombre`, `apellido`, `domCalle`, `domNumExtInt`, `domColonia`, `tel1`, `sueldo`, `correoE`, `edad`, `sexo`, `idEstadoCivil`, `idEscolaridad`, `idGradoAvance`, `idCarrera`) VALUES
-            (1, 1, 1, 'ROGH760106MASDML03', 'dfadf', 'Carlitos', 'Muntez', 'Villas', '#23', 'palmas', '4491102343', '$233', 'carlitos@gmail.com', 23, 'Macho', 1, 2, 1, 1),
-            (2, 1, 1, 'ROML551119HASDCR08', 'dfajy', 'Pepe', 'Maciado', 'Potreros', '#26', 'cruz', '4491739435', '$2223', 'pepe@gmail.com', 23, 'Indistinto', 3, 2, 3, 1);
-
-
-            -- 
-            -- tabla de candidatos aceptados
-            --
-            
-            create table  IF not exists `usuario` (
-            `idusuario` int(11) not null auto_increment,
-            `numero` int(10) not null unique,
-            `nombre` varchar(120) not null,
-            `telefono` int(13) not null,
-            `direccion` varchar(100) not null,
-            `curp` varchar(18) not null,
-            `vacante` varchar(50) not null,
-            primary key(`idusuario`));
-            
-            --
-            -- Volcado de datos para la tabla `candidatos`
-            --
-
-            insert into `usuario`(`numero`,`nombre`,`telefono`,`direccion`,`curp`,`vacante`)VALUES
-            (123232445,'Juan del montes',4493454564,'calle noche buena 120','kjfdhg495kg','Obrero'),
-            (456456445,'Juan de los montes',4493454584,'calle noche buena 122','kjfdhg495kg','Marquetink'),
-            (123232498,'Juan del rancho',4493659564,'calle noche buena 123','kjfdhg495kg','Panista'),
-            (123232425,'Juan del terreno',4493454964,'calle noche buena 124','kjfdhg495kg','Contador');
-
-
-            
-            -- 
-            -- Encuentra la tabal de la tabla "cursos"
-            --
-            create table IF not exists `cursos`(
-            `idcursos` int(11) not null auto_increment,
-            `nombre` varchar(50) not null,
-            `descripcion` varchar(120) not null,
-            primary key(`idcursos`)
-            );
-            
-            --
-            -- Volcado de datos para la tabla `cursos`
-            --
-            
-            insert into `cursos`(`nombre`,`descripcion`) VALUES 
-            ('curso de PAn','Curso obliagtorio que te hab'),
-            ('curso de Contar','Curso obliagtorio que te '),
-            ('curso de Idiomas','Curso obliagtorio q'),
-            ('curso de Maquinaria','Curso obliagtorio que te habla de lo que tienes que hacer');
-            
-
-            --
-            -- estructura de la tabla para agregar cursos a un usuario
-            --
-            create table IF not exists `agcuso`(
-            `idagcu` int(11) not null auto_increment,
-            `nombre` varchar(50) not null,
-            `descripcion` varchar(120) not null,
-            `completado` int(3) not null,
-            `idusuario` int(11) not null,
-            primary key(`idagcu`)
-            );
-
-            --
-            -- estructura para marcar el estado de un  curso
-            --
-            create table IF not exists `completadas`(
-            `id` int(11) not null auto_increment,
-            `descripcion` varchar(2) not null,
-            primary key(`id`)
-            );
-            --
-            -- tabla de apoyo para el estado de un curso
-            --
-            insert into `completadas`(`descripcion`) VALUES 
-            ('si'),
-            ('no');
-        """
-        statements = [stmt.strip() for stmt in sql_statements.split(';')]
-
-        for statement in statements:
-            cursor.execute(statement)
-            conn.commit()
-        
-        print("BASE DE DATOS Y TABLAS CREADAS CON EXITO")
-    return conn 
 
 ###Idiomas
 @app.route('/idioma')
-def idioma():
-    conn = conex ()
-    cursor = conn.cursor()
-    cursor.execute('select idIdioma, descripcion from idioma order by idIdioma')
-    datos = cursor.fetchall()
+def idioma(): 
+    cbd.cursor.execute('select idIdioma, descripcion from idioma order by idIdioma')
+    datos = cbd.cursor.fetchall()
     return render_template("idioma.html", comentarios = datos)
 
 @app.route('/idioma_agregar')
 def idioma_agregar():
     return render_template("idioma_agr.html")
 
-
 @app.route('/idioma_fagrega', methods=['POST'])
 def idioma_fagrega():
     if request.method == 'POST':
-        desc = request.form['descripcion']
-        conn = conex ()
-        cursor = conn.cursor()
-        cursor.execute('insert into idioma (descripcion) values (%s)',(desc))
-        conn.commit()
+        desc = request.form['descripcion'] 
+        cbd.cursor.execute('insert into idioma (descripcion) values (%s)',(desc))
+        cbd.conn.commit()
     return redirect(url_for('idioma'))
 
 @app.route('/idioma_editar/<string:id>')
-def idioma_editar(id):
-    conn = conex ()
-    cursor = conn.cursor()
-    cursor.execute('select idIdioma, descripcion from idioma where idIdioma = %s', (id))
-    dato  = cursor.fetchall()
+def idioma_editar(id): 
+    cbd.cursor.execute('select idIdioma, descripcion from idioma where idIdioma = %s', (id))
+    dato  = cbd.cursor.fetchall()
     return render_template("idioma_edi.html", comentar=dato[0])
 
 @app.route('/idioma_fedita/<string:id>',methods=['POST'])
 def idioma_fedita(id):
     if request.method == 'POST':
-        desc=request.form['descripcion']
-        conn = conex ()
-        cursor = conn.cursor()
-        cursor.execute('update idioma set descripcion=%s where idIdioma=%s', (desc,id))
-        conn.commit()
+        desc=request.form['descripcion'] 
+        cbd.cursor.execute('update idioma set descripcion=%s where idIdioma=%s', (desc,id))
+        cbd.conn.commit()
     return redirect(url_for('idioma'))
 
 @app.route('/idioma_borrar/<string:id>')
-def idioma_borrar(id):
-    conn = conex ()
-    cursor = conn.cursor()
-    cursor.execute('delete from idioma where idIdioma = {0}'.format(id))
-    conn.commit()
+def idioma_borrar(id): 
+    cbd.cursor.execute('delete from idioma where idIdioma = {0}'.format(id))
+    cbd.conn.commit()
     return redirect(url_for('idioma'))
 
-###habilidades
 
+###Habilidades
 @app.route('/habilidad')
-def habilidad():
-    conn = conex ()
-    cursor = conn.cursor()
-    cursor.execute('select idHabilidad, descripcion from habilidad order by idHabilidad')
-    datos = cursor.fetchall()
+def habilidad(): 
+    cbd.cursor.execute('select idHabilidad, descripcion from habilidad order by idHabilidad')
+    datos = cbd.cursor.fetchall()
     return render_template("habilidad.html", comentarios = datos)
 
 @app.route('/habilidad_agregar')
 def habilidad_agregar():
     return render_template("habilidad_agr.html")
 
-
 @app.route('/habilidad_fagrega', methods=['POST'])
 def habilidad_fagrega():
     if request.method == 'POST':
         desc = request.form['descripcion']
-        conn = conex()
-        cursor = conn.cursor()
-        cursor.execute('insert into habilidad (descripcion) values (%s)',(desc))
-        conn.commit()
+        cbd.cursor.execute('insert into habilidad (descripcion) values (%s)',(desc))
+        cbd.conn.commit()
     return redirect(url_for('habilidad'))
 
 @app.route('/habilidad_editar/<string:id>')
 def habilidad_editar(id):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute('select idHabilidad, descripcion from habilidad where idHabilidad = %s', (id))
-    dato  = cursor.fetchall()
+    cbd.cursor.execute('select idHabilidad, descripcion from habilidad where idHabilidad = %s', (id))
+    dato  = cbd.cursor.fetchall()
     return render_template("habilidad_edi.html", comentar=dato[0])
 
 @app.route('/habilidad_fedita/<string:id>',methods=['POST'])
 def habilidad_fedita(id):
     if request.method == 'POST':
         desc=request.form['descripcion']
-        conn = conex()
-        cursor = conn.cursor()
-        cursor.execute('update habilidad set descripcion=%s where idHabilidad=%s', (desc,id))
-        conn.commit()
+        cbd.cursor.execute('update habilidad set descripcion=%s where idHabilidad=%s', (desc,id))
+        cbd.conn.commit()
     return redirect(url_for('habilidad'))
 
 @app.route('/habilidad_borrar/<string:id>')
 def habilidad_borrar(id):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute('delete from habilidad where idHabilidad = {0}'.format(id))
-    conn.commit()
+    cbd.cursor.execute('delete from habilidad where idHabilidad = {0}'.format(id))
+    cbd.conn.commit()
     return redirect(url_for('habilidad'))
 
 
+###Grado de Avance
 @app.route('/gradoAvance')
 def gradoAvance():
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute('select idGradoAvance, descripcion from grado_avance order by idGradoAvance')
-    datos = cursor.fetchall()
+    cbd.cursor.execute('select idGradoAvance, descripcion from grado_avance order by idGradoAvance')
+    datos = cbd.cursor.fetchall()
     return render_template("gradoAvance.html", comentarios = datos)
 
 @app.route('/grado_agregar')
 def grado_agregar():
     return render_template("grado_agr.html")
 
-
 @app.route('/grado_fagrega', methods=['POST'])
 def grado_fagrega():
     if request.method == 'POST':
         desc = request.form['descripcion']
-        conn = conex()
-        cursor = conn.cursor()
-        cursor.execute('insert into grado_avance (descripcion) values (%s)',(desc))
-        conn.commit()
+        cbd.cursor.execute('insert into grado_avance (descripcion) values (%s)',(desc))
+        cbd.conn.commit()
     return redirect(url_for('gradoAvance'))
 
 @app.route('/grado_editar/<string:id>')
 def grado_editar(id):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute('select idGradoAvance, descripcion from grado_avance where idGradoAvance = %s', (id))
-    dato  = cursor.fetchall()
+    cbd.cursor.execute('select idGradoAvance, descripcion from grado_avance where idGradoAvance = %s', (id))
+    dato  = cbd.cursor.fetchall()
     return render_template("grado_edi.html", comentar=dato[0])
 
 @app.route('/grado_fedita/<string:id>',methods=['POST'])
 def grado_fedita(id):
     if request.method == 'POST':
         desc=request.form['descripcion']
-        conn = conex()
-        cursor = conn.cursor()
-        cursor.execute('update grado_avance set descripcion=%s where idGradoAvance=%s', (desc,id))
-        conn.commit()
+        cbd.cursor.execute('update grado_avance set descripcion=%s where idGradoAvance=%s', (desc,id))
+        cbd.conn.commit()
     return redirect(url_for('gradoAvance'))
 
 @app.route('/grado_borrar/<string:id>')
 def grado_borrar(id):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute('delete from grado_avance where idGradoAvance = {0}'.format(id))
-    conn.commit()
+    cbd.cursor.execute('delete from grado_avance where idGradoAvance = {0}'.format(id))
+    cbd.conn.commit()
     return redirect(url_for('gradoAvance'))
 
+
+###Area
 @app.route('/area')
 def area():
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute('select idArea, descripcion from area order by idArea')
-    datos = cursor.fetchall()
+    cbd.cursor.execute('select idArea, descripcion from area order by idArea')
+    datos = cbd.cursor.fetchall()
     return render_template("area.html", comentarios = datos)
 
 @app.route('/area_editar/<string:id>')
 def area_editar(id):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute('select idArea, descripcion from area where idArea = %s', (id))
-    dato  = cursor.fetchall()
+    cbd.cursor.execute('select idArea, descripcion from area where idArea = %s', (id))
+    dato  = cbd.cursor.fetchall()
     return render_template("area_edi.html", comentar=dato[0])
 
 @app.route('/area_fedita/<string:id>',methods=['POST'])
 def area_fedita(id):
     if request.method == 'POST':
         desc=request.form['descripcion']
-        conn = conex()
-        cursor = conn.cursor()
-        cursor.execute('update area set descripcion=%s where idArea=%s', (desc,id))
-        conn.commit()
+        cbd.cursor.execute('update area set descripcion=%s where idArea=%s', (desc,id))
+        cbd.conn.commit()
     return redirect(url_for('area'))
 
 @app.route('/area_borrar/<string:id>')
-def area_borrar(id):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute('delete from area where idArea = {0}'.format(id))
-    conn.commit()
+def area_borrar(id): 
+    cbd.cursor.execute('delete from area where idArea = {0}'.format(id))
+    cbd.conn.commit()
     return redirect(url_for('area'))
 
 @app.route('/area_agregar')
@@ -870,106 +177,93 @@ def area_agregar():
 @app.route('/area_fagrega', methods=['POST'])
 def area_fagrega():
     if request.method == 'POST':
-        desc = request.form['descripcion']
-        conn = conex()
-        cursor = conn.cursor()
-        cursor.execute('insert into area (descripcion) values (%s)',(desc))
-        conn.commit()
+        desc = request.form['descripcion'] 
+        cbd.cursor.execute('insert into area (descripcion) values (%s)',(desc))
+        cbd.conn.commit()
     return redirect(url_for('area'))
 
 
-
+###Puesto
 @app.route('/puesto')
-def puesto():
-    conn = conex()
-    cursor = conn.cursor()
+def puesto(): 
 
-    cursor.execute('select idPuesto, nomPuesto from puesto order by idPuesto')
-    datos = cursor.fetchall()
+    cbd.cursor.execute('select idPuesto, nomPuesto from puesto order by idPuesto')
+    datos = cbd.cursor.fetchall()
 
     return render_template("puesto.html", pue = datos, dat='   ', catArea = '   ', catEdoCivil = '   ', catEscolaridad = '   ',
                            catGradoAvance = '    ', catCarrera = '    ', catIdioma = ' ', catHabilidad = ' ')
 
-
 @app.route('/puesto_fdetalle/<string:idP>', methods=['GET'])
-def puesto_fdetalle(idP):
-    conn = conex()
-    cursor = conn.cursor()
+def puesto_fdetalle(idP): 
 
-    cursor.execute('select idPuesto, nomPuesto from puesto order by idPuesto')
-    datos = cursor.fetchall()
+    cbd.cursor.execute('select idPuesto, nomPuesto from puesto order by idPuesto')
+    datos = cbd.cursor.fetchall()
 
-    cursor.execute('select idPuesto,codPuesto,idArea,nomPuesto,puestoJefeSup,jornada,remunMensual,prestaciones,descripcionGeneral,'
+    cbd.cursor.execute('select idPuesto,codPuesto,idArea,nomPuesto,puestoJefeSup,jornada,remunMensual,prestaciones,descripcionGeneral,'
             'funciones,edad,sexo,idEstadoCivil,idEscolaridad,idGradoAvance,idCarrera,experiencia,conocimientos,manejoEquipo,'
             'reqFisicos,reqPsicologicos,responsabilidades,condicionesTrabajo from puesto where idPuesto = %s', (idP))
-    dato = cursor.fetchall()
+    dato = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idArea, a.descripcion from area a, puesto b where a.idArea = b.idArea and b.idPuesto = %s', (idP))
-    datos1 = cursor.fetchall()
+    cbd.cursor.execute('select a.idArea, a.descripcion from area a, puesto b where a.idArea = b.idArea and b.idPuesto = %s', (idP))
+    datos1 = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idEstadoCivil, a.descripcion from estado_civil a, puesto b where a.idEstadoCivil = b.idEstadoCivil and b.idPuesto = %s', (idP))
-    datos2 = cursor.fetchall()
+    cbd.cursor.execute('select a.idEstadoCivil, a.descripcion from estado_civil a, puesto b where a.idEstadoCivil = b.idEstadoCivil and b.idPuesto = %s', (idP))
+    datos2 = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idEscolaridad, a.descripcion from escolaridad a, puesto b where a.idEscolaridad = b.idEscolaridad and b.idPuesto = %s', (idP))
-    datos3 = cursor.fetchall()
+    cbd.cursor.execute('select a.idEscolaridad, a.descripcion from escolaridad a, puesto b where a.idEscolaridad = b.idEscolaridad and b.idPuesto = %s', (idP))
+    datos3 = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idGradoAvance, a.descripcion from grado_avance a, puesto b where a.idGradoAvance = b.idGradoAvance and b.idPuesto = %s', (idP))
-    datos4 = cursor.fetchall()
+    cbd.cursor.execute('select a.idGradoAvance, a.descripcion from grado_avance a, puesto b where a.idGradoAvance = b.idGradoAvance and b.idPuesto = %s', (idP))
+    datos4 = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idCarrera, a.descripcion from carrera a, puesto b where a.idCarrera = b.idCarrera and b.idPuesto = %s', (idP))
-    datos5 = cursor.fetchall()
+    cbd.cursor.execute('select a.idCarrera, a.descripcion from carrera a, puesto b where a.idCarrera = b.idCarrera and b.idPuesto = %s', (idP))
+    datos5 = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idPuesto, b.idIdioma, b.descripcion from puesto a, idioma b, puesto_has_idioma c '
+    cbd.cursor.execute('select a.idPuesto, b.idIdioma, b.descripcion from puesto a, idioma b, puesto_has_idioma c '
                    'where a.idPuesto = c.idPuesto and b.idIdioma = c.idIdioma and a.idPuesto = %s', (idP))
-    datos6 = cursor.fetchall()
+    datos6 = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idPuesto, b.idHabilidad, b.descripcion from puesto a, habilidad b, puesto_has_habilidad c '
+    cbd.cursor.execute('select a.idPuesto, b.idHabilidad, b.descripcion from puesto a, habilidad b, puesto_has_habilidad c '
                    'where a.idPuesto = c.idPuesto and b.idHabilidad = c.idHabilidad and a.idPuesto = %s', (idP))
-    datos7 = cursor.fetchall()
+    datos7 = cbd.cursor.fetchall()
     return render_template("puesto.html", pue = datos, dat=dato[0], catArea=datos1[0], catEdoCivil=datos2[0], catEscolaridad=datos3[0],
                            catGradoAvance=datos4[0], catCarrera=datos5[0], catIdioma=datos6, catHabilidad=datos7)
 
 @app.route('/puesto_borrar/<string:idP>')
-def puesto_borrar(idP):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute('delete from puesto where idPuesto = %s',(idP))
-    conn.commit()
-    cursor.execute('delete from puesto_has_habilidad where idPuesto =%s ', (idP))
-    conn.commit()
-    cursor.execute('delete from puesto_has_idioma where idPuesto =%s ', (idP))
-    conn.commit()
+def puesto_borrar(idP): 
+    cbd.cursor.execute('delete from puesto where idPuesto = %s',(idP))
+    cbd.conn.commit()
+    cbd.cursor.execute('delete from puesto_has_habilidad where idPuesto =%s ', (idP))
+    cbd.conn.commit()
+    cbd.cursor.execute('delete from puesto_has_idioma where idPuesto =%s ', (idP))
+    cbd.conn.commit()
     return redirect(url_for('puesto'))
 
-
 @app.route('/puesto_agrOp2')
-def puesto_agrOp2():
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute('select idArea, descripcion from area ')
-    datos1 = cursor.fetchall()
+def puesto_agrOp2(): 
+    cbd.cursor.execute('select idArea, descripcion from area ')
+    datos1 = cbd.cursor.fetchall()
 
-    cursor.execute('select idEstadoCivil, descripcion from estado_civil ')
-    datos2 = cursor.fetchall()
+    cbd.cursor.execute('select idEstadoCivil, descripcion from estado_civil ')
+    datos2 = cbd.cursor.fetchall()
 
-    cursor.execute('select idEscolaridad, descripcion from escolaridad ')
-    datos3 = cursor.fetchall()
+    cbd.cursor.execute('select idEscolaridad, descripcion from escolaridad ')
+    datos3 = cbd.cursor.fetchall()
 
-    cursor.execute('select idGradoAvance, descripcion from grado_avance ')
-    datos4 = cursor.fetchall()
+    cbd.cursor.execute('select idGradoAvance, descripcion from grado_avance ')
+    datos4 = cbd.cursor.fetchall()
 
-    cursor.execute('select idCarrera, descripcion from carrera ')
-    datos5 = cursor.fetchall()
+    cbd.cursor.execute('select idCarrera, descripcion from carrera ')
+    datos5 = cbd.cursor.fetchall()
 
-    cursor.execute('select idIdioma, descripcion from idioma ')
-    datos6 = cursor.fetchall()
+    cbd.cursor.execute('select idIdioma, descripcion from idioma ')
+    datos6 = cbd.cursor.fetchall()
 
-    cursor.execute('select idHabilidad, descripcion from habilidad ')
-    datos7 = cursor.fetchall()
+    cbd.cursor.execute('select idHabilidad, descripcion from habilidad ')
+    datos7 = cbd.cursor.fetchall()
 
     return render_template("puesto_agrOp2.html", catArea=datos1, catEdoCivil=datos2, catEscolaridad=datos3,
                            catGradoAvance=datos4, catCarrera=datos5, catIdioma=datos6, catHabilidad=datos7)
-
 
 @app.route('/puesto_fagrega2', methods=['POST'])
 def puesto_fagrega():
@@ -1016,108 +310,101 @@ def puesto_fagrega():
         resp = request.form['responsabilidades']
         conT = request.form['condicionesTrabajo']
 
-
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute(
+ 
+    cbd.cursor.execute(
     'insert into puesto (codPuesto,idArea,nomPuesto,puestoJefeSup,jornada,remunMensual,prestaciones,descripcionGeneral,'
     'funciones,edad,sexo,idEstadoCivil,idEscolaridad,idGradoAvance,idCarrera,experiencia,conocimientos,manejoEquipo,'
     'reqFisicos,reqPsicologicos,responsabilidades,condicionesTrabajo) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
     (codP, idAr, nomP, pueJ, jorn, remu, pres, desc, func, eda, sex, idEC, idEs, idGA, idCa, expe, cono, manE, reqF,
      reqP, resp, conT))
-    conn.commit()
+    cbd.conn.commit()
 
-    cursor.execute('select idPuesto from puesto where idPuesto=(select max(idPuesto) from puesto) ')
-    dato = cursor.fetchall()
+    cbd.cursor.execute('select idPuesto from puesto where idPuesto=(select max(idPuesto) from puesto) ')
+    dato = cbd.cursor.fetchall()
     idpue = dato[0]
     idP = idpue[0]
 
-    cursor.execute('select count(*) from idioma ')
-    dato = cursor.fetchall()
+    cbd.cursor.execute('select count(*) from idioma ')
+    dato = cbd.cursor.fetchall()
     nidio = dato[0]
     ni = nidio[0] + 1
 
     for i in range(1, ni):
         idio = 'i' + str(i)
         if idio in request.form:
-            cursor.execute('insert into puesto_has_idioma(idPuesto,idIdioma) values (%s,%s)', (idP, i))
-            conn.commit()
+            cbd.cursor.execute('insert into puesto_has_idioma(idPuesto,idIdioma) values (%s,%s)', (idP, i))
+            cbd.conn.commit()
 
-    cursor.execute('select count(*) from habilidad ')
-    dato = cursor.fetchall()
+    cbd.cursor.execute('select count(*) from habilidad ')
+    dato = cbd.cursor.fetchall()
     nhab = dato[0]
     nh =nhab[0]+1
 
     for i in range(1,nh):
         habi = 'h' + str(i)
         if habi in request.form:
-            cursor.execute('insert into puesto_has_habilidad(idPuesto,idHabilidad) values (%s,%s)', (idP,i))
-            conn.commit()
+            cbd.cursor.execute('insert into puesto_has_habilidad(idPuesto,idHabilidad) values (%s,%s)', (idP,i))
+            cbd.conn.commit()
 
     return redirect(url_for('puesto'))
 
-
-
 @app.route('/puesto_editar/<string:idP>')
-def puesto_editar(idP):
-    conn = conex()
-    cursor = conn.cursor()
+def puesto_editar(idP): 
 
-    cursor.execute('select idPuesto,codPuesto,idArea,nomPuesto,puestoJefeSup,jornada,remunMensual,prestaciones,descripcionGeneral,'
+    cbd.cursor.execute('select idPuesto,codPuesto,idArea,nomPuesto,puestoJefeSup,jornada,remunMensual,prestaciones,descripcionGeneral,'
         'funciones,edad,sexo,idEstadoCivil,idEscolaridad,idGradoAvance,idCarrera,experiencia,conocimientos,manejoEquipo,'
         'reqFisicos,reqPsicologicos,responsabilidades,condicionesTrabajo from puesto where idPuesto = %s', (idP))
-    dato = cursor.fetchall()
+    dato = cbd.cursor.fetchall()
 
-    cursor.execute('select idArea, descripcion from area ')
-    datos1 = cursor.fetchall()
+    cbd.cursor.execute('select idArea, descripcion from area ')
+    datos1 = cbd.cursor.fetchall()
 
-    cursor.execute('select idEstadoCivil, descripcion from estado_civil ')
-    datos2 = cursor.fetchall()
+    cbd.cursor.execute('select idEstadoCivil, descripcion from estado_civil ')
+    datos2 = cbd.cursor.fetchall()
 
-    cursor.execute('select idEscolaridad, descripcion from escolaridad ')
-    datos3 = cursor.fetchall()
+    cbd.cursor.execute('select idEscolaridad, descripcion from escolaridad ')
+    datos3 = cbd.cursor.fetchall()
 
-    cursor.execute('select idGradoAvance, descripcion from grado_avance ')
-    datos4 = cursor.fetchall()
+    cbd.cursor.execute('select idGradoAvance, descripcion from grado_avance ')
+    datos4 = cbd.cursor.fetchall()
 
-    cursor.execute('select idCarrera, descripcion from carrera ')
-    datos5 = cursor.fetchall()
+    cbd.cursor.execute('select idCarrera, descripcion from carrera ')
+    datos5 = cbd.cursor.fetchall()
 
-    cursor.execute('select idIdioma, descripcion from idioma ')
-    datos6 = cursor.fetchall()
+    cbd.cursor.execute('select idIdioma, descripcion from idioma ')
+    datos6 = cbd.cursor.fetchall()
 
-    cursor.execute('select idHabilidad, descripcion from habilidad ')
-    datos7 = cursor.fetchall()
+    cbd.cursor.execute('select idHabilidad, descripcion from habilidad ')
+    datos7 = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idArea, a.descripcion from area a, puesto b where a.idArea = b.idArea and b.idPuesto = %s', (idP))
-    datos11 = cursor.fetchall()
+    cbd.cursor.execute('select a.idArea, a.descripcion from area a, puesto b where a.idArea = b.idArea and b.idPuesto = %s', (idP))
+    datos11 = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idEstadoCivil, a.descripcion from estado_civil a, puesto b where a.idEstadoCivil = b.idEstadoCivil and b.idPuesto = %s',(idP))
-    datos12 = cursor.fetchall()
+    cbd.cursor.execute('select a.idEstadoCivil, a.descripcion from estado_civil a, puesto b where a.idEstadoCivil = b.idEstadoCivil and b.idPuesto = %s',(idP))
+    datos12 = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idEscolaridad, a.descripcion from escolaridad a, puesto b where a.idEscolaridad = b.idEscolaridad and b.idPuesto = %s',(idP))
-    datos13 = cursor.fetchall()
+    cbd.cursor.execute('select a.idEscolaridad, a.descripcion from escolaridad a, puesto b where a.idEscolaridad = b.idEscolaridad and b.idPuesto = %s',(idP))
+    datos13 = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idGradoAvance, a.descripcion from grado_avance a, puesto b where a.idGradoAvance = b.idGradoAvance and b.idPuesto = %s',(idP))
-    datos14 = cursor.fetchall()
+    cbd.cursor.execute('select a.idGradoAvance, a.descripcion from grado_avance a, puesto b where a.idGradoAvance = b.idGradoAvance and b.idPuesto = %s',(idP))
+    datos14 = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idCarrera, a.descripcion from carrera a, puesto b where a.idCarrera = b.idCarrera and b.idPuesto = %s', (idP))
-    datos15 = cursor.fetchall()
+    cbd.cursor.execute('select a.idCarrera, a.descripcion from carrera a, puesto b where a.idCarrera = b.idCarrera and b.idPuesto = %s', (idP))
+    datos15 = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idPuesto, b.idIdioma, b.descripcion from puesto a, idioma b, puesto_has_idioma c '
+    cbd.cursor.execute('select a.idPuesto, b.idIdioma, b.descripcion from puesto a, idioma b, puesto_has_idioma c '
                    'where a.idPuesto = c.idPuesto and b.idIdioma = c.idIdioma and a.idPuesto = %s', (idP))
-    datos16 = cursor.fetchall()
+    datos16 = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idPuesto, b.idHabilidad, b.descripcion from puesto a, habilidad b, puesto_has_habilidad c '
+    cbd.cursor.execute('select a.idPuesto, b.idHabilidad, b.descripcion from puesto a, habilidad b, puesto_has_habilidad c '
                    'where a.idPuesto = c.idPuesto and b.idHabilidad = c.idHabilidad and a.idPuesto = %s', (idP))
-    datos17 = cursor.fetchall()
+    datos17 = cbd.cursor.fetchall()
 
 
     return render_template("puesto_edi.html", dat=dato[0], catArea=datos1, catEdoCivil=datos2, catEscolaridad=datos3,
                            catGradoAvance=datos4, catCarrera=datos5, catIdioma=datos6, catHabilidad=datos7,
                            Area=datos11[0], EdoCivil=datos12[0], Escolaridad=datos13[0], GradoAvance=datos14[0],
                            Carrera=datos15[0], Idioma=datos16, Habilidad=datos17)
-
 
 @app.route('/puesto_fedita/<string:idP>', methods=['POST'])
 def puesto_fedita(idP):
@@ -1145,53 +432,49 @@ def puesto_fedita(idP):
         resp = request.form['responsabilidades']
         conT = request.form['condicionesTrabajo']
 
-    conn = conex()
-    cursor = conn.cursor()
 
-    cursor.execute('update puesto set codPuesto = %s, idArea = %s, nomPuesto = %s, puestoJefeSup = %s, jornada = %s, '
-                   'remunMensual = %s, prestaciones = %s, descripcionGeneral = %s, funciones = %s, edad = %s, sexo = %s, '
-                   'idEstadoCivil = %s, idEscolaridad = %s, idGradoAvance = %s, idCarrera = %s, experiencia = %s, '
-                   'conocimientos = %s, manejoEquipo = %s, reqFisicos = %s, reqPsicologicos = %s, responsabilidades = %s, '
-                   'condicionesTrabajo = %s where idPuesto = %s', (codP, idAr, nomP, pueJ, jorn, remu, pres, desc, func, eda,
-                   sex, idEC, idEs, idGA, idCa, expe, cono, manE, reqF, reqP, resp, conT, idP))
-    conn.commit()
+    cbd.cursor.execute('update puesto set codPuesto = %s, idArea = %s, nomPuesto = %s, puestoJefeSup = %s, jornada = %s, '
+                    'remunMensual = %s, prestaciones = %s, descripcionGeneral = %s, funciones = %s, edad = %s, sexo = %s, '
+                    'idEstadoCivil = %s, idEscolaridad = %s, idGradoAvance = %s, idCarrera = %s, experiencia = %s, '
+                    'conocimientos = %s, manejoEquipo = %s, reqFisicos = %s, reqPsicologicos = %s, responsabilidades = %s, '
+                    'condicionesTrabajo = %s where idPuesto = %s', (codP, idAr, nomP, pueJ, jorn, remu, pres, desc, func, eda,
+                    sex, idEC, idEs, idGA, idCa, expe, cono, manE, reqF, reqP, resp, conT, idP))
+    cbd.conn.commit()
 
-    cursor.execute('delete from puesto_has_habilidad where idPuesto =%s ', (idP))
-    conn.commit()
-    cursor.execute('delete from puesto_has_idioma where idPuesto =%s ', (idP))
-    conn.commit()
+    cbd.cursor.execute('delete from puesto_has_habilidad where idPuesto =%s ', (idP))
+    cbd.conn.commit()
+    cbd.cursor.execute('delete from puesto_has_idioma where idPuesto =%s ', (idP))
+    cbd.conn.commit()
 
-    cursor.execute('select count(*) from idioma ')
-    dato = cursor.fetchall()
+    cbd.cursor.execute('select count(*) from idioma ')
+    dato = cbd.cursor.fetchall()
     nidio = dato[0]
     ni = nidio[0] + 1
 
     for i in range(1, ni):
         idio = 'i' + str(i)
         if idio in request.form:
-            cursor.execute('insert into puesto_has_idioma(idPuesto,idIdioma) values (%s,%s)', (idP, i))
-            conn.commit()
+            cbd.cursor.execute('insert into puesto_has_idioma(idPuesto,idIdioma) values (%s,%s)', (idP, i))
+            cbd.conn.commit()
 
-    cursor.execute('select count(*) from habilidad ')
-    dato = cursor.fetchall()
+    cbd.cursor.execute('select count(*) from habilidad ')
+    dato = cbd.cursor.fetchall()
     nhab = dato[0]
     nh = nhab[0] + 1
 
     for i in range(1, nh):
         habi = 'h' + str(i)
         if habi in request.form:
-            cursor.execute('insert into puesto_has_habilidad(idPuesto,idHabilidad) values (%s,%s)', (idP, i))
-            conn.commit()
+            cbd.cursor.execute('insert into puesto_has_habilidad(idPuesto,idHabilidad) values (%s,%s)', (idP, i))
+            cbd.conn.commit()
     return redirect(url_for('puesto'))
 
 
-
+###Carrera
 @app.route('/carrera')
-def carrera():
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("SELECT idCarrera, descripcion FROM carrera ORDER BY idCarrera")
-    dato = cursor.fetchall()
+def carrera(): 
+    cbd.cursor.execute("SELECT idCarrera, descripcion FROM carrera ORDER BY idCarrera")
+    dato = cbd.cursor.fetchall()
     return render_template("carrera.html", datos = dato)
 
 @app.route('/carre_agregar')
@@ -1201,47 +484,37 @@ def agreCarre():
 @app.route("/agregarCarre", methods=['POST'])
 def agregarCarrera():
     if request.method == 'POST':
-        descrip = request.form['descripcion']
-        conn = conex()
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO carrera (descripcion) VALUES (%s)", (descrip))
-        conn.commit()
+        descrip = request.form['descripcion'] 
+        cbd.cursor.execute("INSERT INTO carrera (descripcion) VALUES (%s)", (descrip))
+        cbd.conn.commit()
     return redirect(url_for('carrera'))
 
 @app.route("/carre_editar/<string:idd>")
-def editarcarre(idd):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("SELECT idCarrera, descripcion FROM carrera WHERE idCarrera=%s", (idd))
-    dato = cursor.fetchall()
+def editarcarre(idd): 
+    cbd.cursor.execute("SELECT idCarrera, descripcion FROM carrera WHERE idCarrera=%s", (idd))
+    dato = cbd.cursor.fetchall()
     return render_template("editarCarre.html", dato = dato[0])
 
 @app.route("/updateCarre/<string:idd>", methods=['POST'])
 def updateCarre(idd):
     if request.method == 'POST':
-        descrip = request.form['descripcion']
-        conn = conex()
-        cursor = conn.cursor()
-        cursor.execute("UPDATE carrera SET descripcion = %s WHERE idCarrera = %s", (descrip, idd))
-        conn.commit()
+        descrip = request.form['descripcion'] 
+        cbd.cursor.execute("UPDATE carrera SET descripcion = %s WHERE idCarrera = %s", (descrip, idd))
+        cbd.conn.commit()
     return redirect(url_for('carrera'))
 
 @app.route("/carre_borrar/<string:idd>")
-def borrarCarre(idd):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM carrera WHERE idCarrera = %s", (idd))
-    conn.commit()
+def borrarCarre(idd): 
+    cbd.cursor.execute("DELETE FROM carrera WHERE idCarrera = %s", (idd))
+    cbd.conn.commit()
     return redirect(url_for('carrera'))
 
 
-
+###Escolaridad
 @app.route("/escolaridad")
-def escolaridad():
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("SELECT idEscolaridad, descripcion FROM escolaridad ORDER BY idEscolaridad")
-    datos = cursor.fetchall()
+def escolaridad(): 
+    cbd.cursor.execute("SELECT idEscolaridad, descripcion FROM escolaridad ORDER BY idEscolaridad")
+    datos = cbd.cursor.fetchall()
     return render_template("escolaridad.html", datos = datos)
 
 @app.route("/esco_agregar")
@@ -1251,46 +524,37 @@ def agreEsco():
 @app.route("/agregarEsco", methods=['POST'])
 def agregarEscolaridad():
     if request.method == 'POST':
-        descrip = request.form['descripcion']
-        conn = conex()
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO escolaridad (descripcion) VALUES (%s)", (descrip))
-        conn.commit()
+        descrip = request.form['descripcion'] 
+        cbd.cursor.execute("INSERT INTO escolaridad (descripcion) VALUES (%s)", (descrip))
+        cbd.conn.commit()
     return redirect(url_for("escolaridad"))
 
 @app.route("/esco_editar/<string:idd>")
-def editarEsco(idd):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("SELECT idEscolaridad, descripcion FROM escolaridad WHERE idEscolaridad = %s", (idd))
-    dato = cursor.fetchall()
+def editarEsco(idd): 
+    cbd.cursor.execute("SELECT idEscolaridad, descripcion FROM escolaridad WHERE idEscolaridad = %s", (idd))
+    dato = cbd.cursor.fetchall()
     return render_template("editarEsco.html", dato = dato[0])
 
 @app.route("/updateEsco/<string:idd>", methods=['POST'])
 def updateEsco(idd):
     if request.method == 'POST':
-        descrip = request.form['descripcion']
-        conn = conex()
-        cursor = conn.cursor()
-        cursor.execute("UPDATE escolaridad SET descripcion = %s WHERE idEscolaridad = %s", (descrip, idd))
-        conn.commit()
+        descrip = request.form['descripcion'] 
+        cbd.cursor.execute("UPDATE escolaridad SET descripcion = %s WHERE idEscolaridad = %s", (descrip, idd))
+        cbd.conn.commit()
     return redirect(url_for('escolaridad'))
 
 @app.route("/esco_borrar/<string:idd>")
-def borrarEsco(idd):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM escolaridad WHERE idEscolaridad = %s", (idd))
-    conn.commit()
+def borrarEsco(idd): 
+    cbd.cursor.execute("DELETE FROM escolaridad WHERE idEscolaridad = %s", (idd))
+    cbd.conn.commit()
     return redirect(url_for("escolaridad"))
 
 
+###Estado Civil
 @app.route("/edocivil")
-def edocivil():
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("SELECT idEstadoCivil, descripcion FROM estado_civil ORDER BY idEstadoCivil")
-    datos = cursor.fetchall()
+def edocivil(): 
+    cbd.cursor.execute("SELECT idEstadoCivil, descripcion FROM estado_civil ORDER BY idEstadoCivil")
+    datos = cbd.cursor.fetchall()
     return render_template("edoCivil.html", datos = datos)
 
 @app.route("/edociv_agregar")
@@ -1300,136 +564,108 @@ def agreEdoCiv():
 @app.route("/agregarEdociv", methods=['POST'])
 def agregarEdoCiv():
     if request.method == 'POST':
-        descrip = request.form['descripcion']
-        conn = conex()
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO estado_civil (descripcion) VALUES (%s)", (descrip))
-        conn.commit()
+        descrip = request.form['descripcion'] 
+        cbd.cursor.execute("INSERT INTO estado_civil (descripcion) VALUES (%s)", (descrip))
+        cbd.conn.commit()
     return redirect(url_for("edocivil"))
 
 @app.route("/edoc_editar/<string:idd>")
-def editarEdociv(idd):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("SELECT idEstadoCivil, descripcion FROM estado_civil WHERE idEstadoCivil = %s", (idd))
-    dato = cursor.fetchall()
+def editarEdociv(idd): 
+    cbd.cursor.execute("SELECT idEstadoCivil, descripcion FROM estado_civil WHERE idEstadoCivil = %s", (idd))
+    dato = cbd.cursor.fetchall()
     return render_template("editarEdociv.html", dato = dato[0])
 
 @app.route("/updateEdociv/<string:idd>", methods=['POST'])
 def updateEdociv(idd):
     if request.method == 'POST':
-        descrip = request.form['descripcion']
-        conn = conex()
-        cursor = conn.cursor()
-        cursor.execute("UPDATE estado_civil SET descripcion = %s WHERE idEstadoCivil = %s", (descrip, idd))
-        conn.commit()
+        descrip = request.form['descripcion'] 
+        cbd.cursor.execute("UPDATE estado_civil SET descripcion = %s WHERE idEstadoCivil = %s", (descrip, idd))
+        cbd.conn.commit()
     return redirect(url_for("edocivil"))
 
 @app.route("/edoc_borrar/<string:idd>")
-def borrarEdociv(idd):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM estado_civil WHERE idEstadoCivil = %s", (idd))
-    conn.commit()
+def borrarEdociv(idd): 
+    cbd.cursor.execute("DELETE FROM estado_civil WHERE idEstadoCivil = %s", (idd))
+    cbd.conn.commit()
     return redirect(url_for("edocivil"))
 
 
-
+###Candidatos
 @app.route("/candidatos")
-def candidatos():
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("SELECT b.folio, a.idVacante, c.nomPuesto, a.candidatoSelecc FROM vacante a, requisicion b, puesto c WHERE a.idRequisicion=b.idRequisicion AND a.idPuesto=c.idPuesto AND b.idPuesto=c.idPuesto")
-    datos = cursor.fetchall()
+def candidatos(): 
+    cbd.cursor.execute("SELECT b.folio, a.idVacante, c.nomPuesto, a.candidatoSelecc FROM vacante a, requisicion b, puesto c WHERE a.idRequisicion=b.idRequisicion AND a.idPuesto=c.idPuesto AND b.idPuesto=c.idPuesto")
+    datos = cbd.cursor.fetchall()
     return render_template("candidatos.html", datos = datos)
 
-
 @app.route("/capturarCand/<string:idV>")
-def capturarCandidatos(idV):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("SELECT b.folio, a.idVacante, c.nomPuesto FROM vacante a, requisicion b, puesto c WHERE a.idRequisicion=b.idRequisicion AND a.idPuesto=c.idPuesto AND b.idPuesto=c.idPuesto AND a.idVacante=%s", (idV))
-    datos = cursor.fetchall()
+def capturarCandidatos(idV): 
+    cbd.cursor.execute("SELECT b.folio, a.idVacante, c.nomPuesto FROM vacante a, requisicion b, puesto c WHERE a.idRequisicion=b.idRequisicion AND a.idPuesto=c.idPuesto AND b.idPuesto=c.idPuesto AND a.idVacante=%s", (idV))
+    datos = cbd.cursor.fetchall()
     
-    cursor.execute('select idEstadoCivil, descripcion from estado_civil ')
-    datos2 = cursor.fetchall()
+    cbd.cursor.execute('select idEstadoCivil, descripcion from estado_civil ')
+    datos2 = cbd.cursor.fetchall()
 
-    cursor.execute('select idEscolaridad, descripcion from escolaridad ')
-    datos3 = cursor.fetchall()
+    cbd.cursor.execute('select idEscolaridad, descripcion from escolaridad ')
+    datos3 = cbd.cursor.fetchall()
 
-    cursor.execute('select idGradoAvance, descripcion from grado_avance ')
-    datos4 = cursor.fetchall()
+    cbd.cursor.execute('select idGradoAvance, descripcion from grado_avance ')
+    datos4 = cbd.cursor.fetchall()
 
-    cursor.execute('select idCarrera, descripcion from carrera ')
-    datos5 = cursor.fetchall()
+    cbd.cursor.execute('select idCarrera, descripcion from carrera ')
+    datos5 = cbd.cursor.fetchall()
 
     return render_template("capturarCand.html", dato = datos[0], catEdoCivil=datos2, catEscolaridad=datos3, catGradoAvance=datos4, catCarrera=datos5)
 
-
 @app.route("/seleccionCand/<string:idV>")
-def verCandidatosVacante(idV):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("SELECT b.nomPuesto FROM puesto b, vacante a WHERE a.idVacante=%s AND a.idPuesto=b.idPuesto", (idV))
-    nomPuestoVacante = cursor.fetchall()
-    cursor.execute("SELECT a.idCandidato, a.idVacante, a.idRequisicion, a.nombre, a.CURP FROM candidato a, vacante b WHERE a.idVacante=%s AND a.idVacante=b.idVacante", (idV))
-    datos = cursor.fetchall()
-    cursor.execute("SELECT candidatoSelecc FROM vacante WHERE idVacante = %s", (idV))
-    idCandSelecc = cursor.fetchall()
+def verCandidatosVacante(idV): 
+    cbd.cursor.execute("SELECT b.nomPuesto FROM puesto b, vacante a WHERE a.idVacante=%s AND a.idPuesto=b.idPuesto", (idV))
+    nomPuestoVacante = cbd.cursor.fetchall()
+    cbd.cursor.execute("SELECT a.idCandidato, a.idVacante, a.idRequisicion, a.nombre, a.CURP FROM candidato a, vacante b WHERE a.idVacante=%s AND a.idVacante=b.idVacante", (idV))
+    datos = cbd.cursor.fetchall()
+    cbd.cursor.execute("SELECT candidatoSelecc FROM vacante WHERE idVacante = %s", (idV))
+    idCandSelecc = cbd.cursor.fetchall()
     return render_template("candVacan.html", datos = datos, nomPuesto = nomPuestoVacante[0][0], idV = idV, idCandSelec = idCandSelecc[0][0])
 
-
 @app.route("/candSelec/<string:idC>/<string:idV>")
-def showSelectedCand(idC, idV):
-    conn = conex()
-    cursor = conn.cursor() 
-    cursor.execute("SELECT a.idCandidato, a.idVacante, a.idRequisicion, a.idPuesto, b.folio, c.nomPuesto, a.CURP, a.RFC, a.nombre, a.domCalle, a.domNumExtInt, a.domColonia, a.tel1, a.tel2, a.correoE, a.edad, a.sexo, a.idEstadoCivil, a.idEscolaridad, a.idGradoAvance, a.idCarrera, "
+def showSelectedCand(idC, idV):  
+    cbd.cursor.execute("SELECT a.idCandidato, a.idVacante, a.idRequisicion, a.idPuesto, b.folio, c.nomPuesto, a.CURP, a.RFC, a.nombre, a.domCalle, a.domNumExtInt, a.domColonia, a.tel1, a.tel2, a.correoE, a.edad, a.sexo, a.idEstadoCivil, a.idEscolaridad, a.idGradoAvance, a.idCarrera, "
                    "a.entrevSelecReq, a.entrevSelecPresen, a.entrevSelecResult, a.evalMedicaReq, a.evalMedicaPresen, a.evalMedicaResult, a.evalPsicolgReq, a.evalPsicologPresen, a.evalPsicologResult, a.evalPsicometReq, a.evalPsicometPresene, a.evalPsicometResult, "
-                   "a.evalTecnicaReq, a.evalTecnicaPresen, a.evalTecnicaResult, a.evalConocReq, a.evalConocPresen, a.evalConocResult, a.entrevFinalReq, a.entrevFinalPresen, a.entrevFinalResul FROM candidato a, requisicion b, puesto c "
+                   "a.evalTecnicaReq, a.evalTecnicaPresen, a.evalTecnicaResult, a.evalConocReq, a.evalConocPresen, a.evalConocResult, a.entrevFinalReq, a.entrevFinalPresen, a.entrevFinalResul, a.aprobado, a.calificacion FROM candidato a, requisicion b, puesto c "
                    "WHERE a.idCandidato=%s AND a.idRequisicion=b.idRequisicion AND a.idPuesto=c.idPuesto", (idC))
-    datos = cursor.fetchall()
+    datos = cbd.cursor.fetchall()
 
-    cursor.execute("SELECT b.descripcion FROM candidato a, estado_civil b WHERE a.idCandidato=%s AND a.idEstadoCivil=b.idEstadoCivil", (idC))
-    edocCandSelec = cursor.fetchall()
+    cbd.cursor.execute("SELECT b.descripcion FROM candidato a, estado_civil b WHERE a.idCandidato=%s AND a.idEstadoCivil=b.idEstadoCivil", (idC))
+    edocCandSelec = cbd.cursor.fetchall()
 
-    cursor.execute("SELECT b.descripcion FROM candidato a, escolaridad b WHERE a.idCandidato=%s AND a.idEscolaridad=b.idEscolaridad", (idC))
-    escoCandSelec = cursor.fetchall()
+    cbd.cursor.execute("SELECT b.descripcion FROM candidato a, escolaridad b WHERE a.idCandidato=%s AND a.idEscolaridad=b.idEscolaridad", (idC))
+    escoCandSelec = cbd.cursor.fetchall()
 
-    cursor.execute("SELECT b.descripcion FROM candidato a, grado_avance b WHERE a.idCandidato=%s AND a.idGradoAvance=b.idGradoAvance", (idC))
-    gdoavanCandSelec = cursor.fetchall()
+    cbd.cursor.execute("SELECT b.descripcion FROM candidato a, grado_avance b WHERE a.idCandidato=%s AND a.idGradoAvance=b.idGradoAvance", (idC))
+    gdoavanCandSelec = cbd.cursor.fetchall()
 
-    cursor.execute("SELECT b.descripcion FROM candidato a, carrera b WHERE a.idCandidato=%s AND a.idCarrera=b.idCarrera", (idC))
-    carreCandSelec = cursor.fetchall()
+    cbd.cursor.execute("SELECT b.descripcion FROM candidato a, carrera b WHERE a.idCandidato=%s AND a.idCarrera=b.idCarrera", (idC))
+    carreCandSelec = cbd.cursor.fetchall()
 
     return render_template("candSelecc.html", datos = datos[0], edocCandSelec = edocCandSelec[0][0], escoCandSelec = escoCandSelec[0][0], gdoavanCandSelec = gdoavanCandSelec[0][0], carreCandSelec = carreCandSelec[0][0], idV=idV)
 
-
-
-
-
 @app.route("/borrarCand/<string:idC>/<string:idV>")
-def borrarCand(idC, idV):
-    conn = conex()
-    cursor = conn.cursor() 
-    cursor.execute("SELECT candidatoSelecc FROM vacante WHERE idVacante=%s", (idV))
-    idCandSelec = cursor.fetchall()
+def borrarCand(idC, idV):  
+    cbd.cursor.execute("SELECT candidatoSelecc FROM vacante WHERE idVacante=%s", (idV))
+    idCandSelec = cbd.cursor.fetchall()
 
     if int(idCandSelec[0][0]) == int(idC):
-        cursor.execute("UPDATE vacante SET candidatoSelecc=0 WHERE idVacante=%s", (idV))
-        conn.commit()
+        cbd.cursor.execute("UPDATE vacante SET candidatoSelecc=0 WHERE idVacante=%s", (idV))
+        cbd.conn.commit()
 
-    cursor.execute("DELETE FROM candidato WHERE idCandidato=%s", (idC))
-    conn.commit()
+    cbd.cursor.execute("DELETE FROM candidato WHERE idCandidato=%s", (idC))
+    cbd.conn.commit()
     return redirect(url_for("verCandidatosVacante", idV = idV))
 
 @app.route("/seleccionarCandidato/<string:idC>/<string:idV>")
-def seleccionarCandidato(idC, idV):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("UPDATE vacante SET candidatoSelecc = %s WHERE idVacante = %s", (idC, idV))
-    conn.commit()
+def seleccionarCandidato(idC, idV): 
+    cbd.cursor.execute("UPDATE vacante SET candidatoSelecc = %s WHERE idVacante = %s", (idC, idV))
+    cbd.conn.commit()
     return redirect(url_for("verCandidatosVacante", idV = idV))
-
 
 @app.route("/captCand", methods=['GET', 'POST'])
 def capturarCandidato():
@@ -1461,8 +697,8 @@ def capturarCandidato():
         evalPsicolPres = request.form.get('evalPsicoloPres', '')
         evalPsicolResul = request.form.get('campoEvalPsicolo', 'NO APLICA/NO PRESENTADA').strip()
         evalPsicomReq = request.form.get('evalPsicomReq', '')
-        evalPsicomPres = request.form.get('evalPsicomPres', '')
-        evalPsicomResul = request.form.get('campoEvalPsicom', 'NO APLICA/NO PRESENTADA').strip()
+        evalPsicomPres = 0
+        evalPsicomResul = "No requerida/No presentada"
         evalTecReq = request.form.get('evalTecniReq', '')
         evalTecPres = request.form.get('evalTecniPres', '')
         evalTecResul = request.form.get('campoEvalTecni', 'NO APLICA/NO PRESENTADA').strip()
@@ -1510,90 +746,90 @@ def capturarCandidato():
         print("entrevistaFinReq:", entreFinReq)
         print("entrevistaFinPres:", entreFinPres)
         print("campoEntrevistaFin:", entreFinResul)
+ 
+        cbd.cursor.execute("SELECT idRequisicion, idPuesto FROM vacante WHERE idVacante = %s", (idVacan))
+        ids = cbd.cursor.fetchall()
 
-        conn = conex()
-        cursor = conn.cursor()
-        cursor.execute("SELECT idRequisicion, idPuesto FROM vacante WHERE idVacante = %s", (idVacan))
-        ids = cursor.fetchall()
-
-        cursor.execute("INSERT INTO candidato (idVacante, idRequisicion, idPuesto, CURP, RFC, nombre, domCalle, domNumExtInt, domColonia, tel1, tel2, correoE, edad, sexo, "
+        cbd.cursor.execute("INSERT INTO candidato (idVacante, idRequisicion, idPuesto, CURP, RFC, nombre, domCalle, domNumExtInt, domColonia, tel1, tel2, correoE, edad, sexo, "
                         "idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, entrevSelecReq, entrevSelecPresen, entrevSelecResult, evalMedicaReq, evalMedicaPresen, "
                         "evalMedicaResult, evalPsicolgReq, evalPsicologPresen, evalPsicologResult, evalPsicometReq, evalPsicometPresene, evalPsicometResult, "
-                        "evalTecnicaReq, evalTecnicaPresen, evalTecnicaResult, evalConocReq, evalConocPresen, evalConocResult, entrevFinalReq, entrevFinalPresen, entrevFinalResul) "
-                        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
-                        (idVacan, ids[0][0], ids[0][1], curp, rfc, nombre, calle, num, colonia, tel1, tel2, correo, edad, sex, edoc, esco, gdoavan, carre, entrereq, entrepres, entreresul, 
+                        "evalTecnicaReq, evalTecnicaPresen, evalTecnicaResult, evalConocReq, evalConocPresen, evalConocResult, entrevFinalReq, entrevFinalPresen, entrevFinalResul, aprobado, calificacion) "
+                        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+                        (idVacan, ids[0][0], ids[0][1], curp, rfc, nombre, calle, num, colonia, tel1, tel2, correo, edad, sex, edoc, esco, gdoavan, carre, entrereq, entrepres, entreresul , 
                         evalMedicReq, evalMedicPres, evalMedicResul, evalPsicolReq, evalPsicolPres, evalPsicolResul, evalPsicomReq, evalPsicomPres, evalPsicomResul, evalTecReq, evalTecPres,
-                        evalTecResul, evalConocReq, evalConocPres, evalConocResul, entreFinReq, entreFinPres, entreFinResul))
-        conn.commit()
+                        evalTecResul, evalConocReq, evalConocPres, evalConocResul, entreFinReq, entreFinPres, entreFinResul, "No requerida/No presentada", "No requerida/No presentada"))
+        cbd.conn.commit()
 
     return redirect(url_for("candidatos"))
 
-
 @app.route("/detailCand/<string:idC>")
-def detallesCandidato(idC):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("SELECT a.idCandidato, a.idVacante, a.idRequisicion, a.idPuesto, b.folio, c.nomPuesto, a.CURP, a.RFC, a.nombre, a.domCalle, a.domNumExtInt, a.domColonia, a.tel1, a.tel2, a.correoE, a.edad, a.sexo, a.idEstadoCivil, a.idEscolaridad, a.idGradoAvance, a.idCarrera, "
+def detallesCandidato(idC): 
+    cbd.cursor.execute("SELECT a.idCandidato, a.idVacante, a.idRequisicion, a.idPuesto, b.folio, c.nomPuesto, a.CURP, a.RFC, a.nombre, a.domCalle, a.domNumExtInt, a.domColonia, a.tel1, a.tel2, a.correoE, a.edad, a.sexo, a.idEstadoCivil, a.idEscolaridad, a.idGradoAvance, a.idCarrera, "
                    "a.entrevSelecReq, a.entrevSelecPresen, a.entrevSelecResult, a.evalMedicaReq, a.evalMedicaPresen, a.evalMedicaResult, a.evalPsicolgReq, a.evalPsicologPresen, a.evalPsicologResult, a.evalPsicometReq, a.evalPsicometPresene, a.evalPsicometResult, "
-                   "a.evalTecnicaReq, a.evalTecnicaPresen, a.evalTecnicaResult, a.evalConocReq, a.evalConocPresen, a.evalConocResult, a.entrevFinalReq, a.entrevFinalPresen, a.entrevFinalResul FROM candidato a, requisicion b, puesto c "
+                   "a.evalTecnicaReq, a.evalTecnicaPresen, a.evalTecnicaResult, a.evalConocReq, a.evalConocPresen, a.evalConocResult, a.entrevFinalReq, a.entrevFinalPresen, a.entrevFinalResul, a.aprobado, a.calificacion FROM candidato a, requisicion b, puesto c "
                    "WHERE a.idCandidato=%s AND a.idRequisicion=b.idRequisicion AND a.idPuesto=c.idPuesto", (idC))
-    datosCand = cursor.fetchall()
+    datosCand = cbd.cursor.fetchall()
 
-    cursor.execute("SELECT b.descripcion FROM candidato a, estado_civil b WHERE a.idCandidato=%s AND a.idEstadoCivil=b.idEstadoCivil", (idC))
-    edocCand = cursor.fetchall()
+    cbd.cursor.execute("SELECT b.descripcion FROM candidato a, estado_civil b WHERE a.idCandidato=%s AND a.idEstadoCivil=b.idEstadoCivil", (idC))
+    edocCand = cbd.cursor.fetchall()
 
-    cursor.execute("SELECT b.descripcion FROM candidato a, escolaridad b WHERE a.idCandidato=%s AND a.idEscolaridad=b.idEscolaridad", (idC))
-    escoCand = cursor.fetchall()
+    cbd.cursor.execute("SELECT b.descripcion FROM candidato a, escolaridad b WHERE a.idCandidato=%s AND a.idEscolaridad=b.idEscolaridad", (idC))
+    escoCand = cbd.cursor.fetchall()
 
-    cursor.execute("SELECT b.descripcion FROM candidato a, grado_avance b WHERE a.idCandidato=%s AND a.idGradoAvance=b.idGradoAvance", (idC))
-    gdoavanCand = cursor.fetchall()
+    cbd.cursor.execute("SELECT b.descripcion FROM candidato a, grado_avance b WHERE a.idCandidato=%s AND a.idGradoAvance=b.idGradoAvance", (idC))
+    gdoavanCand = cbd.cursor.fetchall()
 
-    cursor.execute("SELECT b.descripcion FROM candidato a, carrera b WHERE a.idCandidato=%s AND a.idCarrera=b.idCarrera", (idC))
-    carreCand = cursor.fetchall()
+    cbd.cursor.execute("SELECT b.descripcion FROM candidato a, carrera b WHERE a.idCandidato=%s AND a.idCarrera=b.idCarrera", (idC))
+    carreCand = cbd.cursor.fetchall()
 
-    return render_template("detallesCand.html", datosCand = datosCand[0], edocCand = edocCand[0][0], escoCand = escoCand[0][0], gdoavanCand = gdoavanCand[0][0], carreCand = carreCand[0][0])
+    cbd.cursor.execute("SELECT evalPsicometReq FROM candidato WHERE idCandidato=%s", (idC,))
+    requerida = cbd.cursor.fetchone()
+    sino=int(requerida[0])
 
+    if  sino == 1:
+        cbd.cursor.execute("SELECT evalPsicometPresene FROM candidato WHERE idCandidato=%s", (idC,))
+        examen1 = cbd.cursor.fetchone()
+        examens = int(examen1[0])
+        print(examens)
+    else:
+        examens = 1
+
+    return render_template("detallesCand.html", idc=idC, datosCand = datosCand[0], edocCand = edocCand[0][0], escoCand = escoCand[0][0], gdoavanCand = gdoavanCand[0][0], carreCand = carreCand[0][0], examen=examens)
 
 @app.route("/unselectCand/<string:idV>")
-def deseleccionarCandidato(idV):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("UPDATE vacante SET candidatoSelecc=0 WHERE idVacante=%s", (idV))
-    conn.commit()
+def deseleccionarCandidato(idV): 
+    cbd.cursor.execute("UPDATE vacante SET candidatoSelecc=0 WHERE idVacante=%s", (idV))
+    cbd.conn.commit()
     return redirect(url_for("candidatos"))
 
 @app.route("/editarCand/<string:idC>/<string:idV>")
-def editarCand(idC, idV):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("SELECT b.folio, a.idVacante, c.nomPuesto FROM vacante a, requisicion b, puesto c WHERE a.idRequisicion=b.idRequisicion AND a.idPuesto=c.idPuesto AND b.idPuesto=c.idPuesto AND a.idVacante=%s", (idV))
-    datos = cursor.fetchall()
+def editarCand(idC, idV): 
+    cbd.cursor.execute("SELECT b.folio, a.idVacante, c.nomPuesto FROM vacante a, requisicion b, puesto c WHERE a.idRequisicion=b.idRequisicion AND a.idPuesto=c.idPuesto AND b.idPuesto=c.idPuesto AND a.idVacante=%s", (idV))
+    datos = cbd.cursor.fetchall()
     
-    cursor.execute('select idEstadoCivil, descripcion from estado_civil ')
-    datos2 = cursor.fetchall()
+    cbd.cursor.execute('select idEstadoCivil, descripcion from estado_civil ')
+    datos2 = cbd.cursor.fetchall()
 
-    cursor.execute('select idEscolaridad, descripcion from escolaridad ')
-    datos3 = cursor.fetchall()
+    cbd.cursor.execute('select idEscolaridad, descripcion from escolaridad ')
+    datos3 = cbd.cursor.fetchall()
 
-    cursor.execute('select idGradoAvance, descripcion from grado_avance ')
-    datos4 = cursor.fetchall()
+    cbd.cursor.execute('select idGradoAvance, descripcion from grado_avance ')
+    datos4 = cbd.cursor.fetchall()
 
-    cursor.execute('select idCarrera, descripcion from carrera ')
-    datos5 = cursor.fetchall()
+    cbd.cursor.execute('select idCarrera, descripcion from carrera ')
+    datos5 = cbd.cursor.fetchall()
 
-    cursor.execute("SELECT idVacante, idRequisicion, idPuesto, CURP, RFC, nombre, domCalle, domNumExtInt, domColonia, tel1, tel2, correoE, edad, sexo, "
+    cbd.cursor.execute("SELECT idVacante, idRequisicion, idPuesto, CURP, RFC, nombre, domCalle, domNumExtInt, domColonia, tel1, tel2, correoE, edad, sexo, "
                         "idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, entrevSelecReq, entrevSelecPresen, entrevSelecResult, evalMedicaReq, evalMedicaPresen, "
                         "evalMedicaResult, evalPsicolgReq, evalPsicologPresen, evalPsicologResult, evalPsicometReq, evalPsicometPresene, evalPsicometResult, "
                         "evalTecnicaReq, evalTecnicaPresen, evalTecnicaResult, evalConocReq, evalConocPresen, evalConocResult, entrevFinalReq, entrevFinalPresen, entrevFinalResul, idCandidato FROM candidato WHERE idCandidato = %s", (idC)
                         )
-    datosOp = cursor.fetchall()
+    datosOp = cbd.cursor.fetchall()
     return render_template("editarCand.html", dato = datos[0], catEdoCivil=datos2, catEscolaridad=datos3, catGradoAvance=datos4, catCarrera=datos5, datosOp=datosOp[0] )
 
 @app.route("/editarCandFunct/<string:idC>", methods=['GET', 'POST'])
 def editarCandFunct(idC):
-    if request.method == "POST":
-        conn = conex()
-        cursor = conn.cursor()
+    if request.method == "POST": 
         idVacan = request.form.get('idVacante')
         curp = request.form.get('curp')
         rfc = request.form.get('rfc')
@@ -1621,9 +857,9 @@ def editarCandFunct(idC):
         evalPsicolReq = request.form.get('evalPsicoloReq', '')
         evalPsicolPres = request.form.get('evalPsicoloPres', '')
         evalPsicolResul = request.form.get('campoEvalPsicolo', 'NO APLICA/NO PRESENTADA').strip()
-        evalPsicomReq = request.form.get('evalPsicomReq', '')
-        evalPsicomPres = request.form.get('evalPsicomPres', '')
-        evalPsicomResul = request.form.get('campoEvalPsicom', 'NO APLICA/NO PRESENTADA').strip()
+        #evalPsicomReq = request.form.get('evalPsicomReq', '')
+        #evalPsicomPres = request.form.get('evalPsicomPres', '')
+        #evalPsicomResul = request.form.get('campoEvalPsicom', 'NO APLICA/NO PRESENTADA').strip()
         evalTecReq = request.form.get('evalTecniReq', '')
         evalTecPres = request.form.get('evalTecniPres', '')
         evalTecResul = request.form.get('campoEvalTecni', 'NO APLICA/NO PRESENTADA').strip()
@@ -1659,9 +895,6 @@ def editarCandFunct(idC):
         print("evalPsicoloReq:", evalPsicolReq)
         print("evalPsicoloPres:", evalPsicolPres)
         print("campoEvalPsicolo:", evalPsicolResul)
-        print("evalPsicomReq:", evalPsicomReq)
-        print("evalPsicomPres:", evalPsicomPres)
-        print("campoEvalPsicom:", evalPsicomResul)
         print("evalTecniReq:", evalTecReq)
         print("evalTecniPres:", evalTecPres)
         print("campoEvalTecni:", evalTecResul)
@@ -1673,27 +906,21 @@ def editarCandFunct(idC):
         print("campoEntrevistaFin:", entreFinResul)
         print("idCandidato", idC)
 
-        cursor.execute("UPDATE candidato SET idVacante = %s, CURP = %s, RFC = %s, nombre = %s, domCalle = %s, domNumExtInt = %s, domColonia = %s, tel1 = %s, tel2 = %s, correoE = %s, edad = %s, sexo = %s, idEstadoCivil = %s, idEscolaridad = %s, idGradoAvance = %s, idCarrera = %s, entrevSelecReq = %s, entrevSelecPresen = %s, entrevSelecResult = %s, evalMedicaReq = %s, evalMedicaPresen = %s, evalMedicaResult = %s, evalPsicolgReq = %s, evalPsicologPresen = %s, evalPsicologResult = %s, evalPsicometReq = %s, evalPsicometPresene = %s, evalPsicometResult = %s, evalTecnicaReq = %s, evalTecnicaPresen = %s, evalTecnicaResult = %s, evalConocReq = %s, evalConocPresen = %s, evalConocResult = %s, entrevFinalReq = %s, entrevFinalPresen = %s, entrevFinalResul = %s WHERE idCandidato = %s",
-                                            (idVacan, curp, rfc, nombre, calle, num, colonia, tel1, tel2, correo, edad, sex, edoc, esco, gdoavan, carre, entrereq, entrepres, entreresul, evalMedicReq, evalMedicPres, evalMedicResul,  evalPsicolReq,evalPsicolPres,evalPsicolResul,evalPsicomReq,evalPsicomPres,evalPsicomResul,evalTecReq,evalTecPres,evalTecResul,evalConocReq,evalConocPres,evalConocResul,entreFinReq,entreFinPres, entreFinResul, idC))
-        conn.commit()
+        cbd.cursor.execute("UPDATE candidato SET idVacante = %s, CURP = %s, RFC = %s, nombre = %s, domCalle = %s, domNumExtInt = %s, domColonia = %s, tel1 = %s, tel2 = %s, correoE = %s, edad = %s, sexo = %s, idEstadoCivil = %s, idEscolaridad = %s, idGradoAvance = %s, idCarrera = %s, entrevSelecReq = %s, entrevSelecPresen = %s, entrevSelecResult = %s, evalMedicaReq = %s, evalMedicaPresen = %s, evalMedicaResult = %s, evalPsicolgReq = %s, evalPsicologPresen = %s, evalPsicologResult = %s, evalTecnicaReq = %s, evalTecnicaPresen = %s, evalTecnicaResult = %s, evalConocReq = %s, evalConocPresen = %s, evalConocResult = %s, entrevFinalReq = %s, entrevFinalPresen = %s, entrevFinalResul = %s WHERE idCandidato = %s",
+                                            (idVacan, curp, rfc, nombre, calle, num, colonia, tel1, tel2, correo, edad, sex, edoc, esco, gdoavan, carre, entrereq, entrepres, entreresul, evalMedicReq, evalMedicPres, evalMedicResul,  evalPsicolReq,evalPsicolPres,evalPsicolResul,evalTecReq,evalTecPres,evalTecResul,evalConocReq,evalConocPres,evalConocResul,entreFinReq,entreFinPres, entreFinResul, idC))
+        cbd.conn.commit()
         return redirect(url_for('candidatos'))
-    
 
 
+###Requisicion
 @app.route('/requisicion')
 def requisicion():
     return render_template("requisicion.html")
 
-
-
-
-def obtener_requisicion(requisicion_id):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM requisicion WHERE idRequisicion = %s", (requisicion_id,))
-    requisicion = cursor.fetchone()
-    cursor.close()
-    conn.close()
+def obtener_requisicion(requisicion_id): 
+    cbd.cursor.execute("SELECT * FROM requisicion WHERE idRequisicion = %s", (requisicion_id,))
+    requisicion = cbd.cursor.fetchone()
+    
     return requisicion
 
 @app.route('/mostrar_requisicion')
@@ -1703,19 +930,11 @@ def mostrar_requisicion():
     return render_template("requisicion_revisa.html", requisicion=requisicion)
 
 @app.route('/listar_requisiciones')
-def listar_requisiciones():
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM requisicion")
-    requisiciones = cursor.fetchall()
-    cursor.close()
-    conn.close()
+def listar_requisiciones(): 
+    cbd.cursor.execute("SELECT * FROM requisicion")
+    requisiciones = cbd.cursor.fetchall()
+    
     return render_template("lista_requi.html", requisiciones=requisiciones)
-
-
-
-
-
 # Ruta para agregar la requisición
 @app.route('/requisicion_agr')
 def requisicion_agregar():
@@ -1735,94 +954,86 @@ def agregar_requisicion():
     idArea = request.form['idArea']
     nomAutoriza = request.form['nomAutoriza']
     nomRevisa = request.form['nomRevisa']
+ 
 
-    conn = conex()
-    cursor = conn.cursor()
-
-    cursor.execute(
+    cbd.cursor.execute(
         """INSERT INTO requisicion (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, nomAutoriza, nomRevisa, idPuesto, idArea) 
            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
         (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, nomAutoriza, nomRevisa, idPuesto, idArea)
     )
-    conn.commit()
+    cbd.conn.commit()
 
-    cursor.execute("SELECT * FROM requisicion WHERE idRequisicion = LAST_INSERT_ID()")
-    requisicion = cursor.fetchone()
+    cbd.cursor.execute("SELECT * FROM requisicion WHERE idRequisicion = LAST_INSERT_ID()")
+    requisicion = cbd.cursor.fetchone()
 
-    cursor.close()
-    conn.close()
+    
     
     return render_template("requisicion.html", requisicion=requisicion)
-
 
 @app.route('/aceptar_requisicion', methods=['POST'])
 def aceptar_requisicion():
     requisicion_id = request.form['idRequisicion']
+ 
 
-    conn = conex()
-    cursor = conn.cursor()
+    cbd.cursor.execute("UPDATE requisicion SET idPuesto = 1, autorizada = 1 WHERE idRequisicion = %s", (requisicion_id,))
+    cbd.conn.commit()
 
-    cursor.execute("UPDATE requisicion SET idPuesto = 1, autorizada = 1 WHERE idRequisicion = %s", (requisicion_id,))
-    conn.commit()
+    cbd.cursor.execute("SELECT * FROM requisicion WHERE idRequisicion = %s", (requisicion_id,))
+    requisicion = cbd.cursor.fetchone()
 
-    cursor.execute("SELECT * FROM requisicion WHERE idRequisicion = %s", (requisicion_id,))
-    requisicion = cursor.fetchone()
-
-    cursor.close()
-    conn.close()
+    
 
     return render_template("requisicion.html", requisicion=requisicion)
 
 
+###Contrato
 @app.route('/cont_p/<string:idC>', methods=['GET'])
-def contrato_p(idC):
-    conn = conex()
-    cursor = conn.cursor()
+def contrato_p(idC): 
 
-    cursor.execute('select p.idPuesto from puesto p, candidato c where p.idPuesto = c.idPuesto and c.idCandidato = %s', (idC))
-    idP = cursor.fetchone()
+    cbd.cursor.execute('select p.idPuesto from puesto p, candidato c where p.idPuesto = c.idPuesto and c.idCandidato = %s', (idC))
+    idP = cbd.cursor.fetchone()
     
-    cursor.execute('select c.idCandidato, c.nombre, p.nomPuesto from candidato c, puesto p where c.idPuesto = p.idPuesto')
-    r = cursor.fetchall()
+    cbd.cursor.execute('select c.idCandidato, c.nombre, p.nomPuesto from candidato c, puesto p where c.idPuesto = p.idPuesto')
+    r = cbd.cursor.fetchall()
 
-    cursor.execute('select nombre, edad, sexo, CURP, RFC, domCalle, domNumExtInt, domColonia, correoE, tel1, tel2 '
+    cbd.cursor.execute('select nombre, edad, sexo, CURP, RFC, domCalle, domNumExtInt, domColonia, correoE, tel1, tel2 '
             'from candidato where idCandidato = %s', (idC))
-    datos = cursor.fetchone()
+    datos = cbd.cursor.fetchone()
 
-    cursor.execute('select puestoJefeSup, nomPuesto, codPuesto, jornada, remunMensual, prestaciones, descripcionGeneral, funciones, experiencia, '
+    cbd.cursor.execute('select puestoJefeSup, nomPuesto, codPuesto, jornada, remunMensual, prestaciones, descripcionGeneral, funciones, experiencia, '
                 'conocimientos, manejoEquipo, reqFisicos, reqPsicologicos, condicionesTrabajo, responsabilidades from puesto where idPuesto = %s', (idP,))
-    dato = cursor.fetchone()
+    dato = cbd.cursor.fetchone()
 
-    cursor.execute('select a.idArea, a.descripcion from area a, puesto b where a.idArea = b.idArea and b.idPuesto = %s', (idP))
-    datos1 = cursor.fetchone()
+    cbd.cursor.execute('select a.idArea, a.descripcion from area a, puesto b where a.idArea = b.idArea and b.idPuesto = %s', (idP))
+    datos1 = cbd.cursor.fetchone()
 
-    cursor.execute('select a.idEstadoCivil, a.descripcion from estado_civil a, candidato b where a.idEstadoCivil = b.idEstadoCivil and b.idCandidato = %s', (idC))
-    datos2 = cursor.fetchone()
+    cbd.cursor.execute('select a.idEstadoCivil, a.descripcion from estado_civil a, candidato b where a.idEstadoCivil = b.idEstadoCivil and b.idCandidato = %s', (idC))
+    datos2 = cbd.cursor.fetchone()
 
-    cursor.execute('select a.idEscolaridad, a.descripcion from escolaridad a, candidato b where a.idEscolaridad = b.idEscolaridad and b.idCandidato = %s', (idC))
-    datos3 = cursor.fetchone()
+    cbd.cursor.execute('select a.idEscolaridad, a.descripcion from escolaridad a, candidato b where a.idEscolaridad = b.idEscolaridad and b.idCandidato = %s', (idC))
+    datos3 = cbd.cursor.fetchone()
 
-    cursor.execute('select a.idGradoAvance, a.descripcion from grado_avance a, candidato b where a.idGradoAvance = b.idGradoAvance and b.idCandidato = %s', (idC))
-    datos4 = cursor.fetchone()
+    cbd.cursor.execute('select a.idGradoAvance, a.descripcion from grado_avance a, candidato b where a.idGradoAvance = b.idGradoAvance and b.idCandidato = %s', (idC))
+    datos4 = cbd.cursor.fetchone()
 
-    cursor.execute('select a.idCarrera, a.descripcion from carrera a, candidato b where a.idCarrera = b.idCarrera and b.idCandidato = %s', (idC))
-    datos5 = cursor.fetchone()
+    cbd.cursor.execute('select a.idCarrera, a.descripcion from carrera a, candidato b where a.idCarrera = b.idCarrera and b.idCandidato = %s', (idC))
+    datos5 = cbd.cursor.fetchone()
 
-    cursor.execute('select a.idPuesto, b.idIdioma, b.descripcion from puesto a, idioma b, puesto_has_idioma c '
+    cbd.cursor.execute('select a.idPuesto, b.idIdioma, b.descripcion from puesto a, idioma b, puesto_has_idioma c '
                     'where a.idPuesto = c.idPuesto and b.idIdioma = c.idIdioma and a.idPuesto = %s', (idP))
-    datos6 = cursor.fetchone()
+    datos6 = cbd.cursor.fetchone()
 
-    cursor.execute('select a.idPuesto, b.idHabilidad, b.descripcion from puesto a, habilidad b, puesto_has_habilidad c '
+    cbd.cursor.execute('select a.idPuesto, b.idHabilidad, b.descripcion from puesto a, habilidad b, puesto_has_habilidad c '
                     'where a.idPuesto = c.idPuesto and b.idHabilidad = c.idHabilidad and a.idPuesto = %s', (idP))
-    datos7 = cursor.fetchone()
+    datos7 = cbd.cursor.fetchone()
 
-    cursor.execute('select p.nomPuesto, a.descripcion, p.puestoJefeSup, p.jornada, p.funciones, p.responsabilidades, p.remunMensual,' 
+    cbd.cursor.execute('select p.nomPuesto, a.descripcion, p.puestoJefeSup, p.jornada, p.funciones, p.responsabilidades, p.remunMensual,' 
                     'p.prestaciones from puesto p, area a where a.idArea = p.idArea and idPuesto = %s', (idP))
-    clausu1 = cursor.fetchone()
+    clausu1 = cbd.cursor.fetchone()
 
-    cursor.execute('select r.fechainicVac, c.nombre, p.nomPuesto from puesto p, requisicion r, candidato c where r.idRequisicion = c.idRequisicion and ' 
+    cbd.cursor.execute('select r.fechainicVac, c.nombre, p.nomPuesto from puesto p, requisicion r, candidato c where r.idRequisicion = c.idRequisicion and ' 
                     'p.idPuesto = c.idPuesto and c.idCandidato = %s', (idC))
-    clausu2 = cursor.fetchone()
+    clausu2 = cbd.cursor.fetchone()
 
     class PDF(FPDF):
         def header(self):
@@ -1957,8 +1168,8 @@ def contrato_p(idC):
 
     # Output the PDF
     # Especificar una ruta absoluta para guardar el archivo PDF
-    archivo = "Contrato laboral.pdf"
-    output_path = os.path.join(os.path.expanduser('~'), 'Desktop', archivo)
+    archivo = "Contrato_laboral.pdf"
+    output_path = os.path.join(os.path.expanduser('~'),  archivo)
     webbrowser.open(output_path)
     pdf.output(output_path)
     print(f'Nombre:{archivo}')
@@ -1968,54 +1179,51 @@ def contrato_p(idC):
 
 #Codigo de Python del Equipo2
 
+###Vacantes
 #Renderizado para las Vacantes Equipo2
 @app.route('/vacantes')
-def vacantes():
-    conn = conex()
-    cursor = conn.cursor()
+def vacantes(): 
 
-    cursor.execute('select idPuesto, nomPuesto from puesto order by idPuesto')
-    datos = cursor.fetchall()
+    cbd.cursor.execute('select idPuesto, nomPuesto from puesto order by idPuesto')
+    datos = cbd.cursor.fetchall()
 
     return render_template("vacantes.html", pue = datos, dat='   ', catArea = '   ', catEdoCivil = '   ', catEscolaridad = '   ',
                            catGradoAvance = '    ', catCarrera = '    ', catIdioma = ' ', catHabilidad = ' ')
 
 #Metodo para mostrar los datos en la publicacion de Vacantes Equipo2
 @app.route('/vacantes_publ/<string:idV>', methods=['GET'])
-def vacantes_publ(idV):
-    conn = conex()
-    cursor = conn.cursor()
+def vacantes_publ(idV): 
 
-    cursor.execute('select idPuesto, nomPuesto from puesto order by idPuesto')
-    datos = cursor.fetchall()
+    cbd.cursor.execute('select idPuesto, nomPuesto from puesto order by idPuesto')
+    datos = cbd.cursor.fetchall()
 
-    cursor.execute('select idPuesto,codPuesto,idArea,nomPuesto,puestoJefeSup,jornada,remunMensual,prestaciones,descripcionGeneral,'
+    cbd.cursor.execute('select idPuesto,codPuesto,idArea,nomPuesto,puestoJefeSup,jornada,remunMensual,prestaciones,descripcionGeneral,'
             'funciones,edad,sexo,idEstadoCivil,idEscolaridad,idGradoAvance,idCarrera,experiencia,conocimientos,manejoEquipo,'
             'reqFisicos,reqPsicologicos,responsabilidades,condicionesTrabajo from puesto where idPuesto = %s', (idV))
-    dato = cursor.fetchall()
+    dato = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idArea, a.descripcion from area a, puesto b where a.idArea = b.idArea and b.idPuesto = %s', (idV))
-    datos1 = cursor.fetchall()
+    cbd.cursor.execute('select a.idArea, a.descripcion from area a, puesto b where a.idArea = b.idArea and b.idPuesto = %s', (idV))
+    datos1 = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idEstadoCivil, a.descripcion from estado_civil a, puesto b where a.idEstadoCivil = b.idEstadoCivil and b.idPuesto = %s', (idV))
-    datos2 = cursor.fetchall()
+    cbd.cursor.execute('select a.idEstadoCivil, a.descripcion from estado_civil a, puesto b where a.idEstadoCivil = b.idEstadoCivil and b.idPuesto = %s', (idV))
+    datos2 = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idEscolaridad, a.descripcion from escolaridad a, puesto b where a.idEscolaridad = b.idEscolaridad and b.idPuesto = %s', (idV))
-    datos3 = cursor.fetchall()
+    cbd.cursor.execute('select a.idEscolaridad, a.descripcion from escolaridad a, puesto b where a.idEscolaridad = b.idEscolaridad and b.idPuesto = %s', (idV))
+    datos3 = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idGradoAvance, a.descripcion from grado_avance a, puesto b where a.idGradoAvance = b.idGradoAvance and b.idPuesto = %s', (idV))
-    datos4 = cursor.fetchall()
+    cbd.cursor.execute('select a.idGradoAvance, a.descripcion from grado_avance a, puesto b where a.idGradoAvance = b.idGradoAvance and b.idPuesto = %s', (idV))
+    datos4 = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idCarrera, a.descripcion from carrera a, puesto b where a.idCarrera = b.idCarrera and b.idPuesto = %s', (idV))
-    datos5 = cursor.fetchall()
+    cbd.cursor.execute('select a.idCarrera, a.descripcion from carrera a, puesto b where a.idCarrera = b.idCarrera and b.idPuesto = %s', (idV))
+    datos5 = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idPuesto, b.idIdioma, b.descripcion from puesto a, idioma b, puesto_has_idioma c '
+    cbd.cursor.execute('select a.idPuesto, b.idIdioma, b.descripcion from puesto a, idioma b, puesto_has_idioma c '
                    'where a.idPuesto = c.idPuesto and b.idIdioma = c.idIdioma and a.idPuesto = %s', (idV))
-    datos6 = cursor.fetchall()
+    datos6 = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idPuesto, b.idHabilidad, b.descripcion from puesto a, habilidad b, puesto_has_habilidad c '
+    cbd.cursor.execute('select a.idPuesto, b.idHabilidad, b.descripcion from puesto a, habilidad b, puesto_has_habilidad c '
                    'where a.idPuesto = c.idPuesto and b.idHabilidad = c.idHabilidad and a.idPuesto = %s', (idV))
-    datos7 = cursor.fetchall()
+    datos7 = cbd.cursor.fetchall()
     return render_template("pub_vacantes.html", pue = datos, dat=dato[0], catArea=datos1[0], catEdoCivil=datos2[0], catEscolaridad=datos3[0],
                            catGradoAvance=datos4[0], catCarrera=datos5[0], catIdioma=datos6, catHabilidad=datos7)
 
@@ -2025,62 +1233,110 @@ def pub_vacantes():
     return render_template("pub_vacantes.html")
 
 @app.route('/vacantes_pub')
-def vacantes_pub():
-    conn = conex()
-    cursor = conn.cursor()
+def vacantes_pub(): 
 
-    cursor.execute('select idPuesto, nomPuesto from puesto order by idPuesto')
-    datos = cursor.fetchall()
+    cbd.cursor.execute('select idPuesto, nomPuesto from puesto order by idPuesto')
+    datos = cbd.cursor.fetchall()
 
     return render_template("vacantes.html", pue = datos, dat='   ', catArea = '   ', catEdoCivil = '   ', catEscolaridad = '   ',
                            catGradoAvance = '    ', catCarrera = '    ', catIdioma = ' ', catHabilidad = ' ')
 
 #Funcion para Generar un Anuncio de Vacantes por PDF Equipo2
-#Libreria Usada WeasyPrint (Instalacion: pip install weasyprint       Despues se instalaran y configurara la dependencia)
 @app.route('/generate_pdf', methods=['POST'])
 def generate_pdf():
-    # Obtener datos del formulario
-    data = {
-        "nomPuesto": request.form['nomPuesto'],
-        "codPuesto": request.form['codPuesto'],
-        "idArea": request.form['idArea'],
-        "puestoJefeSup": request.form['puestoJefeSup'],
-        "jornada": request.form['jornada'],
-        "remunMensual": request.form['remunMensual'],
-        "prestaciones": request.form['prestaciones'],
-        "descripcionGeneral": request.form['descripcionGeneral'],
-        "funciones": request.form['funciones'],
-        "edad": request.form['edad'],
-        "sexo": request.form['sexo'],
-        "idEstadoCivil": request.form['idEstadoCivil'],
-        "idEscolaridad": request.form['idEscolaridad'],
-        "idGradoAvance": request.form['idGradoAvance'],
-        "idFormaPubl": request.form['idFormaPubl']
-    }
+        # Obtener datos del formulario
+        data = {
+            "nomPuesto": request.form['nomPuesto'],
+            "codPuesto": request.form['codPuesto'],
+            "idArea": request.form['idArea'],
+            "puestoJefeSup": request.form['puestoJefeSup'],
+            "jornada": request.form['jornada'],
+            "remunMensual": request.form['remunMensual'],
+            "prestaciones": request.form['prestaciones'],
+            "descripcionGeneral": request.form['descripcionGeneral'],
+            "funciones": request.form['funciones'],
+            "edad": request.form['edad'],
+            "sexo": request.form['sexo'],
+            "idEstadoCivil": request.form['idEstadoCivil'],
+            "idEscolaridad": request.form['idEscolaridad'],
+            "idGradoAvance": request.form['idGradoAvance'],
+            "idFormaPubl": request.form['idFormaPubl']
+        }
+        # Crear PDF con FPDF
+        class PDF(FPDF):
+            def header(self):
+                self.set_font('Arial', 'B', 24)
+                self.cell(0, 10, 'ESTAMOS CONTRATANDO', 0, 1, 'C')
+                self.ln(10)
 
-    # Renderizar plantilla HTML con los datos
-    rendered_html = render_template('pdf.html', data=data)
+            def chapter_title(self, title, level=1):
+                self.set_font('Arial', 'B', 14 if level == 1 else 12)
+                # Cambiar color de los títulos y subtítulos
+                self.set_text_color(94, 156, 160)  # Color: #5e9ca0
+                self.cell(0, 10, title, 0, 1, 'C')
+                self.ln(5)
+                self.set_text_color(0)  # Restaurar color por defecto
 
-    # Convertir el HTML a PDF
-    pdf = HTML(string=rendered_html).write_pdf()
+            def chapter_body(self, body):
+                self.set_font('Arial', '', 12)
+                self.multi_cell(0, 10, body)
 
-    # Guardar el PDF en el sistema de archivos
-    pdf_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static', 'vacante.pdf')
-    with open(pdf_path, 'wb') as f:
-        f.write(pdf)
+            def add_vacancy_data(self, data):
+                self.chapter_title(data["nomPuesto"], level=1)
+                # Subrayar el nombre de la vacante
+                self.set_draw_color(0, 0, 0)
+                self.line(10, self.get_y() - 5, 200, self.get_y() - 5)
+                self.chapter_body(f"Código de Vacante: {data['codPuesto']}")
+                self.chapter_body(f"Área de adscripción: {data['idArea']}")
+                self.chapter_body(f"Puesto del Jefe Superior: {data['puestoJefeSup']}")
+                self.chapter_body(f"Jornada: {data['jornada']}")
+                self.chapter_body(f"Remuneración Mensual: {data['remunMensual']}")
+                self.chapter_body(f"Prestaciones: {data['prestaciones']}")
+                self.chapter_title("Descripción General", level=1)
+                self.chapter_body(data["descripcionGeneral"])
+                self.chapter_title("Funciones", level=1)
+                self.chapter_body(data["funciones"])
+                self.chapter_title("Requisitos", level=1)
+                self.chapter_body(f"Edad: {data['edad']}")
+                self.chapter_body(f"Sexo: {data['sexo']}")
+                self.chapter_body(f"Estado Civil: {data['idEstadoCivil']}")
+                self.chapter_body(f"Escolaridad: {data['idEscolaridad']}")
+                self.chapter_body(f"Grado Avance: {data['idGradoAvance']}")
+                self.chapter_body(f"Forma de Publicación: {data['idFormaPubl']}")
+                self.set_text_color(51, 102, 255)
+                # Alinear la información de contacto a la derecha
+                self.cell(0, 10, "Envia tus Datos", 0, 1, 'R')
+                self.set_text_color(0)
+                self.cell(0, 10, "SecureCorp@gmail.com", 0, 1, 'R')
+                self.cell(0, 10, "(+52) 449 4534 534", 0, 1, 'R')
+                self.cell(0, 10, "www.SecureCorp/Contratacion.com", 0, 1, 'R')#Aqui se podria poner el link de la pagina cuando se suba a PythonAnywhere
 
-    # Devolver el PDF como respuesta
-    return send_file(pdf_path, as_attachment=True, download_name='vacante.pdf')
+        pdf = PDF()
+        pdf.add_page()
+        pdf.add_vacancy_data(data)
+        
+        # Ruta donde se guardará el PDF
+        # Especificar una ruta absoluta para guardar el archivo PDF en la carpeta "Descargas"
+        archivo = "PublicacionDeVacantes.pdf"
+        output_path = os.path.join(os.path.expanduser('~'), 'Downloads', archivo)
+        pdf.output(output_path)
+        print(f'Nombre: {archivo}')
+        print(f'Archivo PDF guardado en {output_path}')
+
+        # Abrir el archivo PDF con el navegador web
+        webbrowser.open(f'file://{output_path}')
+
+        # Redirigir a la página de vacantes
+        return redirect(url_for('vacantes'))
 
 #Fin del codigo del Equipo2
+
 #examen psicometrico
 @app.route('/examen/<string:id>')
 def examen(id):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("select RFC, nombre from candidato where idCandidato=%s ",(id))
-    dato=cursor.fetchone()
-    return render_template('examen.html',datos=dato)
+    cbd.cursor.execute("select RFC, nombre from candidato where idCandidato=%s ",(id))
+    dato=cbd.cursor.fetchone()
+    return render_template('examen.html', datos=dato)
  
 @app.route('/examen_enviar', methods=['POST'])
 def examen_enviar():
@@ -2098,40 +1354,34 @@ def examen_enviar():
         p9=request.form['p9']
         p10=request.form['p10']
         p11=request.form['p11']
-        p12=request.form['p12']
-        conn = conex()
-        cursor = conn.cursor()
-        cursor.execute('INSERT INTO examen (nombre, rfc, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)', (nom,rfc,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12))
-        conn.commit()
+        p12=request.form['p12'] 
+        cbd.cursor.execute('INSERT INTO examen (nombre, rfc, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)', (nom,rfc,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12))
+        cbd.conn.commit()
     return redirect(url_for('home'))
 
 @app.route('/crud_examen')
-def crud_examen():
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute('SELECT idExamen, nombre, rfc FROM examen order by idExamen')
-    datos = cursor.fetchall()
+def crud_examen(): 
+    cbd.cursor.execute('SELECT idExamen, nombre, rfc FROM examen order by idExamen')
+    datos = cbd.cursor.fetchall()
     return render_template('examen_crudr.html', comentarios=datos)
 
 @app.route('/examen_borrar/<string:id>')
-def examen_borrar(id):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute('DELETE FROM examen WHERE idExamen={0}'.format(id))
-    conn.commit()
+def examen_borrar(id): 
+    cbd.cursor.execute('DELETE FROM examen WHERE idExamen={0}'.format(id))
+    cbd.conn.commit()
     return redirect(url_for('crud_examen'))
 
 @app.route('/examen_calificar/<string:id>')
-def examen_calificar(id):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("SELECT idExamen, nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12, rfc FROM examen WHERE idExamen=%s", (id))
-    dato=cursor.fetchone()
+def examen_calificar(id): 
+    cbd.cursor.execute("SELECT idExamen, nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12, rfc FROM examen WHERE idExamen=%s", (id))
+    dato=cbd.cursor.fetchone()
     return render_template('califica_examen.html', com=dato)
 
 @app.route('/examen_revisado/<string:id>', methods=['POST'])
 def examen_revisado(id):
     if request.method == 'POST':
+        apro=request.form['aprobado']
+        obs=request.form['observaciones']
         cal1=int(request.form['preg1'])
         cal2=int(request.form['preg2'])
         cal3=int(request.form['preg3'])
@@ -2144,44 +1394,35 @@ def examen_revisado(id):
         cal10=int(request.form['preg10'])
         cal11=int(request.form['preg11'])
         cal12=int(request.form['preg12'])
-        cali=cal1+cal2+cal3+cal4+cal5+cal6+cal7+cal8+cal9+cal10+cal11+cal12
-        conn = conex()
-        cursor = conn.cursor()
-        cursor.execute('SELECT nombre, rfc, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12 FROM examen WHERE idExamen=%s',(id))
-        dato = cursor.fetchone()
-        print(dato)
+        cali=cal1+cal2+cal3+cal4+cal5+cal6+cal7+cal8+cal9+cal10+cal11+cal12 
+        cbd.cursor.execute('SELECT nombre, rfc, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12 FROM examen WHERE idExamen=%s',(id))
+        dato = cbd.cursor.fetchone()
         if dato:
             nombre, rfc, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12 = dato
-            cursor.execute('DELETE FROM examen WHERE idExamen=%s',(id,))
-            conn.commit()
-            cursor.execute('UPDATE candidato SET evalPsicometPresene=%s, evalPsicometResult=%s WHERE RFC=%s',(1,cali, str(rfc)) )
-            conn.commit()
-            cursor.execute('INSERT INTO calificaciones (nombre, rfc, calificacion, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (nombre, rfc, cali, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12))
-            conn.commit()
+            cbd.cursor.execute('DELETE FROM examen WHERE idExamen=%s',(id,))
+            cbd.conn.commit()
+            cbd.cursor.execute('UPDATE candidato SET evalPsicometPresene=%s, evalPsicometResult=%s, aprobado=%s, calificacion=%s WHERE RFC=%s',(1,obs, apro , cali,str(rfc)))
+            cbd.conn.commit()
+            cbd.cursor.execute('INSERT INTO calificaciones (nombre, rfc, calificacion, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12, aprobado, observaciones) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (nombre, rfc, cali, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, apro, obs))
+            cbd.conn.commit()
     return redirect(url_for('calificaciones'))
 
 @app.route('/calificaciones')
-def calificaciones():
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute('SELECT idCalificacion, nombre, rfc, calificacion FROM calificaciones order by idCalificacion')
-    datos=cursor.fetchall()
+def calificaciones(): 
+    cbd.cursor.execute('SELECT idCalificacion, nombre, rfc, calificacion FROM calificaciones order by idCalificacion')
+    datos=cbd.cursor.fetchall()
     return render_template('calificaciones.html', comentarios=datos)
 
 @app.route('/calificacion_borrar/<string:id>')
-def calificacion_borrar(id):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute('DELETE FROM calificaciones WHERE idCalificacion=%s', (id))
-    conn.commit()
+def calificacion_borrar(id): 
+    cbd.cursor.execute('DELETE FROM calificaciones WHERE idCalificacion=%s', (id))
+    cbd.conn.commit()
     return redirect(url_for('calificaciones'))
 
 @app.route('/calificacion_detalles/<string:id>')
-def calc_detalles(id):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute('SELECT idCalificacion, nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12, calificacion, rfc FROM calificaciones WHERE idCalificacion=%s',(id))
-    datos =cursor.fetchone()
+def calc_detalles(id): 
+    cbd.cursor.execute('SELECT idCalificacion, nombre, preg1, preg2, preg3, preg4, preg5, preg6, preg7, preg8, preg9, preg10, preg11, preg12, calificacion, rfc, aprobado, observaciones FROM calificaciones WHERE idCalificacion=%s',(id))
+    datos=cbd.cursor.fetchone()
     return render_template('detalle_cali.html', com=datos)
 
 @app.route('/regreso')
@@ -2191,318 +1432,316 @@ def regreso():
 
 #inicio equipo 6:
 
-#Empleados:
-@app.route('/empleados', endpoint='empleados')
-def empleados():
-    conn = conex()
-    cursor = conn.cursor()
+#Empleado:
 
-    cursor.execute('select idEmpleado, nombre from empleado order by idEmpleado')
-    datos = cursor.fetchall()
-    return render_template("empleados.html", pue = datos, dat='', catEmpleado = '', catEdoCivil = '', catEscolaridad = '',catGradoAvance = '', catCarrera = '', catRequisicion = '', catPuesto = '')
-
-
-@app.route('/empleados_fdetalle/<string:idE>', methods=['GET'])
-def empleados_fdetalle(idE):
-    conn = conex()
-    cursor = conn.cursor()
-
-    cursor.execute('select idEmpleado, nombre from empleado order by idEmpleado')
-    datos = cursor.fetchall()
-
-    cursor.execute('select idRequisicion, idPuesto, CURP, RFC, nombre, apellido, domCalle, domNumExtInt, domColonia,'
-                   ' tel1, sueldo, correoE, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera from empleado where '
-                   ' idEmpleado = %s', (idE))
-    dato = cursor.fetchall()
-
-    cursor.execute('select a.idRequisicion, a.folio from requisicion a, empleado b where a.idRequisicion = b.idRequisicion and b.idEmpleado = %s', (idE))
-    datos2 = cursor.fetchall()
+@app.route('/empleado')
+def empleado():
     
-    cursor.execute('select a.idPuesto, a.descripcionGeneral from puesto a, empleado b where a.idPuesto = b.idPuesto and b.idEmpleado = %s', (idE))
-    datos3 = cursor.fetchall()
+    
 
-    cursor.execute('select a.idEstadoCivil, a.descripcion from estado_civil a, empleado b where a.idEstadoCivil = b.idEstadoCivil and b.idEmpleado = %s', (idE))
-    datos4 = cursor.fetchall()
+    cbd.cursor.execute('select idEmpleado, nomEmpleado from empleado order by idEmpleado')
+    datos = cbd.cursor.fetchall()
 
-    cursor.execute('select a.idEscolaridad, a.descripcion from escolaridad a, empleado b where a.idEscolaridad = b.idEscolaridad and b.idEmpleado = %s', (idE))
-    datos5 = cursor.fetchall()
-
-    cursor.execute('select a.idGradoAvance, a.descripcion from grado_avance a, empleado b where a.idGradoAvance = b.idGradoAvance and b.idEmpleado = %s', (idE))
-    datos6 = cursor.fetchall()
-
-    cursor.execute('select a.idCarrera, a.descripcion from carrera a, empleado b where a.idCarrera = b.idCarrera and b.idEmpleado = %s', (idE))
-    datos7 = cursor.fetchall()
-
-    return render_template("empleados.html", pue = datos, dat=dato[0], catRequisicion=datos2, catPuesto=datos3, catEdoCivil=datos4, catEscolaridad=datos5, catGradoAvance=datos6, catCarrera=datos7)
+    return render_template("empleado.html", pue = datos, dat='   ', catArea = '   ', catEdoCivil = '   ', catEscolaridad = '   ',
+                           catGradoAvance = '    ', catCarrera = '    ', catIdioma = ' ', catHabilidad = ' ')
 
 
-@app.route('/empleados_borrar/<string:idE>')
-def empleados_borrar(idE):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute('DELETE FROM empleado WHERE idEmpleado = %s', (idE,))
-    conn.commit()
-    conn.close()  
-    return redirect(url_for('empleados'))
+@app.route('/empleado_fdetalle/<string:idP>', methods=['GET'])
+def empleado_fdetalle(idP):
+    
+    
 
+    cbd.cursor.execute('select idEmpleado, nomEmpleado from empleado order by idEmpleado')
+    datos = cbd.cursor.fetchall()
 
+    cbd.cursor.execute('select idEmpleado, codPuesto, idArea, nomEmpleado, jornada, descripcionGeneral, edad, sexo, idEstadoCivil,'
+                   'idEscolaridad, idGradoAvance, idCarrera, experiencia, conocimientos, manejoEquipo, responsabilidades from empleado where idEmpleado = %s', (idP))
+    dato = cbd.cursor.fetchall()
 
-@app.route('/empleados_agr02')
-def empleados_agr02():
-    conn = conex()
-    cursor = conn.cursor()
+    cbd.cursor.execute('select a.idArea, a.descripcion from area a, empleado b where a.idArea = b.idArea and b.idEmpleado = %s', (idP))
+    datos1 = cbd.cursor.fetchall()
 
-    cursor.execute('select idEmpleado, idEmpleado from empleado ')
-    datos1 = cursor.fetchall()
+    cbd.cursor.execute('select a.idEstadoCivil, a.descripcion from estado_civil a, empleado b where a.idEstadoCivil = b.idEstadoCivil and b.idEmpleado = %s', (idP))
+    datos2 = cbd.cursor.fetchall()
 
-    cursor.execute('select idEstadoCivil, descripcion from estado_civil ')
-    datos2 = cursor.fetchall()
+    cbd.cursor.execute('select a.idEscolaridad, a.descripcion from escolaridad a, empleado b where a.idEscolaridad = b.idEscolaridad and b.idEmpleado = %s', (idP))
+    datos3 = cbd.cursor.fetchall()
 
-    cursor.execute('select idEscolaridad, descripcion from escolaridad ')
-    datos3 = cursor.fetchall()
+    cbd.cursor.execute('select a.idGradoAvance, a.descripcion from grado_avance a, empleado b where a.idGradoAvance = b.idGradoAvance and b.idEmpleado = %s', (idP))
+    datos4 = cbd.cursor.fetchall()
 
-    cursor.execute('select idGradoAvance, descripcion from grado_avance ')
-    datos4 = cursor.fetchall()
+    cbd.cursor.execute('select a.idCarrera, a.descripcion from carrera a, empleado b where a.idCarrera = b.idCarrera and b.idEmpleado = %s', (idP))
+    datos5 = cbd.cursor.fetchall()
 
-    cursor.execute('select idCarrera, descripcion from carrera ')
-    datos5 = cursor.fetchall()
+    cbd.cursor.execute('select a.idEmpleado, b.idIdioma, b.descripcion from empleado a, idioma b, puesto_has_idioma c '
+                   'where a.idEmpleado = c.idEmpleado and b.idIdioma = c.idIdioma and a.idEmpleado = %s', (idP))
+    datos6 = cbd.cursor.fetchall()
 
-    cursor.execute('select idIdioma, descripcion from idioma ')
-    datos6 = cursor.fetchall()
+    cbd.cursor.execute('select a.idEmpleado, b.idHabilidad, b.descripcion from empleado a, habilidad b, puesto_has_habilidad c '
+                   'where a.idEmpleado = c.idEmpleado and b.idHabilidad = c.idHabilidad and a.idEmpleado = %s', (idP))
+    datos7 = cbd.cursor.fetchall()
+    return render_template("empleado.html", pue = datos, dat=dato[0], catArea=datos1[0], catEdoCivil=datos2[0], catEscolaridad=datos3[0],
+                           catGradoAvance=datos4[0], catCarrera=datos5[0], catIdioma=datos6, catHabilidad=datos7)
 
-    cursor.execute('select idHabilidad, descripcion from habilidad ')
-    datos7 = cursor.fetchall()
+@app.route('/empleado_borrar/<string:idP>')
+def empleado_borrar(idP):
+    
+    
+    cbd.cursor.execute('delete from empleado where idEmpleado = %s',(idP))
+    cbd.conn.commit()
+    cbd.cursor.execute('delete from puesto_has_habilidad where idEmpleado =%s ', (idP))
+    cbd.conn.commit()
+    cbd.cursor.execute('delete from puesto_has_idioma where idEmpleado =%s ', (idP))
+    cbd.conn.commit()
+    return redirect(url_for('empleado'))
+#-
 
-    return render_template("empleados_agr02.html", catEmpleado=datos1, catEdoCivil=datos2, catEscolaridad=datos3,
+@app.route('/empleado_agrOp2')
+def empleado_agrOp2():
+    
+    
+    cbd.cursor.execute('select idArea, descripcion from area ')
+    datos1 = cbd.cursor.fetchall()
+
+    cbd.cursor.execute('select idEstadoCivil, descripcion from estado_civil ')
+    datos2 = cbd.cursor.fetchall()
+
+    cbd.cursor.execute('select idEscolaridad, descripcion from escolaridad ')
+    datos3 = cbd.cursor.fetchall()
+
+    cbd.cursor.execute('select idGradoAvance, descripcion from grado_avance ')
+    datos4 = cbd.cursor.fetchall()
+
+    cbd.cursor.execute('select idCarrera, descripcion from carrera ')
+    datos5 = cbd.cursor.fetchall()
+
+    cbd.cursor.execute('select idIdioma, descripcion from idioma ')
+    datos6 = cbd.cursor.fetchall()
+
+    cbd.cursor.execute('select idHabilidad, descripcion from habilidad ')
+    datos7 = cbd.cursor.fetchall()
+
+    return render_template("empleado_agrOp2.html", catArea=datos1, catEdoCivil=datos2, catEscolaridad=datos3,
                            catGradoAvance=datos4, catCarrera=datos5, catIdioma=datos6, catHabilidad=datos7)
-
-@app.route('/empleados_fagrega2', methods=['POST'])
-def empleados_fagrega2():
+#-
+#agregar
+@app.route('/empleado_fagrega2', methods=['POST'])
+def empleado_fagrega():
     if request.method == 'POST':
 
-        if 'idRequisicion' in request.form:
-            idEs = request.form['idRequisicion']
+        if  'idArea' in request.form:
+            idAr = request.form['idArea']
+        else:
+            idAr = '1'
+        if 'idEstadoCivil' in request.form:
+            idEC = request.form['idEstadoCivil']
+        else:
+            idEC = '1'
+        if 'idEscolaridad' in request.form:
+            idEs = request.form['idEscolaridad']
         else:
             idEs = '1'
-        if 'idPuesto' in request.form:
-            idGA = request.form['idPuesto']
+        if 'idGradoAvance' in request.form:
+            idGA = request.form['idGradoAvance']
         else:
             idGA = '1'
-        if 'idEstadoCivil' in request.form:
-            idCa = request.form['idEstadoCivil']
+        if 'idCarrera' in request.form:
+            idCa = request.form['idCarrera']
         else:
             idCa = '1'
-        if 'idEscolaridad' in request.form:
-            idCe = request.form['idEscolaridad']
+        if 'sexo' in request.form:
+            sex = request.form['sexo']
         else:
-            idCe = '1'
-        if 'idGradoAvance' in request.form:
-            idCi = request.form['idGradoAvance']
-        else:
-            idCi = '1'
-        if 'idCarrera' in request.form:
-            idCo = request.form['idCarrera']
-        else:
-            idCo = '1'
-        CURP = request.form['CURP']
-        RFC = request.form['RFC']
-        nombre = request.form['nombre']
-        apellido = request.form['apellido']
-        domCalle = request.form['domCalle']
-        domNumExtInt = request.form['domNumExtInt']
-        domColonia = request.form['domColonia']
-        tel1 = request.form['tel1']
-        sueldo = request.form['sueldo']
-        correoE = request.form['correoE']
-        edad = request.form['edad']
-        sexo = request.form['sexo']
+            sex = '1'
+        codP = request.form['codPuesto']
+        nomE = request.form['nomEmpleado']
+        jorn = request.form['jornada']
+        desc = request.form['descripcionGeneral']
+        eda = request.form['edad']
+        expe = request.form['experiencia']
+        cono = request.form['conocimientos']
+        manE = request.form['manejoEquipo']
+        resp = request.form['responsabilidades']
 
 
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute(
-    'insert into empleado (nombre,apellido,idRequisicion,idPuesto, idEstadoCivil, idEscolaridad,idGradoAvance,idCarrera,CURP,RFC,domCalle,domNumExtInt, domColonia,tel1,sueldo, correoE, edad, sexo) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
-    ( nombre, apellido,idEs, idGA, idCa, idCe, idCi, idCo, CURP, RFC, domCalle, domCalle, domColonia, tel1, sueldo, correoE, edad, sexo))
-    conn.commit()
+    
+    
+    cbd.cursor.execute(
+    'insert into empleado (codEmpleado,idArea,nomEmpleado,jornada,descripcionGeneral,'
+    'edad,sexo,idEstadoCivil,idEscolaridad,idGradoAvance,idCarrera,experiencia,conocimientos,manejoEquipo,'
+    'responsabilidades) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
+    (codP, idAr, nomE, jorn, desc, eda, sex, idEC, idEs, idGA, idCa, expe, cono, manE, 
+      resp))
 
-    cursor.execute('select idEmpleado from empleado where idEmpleado=(select max(idEmpleado) from empleado) ')
-    dato = cursor.fetchall()
+    cbd.cursor.execute('select idEmpleado from empleado where idEmpleado=(select max(idEmpleado) from empleado) ')
+    dato = cbd.cursor.fetchall()
     idpue = dato[0]
-    idE = idpue[0]
+    idP = idpue[0]
 
-    cursor.execute('select count(*) from idioma ')
-    dato = cursor.fetchall()
+    cbd.cursor.execute('select count(*) from idioma ')
+    dato = cbd.cursor.fetchall()
     nidio = dato[0]
     ni = nidio[0] + 1
 
     for i in range(1, ni):
         idio = 'i' + str(i)
         if idio in request.form:
-            cursor.execute('insert into empleado(idEmpleado,idIdioma) values (%s,%s)', (idE, i))
-            conn.commit()
+            cbd.cursor.execute('insert into puesto_has_idioma(idEmpleado,idIdioma) values (%s,%s)', (idP, i))
+    
 
-    cursor.execute('select count(*) from habilidad ')
-    dato = cursor.fetchall()
+    cbd.cursor.execute('select count(*) from habilidad ')
+    dato = cbd.cursor.fetchall()
     nhab = dato[0]
     nh =nhab[0]+1
 
     for i in range(1,nh):
         habi = 'h' + str(i)
         if habi in request.form:
-            cursor.execute('insert into empleado(idEmpleado,idHabilidad) values (%s,%s)', (idE,i))
-            conn.commit()
+            cbd.cursor.execute('insert into puesto_has_habilidad(idEmpleado,idHabilidad) values (%s,%s)', (idP,i))
+    
 
-    return redirect(url_for('empleados_agr02'))
-
-#------------------------------------------------------------------------------------------------------------------
-
-@app.route('/empleados_editar/<string:idE>')
-def empleados_editar(idE):
-    conn = conex()
-    cursor = conn.cursor()
-
-    cursor.execute('select idEmpleado, idRequisicion, idPuesto, CURP, RFC, nombre, apellido, domCalle, domNumExtInt, domColonia,'
-                   ' tel1, sueldo, correoE, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera from empleado where '
-                   ' idEmpleado = %s', (idE))
-    dato = cursor.fetchall()
-
-    cursor.execute('select idEmpleado, idEmpleado from empleado ')
-    datos1 = cursor.fetchall()
-
-    cursor.execute('select idEstadoCivil, descripcion from estado_civil ')
-    datos2 = cursor.fetchall()
-
-    cursor.execute('select idEscolaridad, descripcion from escolaridad ')
-    datos3 = cursor.fetchall()
-
-    cursor.execute('select idGradoAvance, descripcion from grado_avance ')
-    datos4 = cursor.fetchall()
-
-    cursor.execute('select idCarrera, descripcion from carrera ')
-    datos5 = cursor.fetchall()
-
-    cursor.execute('select idIdioma, descripcion from idioma ')
-    datos6 = cursor.fetchall()
-
-    cursor.execute('select idHabilidad, descripcion from habilidad ')
-    datos7 = cursor.fetchall()
-
-    #djsijdisjdi
-
-    cursor.execute('select a.idEstadoCivil, a.descripcion from estado_civil a, empleado b where a.idEstadoCivil = b.idEstadoCivil and b.idEmpleado = %s',(idE))
-    datos12 = cursor.fetchall()
-
-    cursor.execute('select a.idEscolaridad, a.descripcion from escolaridad a, empleado b where a.idEscolaridad = b.idEscolaridad and b.idEmpleado = %s',(idE))
-    datos13 = cursor.fetchall()
-
-    cursor.execute('select a.idGradoAvance, a.descripcion from grado_avance a, empleado b where a.idGradoAvance = b.idGradoAvance and b.idEmpleado = %s',(idE))
-    datos14 = cursor.fetchall()
-
-    cursor.execute('select a.idCarrera, a.descripcion from carrera a, empleado b where a.idCarrera = b.idCarrera and b.idEmpleado = %s', (idE))
-    datos15 = cursor.fetchall()
-
-    cursor.execute('select a.idEmpleado, b.idIdioma, b.descripcion from empleado a, idioma b, puesto_has_idioma c '
-                   'where a.idEmpleado = c.idEmpleado and b.idIdioma = c.idIdioma and a.idEmpleado = %s', (idE))
-    datos16 = cursor.fetchall()
-
-    cursor.execute('select a.idEmpleado, b.idHabilidad, b.descripcion from empleado a, habilidad b, puesto_has_habilidad c '
-                   'where a.idEmpleado = c.idEmpleado and b.idHabilidad = c.idHabilidad and a.idEmpleado = %s', (idE))
-    datos17 = cursor.fetchall()
+    return redirect(url_for('empleado'))
 
 
-    return render_template("empleados_edi.html", dat=dato[0], catEmpleado=datos1, catEdoCivil=datos2, catEscolaridad=datos3,
+@app.route('/empleado_editar/<string:idP>')
+def empleado_editar(idP):
+    
+    
+
+    cbd.cursor.execute('select idEmpleado, codPuesto, idArea, nomEmpleado, jornada, descripcionGeneral, edad, sexo, idEstadoCivil,'
+                   'idEscolaridad, idGradoAvance, idCarrera, experiencia, conocimientos, manejoEquipo, responsabilidades from empleado where idEmpleado = %s', (idP))
+    dato = cbd.cursor.fetchall()
+
+    cbd.cursor.execute('select idArea, descripcion from area ')
+    datos1 = cbd.cursor.fetchall()
+
+    cbd.cursor.execute('select idEstadoCivil, descripcion from estado_civil ')
+    datos2 = cbd.cursor.fetchall()
+
+    cbd.cursor.execute('select idEscolaridad, descripcion from escolaridad ')
+    datos3 = cbd.cursor.fetchall()
+
+    cbd.cursor.execute('select idGradoAvance, descripcion from grado_avance ')
+    datos4 = cbd.cursor.fetchall()
+
+    cbd.cursor.execute('select idCarrera, descripcion from carrera ')
+    datos5 = cbd.cursor.fetchall()
+
+    cbd.cursor.execute('select idIdioma, descripcion from idioma ')
+    datos6 = cbd.cursor.fetchall()
+
+    cbd.cursor.execute('select idHabilidad, descripcion from habilidad ')
+    datos7 = cbd.cursor.fetchall()
+
+    cbd.cursor.execute('select a.idArea, a.descripcion from area a, empleado b where a.idArea = b.idArea and b.idEmpleado = %s', (idP))
+    datos11 = cbd.cursor.fetchall()
+
+    cbd.cursor.execute('select a.idEstadoCivil, a.descripcion from estado_civil a, empleado b where a.idEstadoCivil = b.idEstadoCivil and b.idEmpleado = %s',(idP))
+    datos12 = cbd.cursor.fetchall()
+
+    cbd.cursor.execute('select a.idEscolaridad, a.descripcion from escolaridad a, empleado b where a.idEscolaridad = b.idEscolaridad and b.idEmpleado = %s',(idP))
+    datos13 = cbd.cursor.fetchall()
+
+    cbd.cursor.execute('select a.idGradoAvance, a.descripcion from grado_avance a, empleado b where a.idGradoAvance = b.idGradoAvance and b.idEmpleado = %s',(idP))
+    datos14 = cbd.cursor.fetchall()
+
+    cbd.cursor.execute('select a.idCarrera, a.descripcion from carrera a, empleado b where a.idCarrera = b.idCarrera and b.idEmpleado = %s', (idP))
+    datos15 = cbd.cursor.fetchall()
+
+    cbd.cursor.execute('select a.idEmpleado, b.idIdioma, b.descripcion from empleado a, idioma b, puesto_has_idioma c '
+                   'where a.idEmpleado = c.idEmpleado and b.idIdioma = c.idIdioma and a.idEmpleado = %s', (idP))
+    datos16 = cbd.cursor.fetchall()
+
+    cbd.cursor.execute('select a.idEmpleado, b.idHabilidad, b.descripcion from empleado a, habilidad b, puesto_has_habilidad c '
+                   'where a.idEmpleado = c.idEmpleado and b.idHabilidad = c.idHabilidad and a.idEmpleado = %s', (idP))
+    datos17 = cbd.cursor.fetchall()
+
+
+    return render_template("empleado_edi.html", dat=dato[0], catArea=datos1, catEdoCivil=datos2, catEscolaridad=datos3,
                            catGradoAvance=datos4, catCarrera=datos5, catIdioma=datos6, catHabilidad=datos7,
-                           EdoCivil=datos12[0], Escolaridad=datos13[0], GradoAvance=datos14[0],
+                           Area=datos11[0], EdoCivil=datos12[0], Escolaridad=datos13[0], GradoAvance=datos14[0],
                            Carrera=datos15[0], Idioma=datos16, Habilidad=datos17)
 
-#-----------------------------------------------------------------------------------------------------------------------
 
-@app.route('/empleados_fedita/<string:idE>', methods=['POST'])
-def empleados_fedita(idE):
+#editar puesto
+@app.route('/empleado_fedita/<string:idP>', methods=['POST'])
+def empleado_fedita(idP):
     if request.method == 'POST':
-        
-        idAr = request.form['idEmpleado']
-        idEs = request.form['idRequisicion']
-        idGA = request.form['idPuesto']
-        idCa = request.form['idEstadoCivil']
-        idCe = request.form['idEscolaridad']
-        idCi = request.form['idGradoAvance']
-        idCo = request.form['idCarrera']
-        CURP = request.form['CURP']
-        RFC = request.form['RFC']
-        nombre = request.form['nombre']
-        apellido = request.form['apellido']
-        domCalle = request.form['domCalle']
-        domNumExtInt = request.form['domNumExtInt']
-        domColonia = request.form['domColonia']
-        tel1 = request.form['tel1']
-        sueldo = request.form['sueldo']
-        correoE = request.form['correoE']
-        edad = request.form['edad']
-        sexo = request.form['sexo']
+        codP = request.form['codPuesto']
+        idAr = request.form['idArea']
+        nomP = request.form['nomEmpleado']
+        jorn = request.form['jornada']
+        desc = request.form['descripcionGeneral']
+        eda = request.form['edad']
+        sex = request.form['sexo']
+        idEC = request.form['idEstadoCivil']
+        idEs = request.form['idEscolaridad']
+        idGA = request.form['idGradoAvance']
+        idCa = request.form['idCarrera']
+        expe = request.form['experiencia']
+        cono = request.form['conocimientos']
+        manE = request.form['manejoEquipo']
+        resp = request.form['responsabilidades']
 
-    conn = conex()
-    cursor = conn.cursor()
 
-    cursor.execute('update candidato set idRequisicion = %s, idPuesto = %s, CURP = %s, RFC = %s, nombre = %s, apellido = %s, domCalle = %s, domNumExtInt = %s, domColonia = %s,'
-    ' tel1 = %s, sueldo = %s, correoE = %s, edad = %s, sexo = %s, idEstadoCivil = %s, idEscolaridad = %s, idGradoAvance = %s, idCarrera = %s where idEmpleado = %s', ( idAr, idEs, idGA, idCa, idCe, idCi, idCo, CURP, RFC, nombre, apellido, domCalle, domCalle, domColonia, tel1, sueldo, correoE, edad, sexo))
-    conn.commit()
+    
+    
 
-    cursor.execute('delete from puesto_has_habilidad where idEmpleado =%s ', (idE))
-    conn.commit()
-    cursor.execute('delete from puesto_has_idioma where idEmpleado =%s ', (idE))
-    conn.commit()
+    cbd.cursor.execute('update empleado set codPuesto = %s, idArea = %s, nomEmpleado = %s, jornada = %s, '
+                   'descripcionGeneral = %s, edad = %s, sexo = %s, '
+                   'idEstadoCivil = %s, idEscolaridad = %s, idGradoAvance = %s, idCarrera = %s, experiencia = %s, '
+                   'conocimientos = %s, manejoEquipo = %s, responsabilidades = %s '
+                   'where idEmpleado = %s', (codP, idAr, nomP , jorn, desc, eda,
+                   sex, idEC, idEs, idGA, idCa, expe, cono, manE, resp, idP))
+    cbd.conn.commit()
+    cbd.cursor.execute('delete from puesto_has_habilidad where idEmpleado =%s ', (idP))
+    cbd.conn.commit()
+    cbd.cursor.execute('delete from puesto_has_idioma where idEmpleado =%s ', (idP))
+    cbd.conn.commit() 
 
-    cursor.execute('select count(*) from idioma ')
-    dato = cursor.fetchall()
+    cbd.cursor.execute('select count(*) from idioma ')
+    dato = cbd.cursor.fetchall()
     nidio = dato[0]
     ni = nidio[0] + 1
 
     for i in range(1, ni):
         idio = 'i' + str(i)
         if idio in request.form:
-            cursor.execute('insert into puesto_has_idioma(idEmpleado,idIdioma) values (%s,%s)', (idE, i))
-            conn.commit()
+            cbd.cursor.execute('insert into puesto_has_idioma(idEmpleado,idIdioma) values (%s,%s)', (idP, i))
+    
 
-    cursor.execute('select count(*) from habilidad ')
-    dato = cursor.fetchall()
+    cbd.cursor.execute('select count(*) from habilidad ')
+    dato = cbd.cursor.fetchall()
     nhab = dato[0]
     nh = nhab[0] + 1
 
     for i in range(1, nh):
         habi = 'h' + str(i)
         if habi in request.form:
-            cursor.execute('insert into puesto_has_habilidad(idEmpleado,idHabilidad) values (%s,%s)', (idE, i))
-            conn.commit()
-    return redirect(url_for('empleados'))
+            cbd.cursor.execute('insert into puesto_has_habilidad(idEmpleado,idHabilidad) values (%s,%s)', (idP, i))
+    
+    return redirect(url_for('empleado'))
 
 #fin equipo 6
 
 #EQUIPO7 #
+
 @app.route("/clubvist/<string:id>")
 def clubvist(id):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("select * from cursos order by idcursos")
-    datos = cursor.fetchall()
+    cbd.cursor.execute("select * from cursos order by idcursos")
+    datos =  cbd.cursor.fetchall() 
     return render_template("clubs.html", comentarios = datos , pot=id)
 
 @app.route("/clubi")
 def clubi():
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("select * from cursos order by idcursos")
-    datos = cursor.fetchall()
-    conn.close()  
+    cbd.cursor.execute("select * from cursos order by idcursos")
+    datos =  cbd.cursor.fetchall() 
     return render_template("cursos.html",comentarios=datos)
 
 
 @app.route("/cursoagr/<string:nombre>/<string:decripcion>/<string:id>")
 def cursoagr(nombre,decripcion,id):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("insert into agcuso (nombre,descripcion,idusuario,completado) values (%s,%s,%s,%s)",(nombre,decripcion,id,2))
-    conn.commit()
+    cbd.cursor.execute("insert into agcuso (nombre,descripcion,idusuario,completado) values (%s,%s,%s,%s)",(nombre,decripcion,id,2))
     return redirect(url_for('empleados'))
 
 @app.route("/arg_curso")
@@ -2517,35 +1756,25 @@ def agr_cur():
         video=request.form['Video']
         nombren=request.form['nombren']
         Informacion=request.form['Informacion']
-        conn = conex()
-        cursor = conn.cursor()
-        cursor.execute("insert into cursos (nombre,descripcion,Video,nombren,Informacion) values (%s,%s,%s,%s,%s)",(nombre,descripcion,video,nombren,Informacion))
-        conn.commit()
+        cbd.cursor.execute("insert into cursos (nombre,descripcion,Video,nombren,Informacion) values (%s,%s,%s,%s,%s)",(nombre,descripcion,video,nombren,Informacion))
     return redirect(url_for('clubi'))
 
 @app.route("/clubstu/<string:id>")
 def clubstu(id):
-    conn = conex()
-    cursor = conn.cursor()
-    cursor.execute("select b.idEmpleado,a.nombre,a.descripcion,c.descripcion,a.idagcu  from agcuso as a inner join empleado as b inner join completadas as c on a.idusuario=b.idEmpleado where c.id=a.completado and a.idusuario = {0}".format(id))
-    datos = cursor.fetchall()
+    cbd.cursor.execute("select b.idEmpleado,a.nombre,a.descripcion,c.descripcion,a.idagcu  from agcuso as a inner join empleado as b inner join completadas as c on a.idusuario=b.idEmpleado where c.id=a.completado and a.idusuario = {0}".format(id))
+    datos = cbd.cursor.fetchall()
     return render_template("cali.html", comentarios = datos)
     
 @app.route("/clubvist2/<string:id>",methods=['POST'])
 def clubvist2(id):
     if request.method == 'POST':
-        conn = conex()
-        cursor = conn.cursor()
-        cursor.execute("update agcuso set completado=%s where idagcu=%s",( 1 ,id) )
-        conn.commit()
+        cbd.cursor.execute("update agcuso set completado=%s where idagcu=%s",( 1 ,id) )
         return redirect(url_for('empleados'))
 
 @app.route("/editar_curso/<string:id>")
 def editar_curso(id):
-    conn = conex ()
-    cursor = conn.cursor()
-    cursor.execute('select * from cursos where idcursos = %s', (id))
-    dato  = cursor.fetchall()
+    cbd.cursor.execute('select * from cursos where idcursos = %s', (id))
+    dato  = cbd.cursor.fetchall()
     return render_template("editar_curso.html", comentar=dato[0])
     
 @app.route("/clubi_edit/<string:id>",methods=['POST'])
@@ -2556,33 +1785,21 @@ def clubi_edit(id):
         video=request.form['Video']
         nombren=request.form['nombren']
         Informacion=request.form['Informacion']
-        conn = conex()
-        cursor = conn.cursor()
-        cursor.execute("update cursos set nombre=%s,descripcion=%s,Video=%s,nombren=%s,Informacion=%s where idcursos=%s",(nombre,descripcion,video,nombren,Informacion,id) )
-        conn.commit()
+        cbd.cursor.execute("update cursos set nombre=%s,descripcion=%s,Video=%s,nombren=%s,Informacion=%s where idcursos=%s",(nombre,descripcion,video,nombren,Informacion,id) )
         return redirect(url_for('clubi'))
     
 
     
 @app.route("/clubi_borr/<string:id>")
 def clubi_borr(id):
-        conn = conex()
-        cursor = conn.cursor()
-        cursor.execute("delete from cursos where idcursos=%s",(id) )
-        conn.commit()
-        conn.close() 
+        cbd.cursor.execute("delete from cursos where idcursos=%s",(id) )
         return redirect(url_for('clubi'))
     
 @app.route("/clubi_ver/<string:id>")
 def clubi_ver(id):
-        conn = conex()
-        cursor = conn.cursor()
-        cursor.execute("select * from cursos where idcursos=%s",(id) )
-        conn.commit()
-        datos = cursor.fetchall()
-        conn.close()  
+        cbd.cursor.execute("select * from cursos where idcursos=%s",(id) )
+        datos = cbd.cursor.fetchall()
         return render_template("ver.html",comentarios=datos)
 
-
-
-
+if __name__ == "__main__":
+    app.run(debug=True)

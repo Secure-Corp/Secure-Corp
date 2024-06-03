@@ -93,6 +93,7 @@ CREATE TABLE IF NOT EXISTS `candidato` (
   `entrevFinalReq` tinyint(4) NOT NULL,
   `entrevFinalPresen` tinyint(4) NOT NULL,
   `entrevFinalResul` varchar(40) NOT NULL,
+  `aprobado` varchar(20) NOT NULL,
   PRIMARY KEY (`idCandidato`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -385,19 +386,19 @@ CREATE TABLE IF NOT EXISTS `puesto` (
 
 INSERT INTO `puesto` (`idPuesto`, `codPuesto`, `idArea`, `nomPuesto`, `puestoJefeSup`, `jornada`, `remunMensual`, `prestaciones`, `descripcionGeneral`, `funciones`, `edad`, `sexo`, `idEstadoCivil`, `idEscolaridad`, `idGradoAvance`, `idCarrera`, `experiencia`, `conocimientos`, `manejoEquipo`, `reqFisicos`, `reqPsicologicos`, `responsabilidades`, `condicionesTrabajo`) VALUES
 (1, 'V009', 5, 'SUPERVISOR DE TIENDA ', 'SUPERVISOR', 'LUNES A VIERNES', 5000, 'DE LEY', 'VENTAS AL PÚBLICO', 'VENDER', '18 A 45 AÑOS', 'Hombre', 1, 3, 2, 2, '2 AÑOS', 'VENTAS', 'DE COMPUTO', 'AGUDEZA VISUAL', 'MEMORIA A CORTO Y LARGO PLAZO', 'INVENTARIO', 'AGRADABLES'),
-(3, 'v0008', 3, 'OBRERO', 'SUPERVISOR', 'LUNES A VIERNES', 5000, 'DE LEY', 'maquilar', 'trabajar', '18 A 45 AÑOS', 'Indistinto', 1, 2, 2, 1, '2 AÑOS', 'VENTAS', 'DE COMPUTO', 'AGUDEZA VISUAL', 'MEMORIA A CORTO Y LARGO PLAZO', 'INVENTARIO', 'AGRADABLES'),
-(5, 'p001', 5, 'JEFE DE MERCADOTECNIA', 'GERENTE', 'LUNES A VIERNES 8:30am 4:30am SABADOS 9:00am  A 2:00am', 6500, 'DE LEY', 'COORDINAR A PERSONAL DE MERCADOTECNIA', 'CORDINACIÓN', '25 A 50', 'Indistinto', 1, 3, 4, 13, '2 AÑOS', 'VENTAS', 'DE COMPUTO', 'NO NECESARIOS', 'MEMORIA A CORTO Y LARGO PLAZO', 'NO ESPECIFICADAS', 'AGRADABLES');
+(2, 'v0008', 3, 'OBRERO', 'SUPERVISOR', 'LUNES A VIERNES', 5000, 'DE LEY', 'maquilar', 'trabajar', '18 A 45 AÑOS', 'Indistinto', 1, 2, 2, 1, '2 AÑOS', 'VENTAS', 'DE COMPUTO', 'AGUDEZA VISUAL', 'MEMORIA A CORTO Y LARGO PLAZO', 'INVENTARIO', 'AGRADABLES'),
+(3, 'p001', 5, 'JEFE DE MERCADOTECNIA', 'GERENTE', 'LUNES A VIERNES 8:30am 4:30am SABADOS 9:00am  A 2:00am', 6500, 'DE LEY', 'COORDINAR A PERSONAL DE MERCADOTECNIA', 'CORDINACIÓN', '25 A 50', 'Indistinto', 1, 3, 4, 13, '2 AÑOS', 'VENTAS', 'DE COMPUTO', 'NO NECESARIOS', 'MEMORIA A CORTO Y LARGO PLAZO', 'NO ESPECIFICADAS', 'AGRADABLES');
 
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `puesto_has_habilidad`
 --
-
 CREATE TABLE IF NOT EXISTS `puesto_has_habilidad` (
   `idPuesto` int(11) NOT NULL,
+  `idEmpleado` int(11) NOT NULL,
   `idHabilidad` int(11) NOT NULL,
-  PRIMARY KEY (`idPuesto`,`idHabilidad`),
+  PRIMARY KEY (`idPuesto`, `idEmpleado`,`idHabilidad`),
   KEY `idHabilidad` (`idHabilidad`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -405,21 +406,21 @@ CREATE TABLE IF NOT EXISTS `puesto_has_habilidad` (
 -- Volcado de datos para la tabla `puesto_has_habilidad`
 --
 
-INSERT INTO `puesto_has_habilidad` (`idPuesto`, `idHabilidad`) VALUES
-(1, 1),
-(3, 4),
-(3, 5),
-(5, 2),
-(5, 3),
-(5, 4),
-(5, 5),
-(5, 6),
-(5, 7),
-(5, 8),
-(5, 9),
-(5, 10),
-(5, 11),
-(5, 12);
+INSERT INTO `puesto_has_habilidad` (`idPuesto`,  `idEmpleado`, `idHabilidad`) VALUES
+(1,1, 1),
+(3,3, 4),
+(3,3, 5),
+(5,3, 2),
+(5,5, 3),
+(5,5, 4),
+(5,5, 5),
+(5,5, 6),
+(5,5, 7),
+(5,5, 8),
+(5,5, 9),
+(5,5, 10),
+(5,5, 11),
+(5,5, 12);
 
 -- --------------------------------------------------------
 
@@ -429,8 +430,9 @@ INSERT INTO `puesto_has_habilidad` (`idPuesto`, `idHabilidad`) VALUES
 
 CREATE TABLE IF NOT EXISTS `puesto_has_idioma` (
   `idPuesto` int(11) NOT NULL,
+  `idEmpleado` int(11) NOT NULL,
   `idIdioma` int(11) NOT NULL,
-  PRIMARY KEY (`idPuesto`,`idIdioma`),
+  PRIMARY KEY (`idPuesto`, `idEmpleado`,`idIdioma`),
   KEY `idIdioma` (`idIdioma`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -438,10 +440,10 @@ CREATE TABLE IF NOT EXISTS `puesto_has_idioma` (
 -- Volcado de datos para la tabla `puesto_has_idioma`
 --
 
-INSERT INTO `puesto_has_idioma` (`idPuesto`, `idIdioma`) VALUES
-(1, 2),
-(3, 1),
-(5, 2);
+INSERT INTO `puesto_has_idioma` (`idPuesto`,`idEmpleado`, `idIdioma`) VALUES
+(1, 1, 2),
+(3, 3, 1),
+(5, 5, 2);
 
 -- --------------------------------------------------------
 
@@ -475,7 +477,7 @@ CREATE TABLE IF NOT EXISTS `requisicion` (
 
 INSERT INTO `requisicion` (`idRequisicion`, `folio`, `fechaElab`, `fechaRecluta`, `fechaInicVac`, `motivoRequisicion`, `motivoEspecifique`, `tipoVacante`, `nomSolicita`, `nomAutoriza`, `nomRevisa`, `autorizada`, `idPuesto`, `idArea`) VALUES
 (1, '1', '0000-00-00', '0000-00-00', '0000-00-00', '1', '', '', 'LUIS, JEFE DE VENTAS', 'luis', 'juan', 1, 1, 1),
-(10, '2', '2023-11-23', '2023-11-27', '2023-12-01', 'Otro', 'temporada', 'Temporal', 'LUIS, JEFE DE VENTAS', 'luis', 'juan', 1, 1, 1);
+(2, '2', '2023-11-23', '2023-11-27', '2023-12-01', 'Otro', 'temporada', 'Temporal', 'LUIS, JEFE DE VENTAS', 'luis', 'juan', 1, 1, 1);
 
 
 CREATE TABLE IF NOT EXISTS `examen` (
@@ -494,6 +496,7 @@ CREATE TABLE IF NOT EXISTS `examen` (
   `preg10` varchar(250) NOT NULL,
   `preg11` varchar(250) NOT NULL,
   `preg12` varchar(250) NOT NULL,
+  `rfc` varchar(20) NOT NULL,
   PRIMARY KEY (`idExamen`)
 );
 
@@ -514,6 +517,8 @@ CREATE TABLE IF NOT EXISTS `calificaciones` (
   `preg10` varchar(250) NOT NULL,
   `preg11` varchar(250) NOT NULL,
   `preg12` varchar(250) NOT NULL,
+  `rfc` varchar(20) NOT NULL,
+  `aprobado` varchar(20) NOT NULL,
   PRIMARY KEY (`idCalificacion`)
 );
 
@@ -550,39 +555,38 @@ COMMIT;
 
 
 -- Empleados
-
-CREATE TABLE `empleado` (
+CREATE TABLE IF NOT EXISTS `empleado` (
   `idEmpleado` int(11) NOT NULL AUTO_INCREMENT,
-  `idRequisicion` int(11) NOT NULL,
-  `idPuesto` int(11) NOT NULL,
-  `CURP` varchar(30) NOT NULL,
-  `RFC` varchar(20) NOT NULL,
-  `nombre` varchar(40) NOT NULL,
-  `descripcion` varchar(255) DEFAULT NULL,
-  `apellido` varchar(40) NOT NULL,
-  `domCalle` varchar(40) NOT NULL,
-  `domNumExtInt` varchar(30) NOT NULL,
-  `domColonia` varchar(40) NOT NULL,
-  `tel1` varchar(20) NOT NULL,
-  `sueldo` varchar(20) NOT NULL,
-  `correoE` varchar(40) NOT NULL,
-  `edad` int(11) NOT NULL,
-  `sexo` varchar(10) NOT NULL,
+  `codPuesto` varchar(15) NOT NULL,
+  `idArea` int(11) NOT NULL,
+  `nomEmpleado` varchar(50) NOT NULL,
+  `jornada` varchar(70) NOT NULL,
+  `descripcionGeneral` varchar(250) NOT NULL,
+  `edad` varchar(50) NOT NULL,
+  `sexo` varchar(15) NOT NULL,
   `idEstadoCivil` int(11) NOT NULL,
   `idEscolaridad` int(11) NOT NULL,
   `idGradoAvance` int(11) NOT NULL,
   `idCarrera` int(11) NOT NULL,
-  PRIMARY KEY (`idEmpleado`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
+  `experiencia` varchar(70) NOT NULL,
+  `conocimientos` varchar(70) NOT NULL,
+  `manejoEquipo` varchar(70) NOT NULL,
+  `responsabilidades` varchar(70) NOT NULL,
+  PRIMARY KEY (`idEmpleado`),
+  KEY `idEscolaridad` (`idEscolaridad`),
+  KEY `idEstadoCivil` (`idEstadoCivil`),
+  KEY `idGradoAvance` (`idGradoAvance`),
+  KEY `idCarrera` (`idCarrera`),
+  KEY `area` (`idArea`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Volcado de datos para la tabla `empleados`
+-- Volcado de datos para la tabla `empleado`
 --
 
-INSERT INTO `empleado` (`idEmpleado`, `idRequisicion`, `idPuesto`, `CURP`, `RFC`, `nombre`, `apellido`, `domCalle`, `domNumExtInt`, `domColonia`, `tel1`, `sueldo`, `correoE`, `edad`, `sexo`, `idEstadoCivil`, `idEscolaridad`, `idGradoAvance`, `idCarrera`) VALUES
-(1, 1, 1, 'ROGH760106MASDML03', 'dfadf', 'Carlitos', 'Muntez', 'Villas', '#23', 'palmas', '4491102343', '$233', 'carlitos@gmail.com', 23, 'Macho', 1, 2, 1, 1),
-(2, 1, 1, 'ROML551119HASDCR08', 'dfajy', 'Pepe', 'Maciado', 'Potreros', '#26', 'cruz', '4491739435', '$2223', 'pepe@gmail.com', 23, 'Indistinto', 3, 2, 3, 1);
+INSERT INTO `empleado` (`idEmpleado`, `codPuesto`, `idArea`, `nomEmpleado`, `jornada`, `descripcionGeneral`, `edad`, `sexo`, `idEstadoCivil`, `idEscolaridad`, `idGradoAvance`, `idCarrera`, `experiencia`, `conocimientos`, `manejoEquipo`, `responsabilidades`) VALUES
+(1, 'V009', 5, 'Carlos Julian ', 'LUNES A VIERNES', 'VENDER', '34 AÑOS', 'Hombre', 1, 3, 2, 2, '2 AÑOS', 'VENTAS', 'DE COMPUTO',  'INVENTARIO' ),
+(3, 'v0008', 3, 'Aranza Mendoza',  'LUNES A VIERNES', 'trabajar', '21 AÑOS', 'Indistinto', 1, 2, 2, 1, '2 AÑOS', 'VENTAS', 'DE COMPUTO',  'INVENTARIO');
 
 
  
