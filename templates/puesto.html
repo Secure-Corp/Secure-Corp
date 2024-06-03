@@ -6,51 +6,42 @@
 <table width="100%">
     <tbody>
         <tr>
-            <td>
-                <div id="title">
-                    <center>
-                        <h3>PUESTOS REGISTRADOS</h3>
-                    </center>
-                </div>
+            <div id="title">
+                <center>
+                    <h3>PUESTOS REGISTRADOS</h3>
+                </center>
+            </div>
+            <table width="100%" cellpadding="1">
+                <thead id="ndp">
+                    <tr>
+                        <td id="encabezado">NOMBRE DEL PUESTOS</td>
+                        <td class="agregar" colspan="3">
+                            <a href="/puesto_agrOp2" role="button" class="btn" id="agregar">Agregar</a>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in pue %}
+                    <tr>
+                        <td class="tablefondo" width="80%">
+                            {{i.1}}
+                        </td>
 
-                <table width="100%">
-                    <thead id="ndp">
-                        <tr>
-                            <td>Nombre del puesto</td>
-
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <rigth>
-                                    <h2><a href="/puesto_agrOp2" class="btn" id="agregar">Agregar</a></h2>
-                                </rigth>
-                            </td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for i in pue %}
-                        <tr>
-                            <td width="80%">
-                                {{i.1}}
-                            </td>
-
-                            <td width="6%">
-                                <center><a href="/puesto_fdetalle/{{i.0}}" class="btn btn-outline-info btn-sm "
-                                        id="detalle">Detalle</a></center>
-                            </td>
-                            <td width="6%">
-                                <center><a href="/puesto_editar/{{i.0}}" class="btn btn-outline-info btn-sm "
-                                        id="editar">Editar</a>
-                                </center>
-                            </td>
-                            <td width="6%">
-                                <center><a href="/puesto_borrar/{{i.0}}" class="btn btn-outline-primary btn-sm"
-                                        id="borrar">Borrar</a></center>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        <td class="btn1" width="6%">
+                            <center><a href="/puesto_fdetalle/{{i.0}}" class="button" id="btn1">Detalle</a>
+                            </center>
+                        </td>
+                        <td class="btn1" width="6%">
+                            <center><a href="/puesto_editar/{{i.0}}" class="button" id="btn1">Editar</a>
+                            </center>
+                        </td>
+                        <td class="btn1" width="6%">
+                            <center><a href="/puesto_borrar/{{i.0}}" class="button" id="btn1">Borrar</a></center>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
             </td>
         </tr>
     </tbody>
