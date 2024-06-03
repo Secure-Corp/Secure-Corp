@@ -2,41 +2,33 @@
 
 {% block content %}
 <link rel="stylesheet" href="/static/css/style.css">
-<script src="../static/js/scroll.js"></script>
-<table width="100%">
+<table>
     <tbody>
         <tr>
             <div id="title">
-                <center>
-                    <h3>PUESTOS REGISTRADOS</h3>
-                </center>
+                <h3>PUESTOS REGISTRADOS</h3>
             </div>
-            <table width="100%" cellpadding="1">
+            <table>
                 <thead id="ndp">
                     <tr>
                         <td id="encabezado">NOMBRE DEL PUESTOS</td>
-                        <td class="agregar" colspan="3">
-                            <a href="/puesto_agrOp2" role="button" class="btn" id="agregar">Agregar</a>
+                        <td class="agregar" colspan="3"><a href="/puesto_agrOp2" role="button" class="btn"
+                                id="agregar">Agregar</a>
                         </td>
                     </tr>
                 </thead>
                 <tbody>
                     {% for i in pue %}
                     <tr>
-                        <td class="tablefondo" width="80%">
+                        <td class="tablefondo">
                             {{i.1}}
                         </td>
 
-                        <td class="btn1" width="6%">
-                            <center><a href="/puesto_fdetalle/{{i.0}}" class="button" id="btn1">Detalle</a>
-                            </center>
+                        <td><a href="/puesto_fdetalle/{{i.0}}" class="button" id="btn1">Detalle</a>
                         </td>
-                        <td class="btn1" width="6%">
-                            <center><a href="/puesto_editar/{{i.0}}" class="button" id="btn1">Editar</a>
-                            </center>
+                        <td><a href="/puesto_editar/{{i.0}}" class="button" id="btn1">Editar</a>
                         </td>
-                        <td class="btn1" width="6%">
-                            <center><a href="/puesto_borrar/{{i.0}}" class="button" id="btn1">Borrar</a></center>
+                        <td><a href="/puesto_borrar/{{i.0}}" class="button" id="btn1">Borrar</a>
                         </td>
                     </tr>
                     {% endfor %}
