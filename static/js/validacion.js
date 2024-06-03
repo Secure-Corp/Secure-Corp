@@ -96,7 +96,7 @@ function validarEvaluaciones() {
 function enviar() {
     event.preventDefault();
     if (validarInputs() && validarCatalogos() && validarEvaluaciones()) {
-        alert("Valores válidos.");
+        alert("Datos guardados correctamente.");
         document.formulario.submit();
     } else {
         alert("Debes llenar correctamente los campos.");
