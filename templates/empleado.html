@@ -1,43 +1,25 @@
 {% extends "layout.html" %}
 
 {% block content %}
-
-
-    <table  width="100%" border="1" cellpadding="0" bordercolor="#000000">
-    <tbody>
-    <tr>
-    <td color="FFFFFF" bgcolor="#77B0AA" valign="top">
-    <center><h3>Empleados REGISTRADOS</h3></center>
-    <table class="table table-dark table-hover" width="100%" border="1" cellpadding="0" bordercolor="#000000">
-    <thead>
+<div id="title">
+    <h3>Empleados REGISTRADOS</h3>
+</div>
+    <table>
+    <thead id="ndp">
       <tr>
-        <td color="white" bgcolor="blue">Nombre del Empleado</td>
-
-        <td color="white" bgcolor="black"></td>
-        <td color="white" bgcolor="black"></td>
-        <td color="white" bgcolor="black"> <rigth><h2><a href="/empleado_agrOp2" class="btn btn-dark btn-sm">Agregar Empleado</a></h2></rigth>  </td>
+        <td><a href="/empleado_agrOp2" class="button" id="btn1">Agregar Empleado</a></rigth>  </td>
       </tr>
     </thead>
     <tbody>
     {% for i in pue %}
         <tr>
-            <td width="80%">{{ i[1] }}</td>
+            <td class="tablefondo">{{ i[1] }}</td>
 
-            <td bgcolor="#2B2D83" width="6%">
-                <center><a href="/clubstu/{{ i[0] }}" class="btn btn-outline-info btn-sm">Cursos del empleado</a></center>
-            </td>
-            <td bgcolor="#2B2D83" width="6%">
-                <center><a href="/clubvist/{{i.0}}" class="btn btn-outline-info btn-sm">Agregar un Curso</a></center>
-            </td>
-            <td bgcolor="#2B2D83" width="6%">
-                <center><a href="/empleado_fdetalle/{{ i[0] }}" class="btn btn-outline-info btn-sm">Detalle</a></center>
-            </td>
-            <td bgcolor="#2B2D83" width="6%">
-                <center><a href="/empleado_editar/{{ i[0] }}" class="btn btn-outline-info btn-sm">Editar</a></center>
-            </td>
-            <td bgcolor="#3C3EC5" width="6%">
-                <center><a href="/empleado_borrar/{{ i[0] }}" class="btn btn-outline-primary btn-sm">Borrar</a></center>
-            </td>
+            <td><a href="/clubstu/{{ i[0] }}" class="button" id="btn1">Cursos del empleado</a></td>
+            <td><a href="/clubvist/{{i.0}}" class="button" id="btn1">Agregar un Curso</a></td>
+            <td><a href="/empleado_fdetalle/{{ i[0] }}" class="button" id="btn1">Detalle</a></td>
+            <td><a href="/empleado_editar/{{ i[0] }}" class="button" id="btn1">Editar</a></td>
+            <td><center><a href="/empleado_borrar/{{ i[0] }}" class="button" id="btn1">Borrar</a></td>
         </tr>
     {% endfor %}
     </tbody>
