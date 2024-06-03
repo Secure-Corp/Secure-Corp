@@ -76,7 +76,10 @@ class CBD():
                 self.cursor.execute("INSERT INTO area (descripcion) VALUES ('PRODUCCION')")
                 self.cursor.execute("INSERT INTO area (descripcion) VALUES ('FINANZAS Y CONTABILIDAD')")
                 self.cursor.execute("INSERT INTO area (descripcion) VALUES ('MERCADOTECNIA')")
-                self.cursor.execute("INSERT INTO area (descripcion) VALUES ('INFORMATICA')")
+                self.cursor.execute("INSERT INTO area (descripcion) VALUES ('SERVICIOS DE VIGILANCIA')")
+                self.cursor.execute("INSERT INTO area (descripcion) VALUES ('SERVICIOS DE PROTECCION PERSONAL')")
+                self.cursor.execute("INSERT INTO area (descripcion) VALUES ('PROTECCION PERSONAL')")
+                self.cursor.execute("INSERT INTO area (descripcion) VALUES ('SEGURIDAD ELECTRONICA')")
         except pymysql.Error as err:
             print("\nError al crear la tabla area: {0}".format(err))
 
@@ -93,8 +96,9 @@ class CBD():
             self.cursor.execute("SELECT COUNT(*) FROM candidato")
             count = self.cursor.fetchone()[0]
             if count == 0:
-                self.cursor.execute("INSERT INTO candidato (idVacante, idRequisicion, idPuesto, CURP, RFC, nombre, domCalle, domNumExtInt, domColonia, tel1, tel2, correoE, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, entrevSelecReq, entrevSelecPresen, entrevSelecResult, evalMedicaReq, evalMedicaPresen, evalMedicaResult, evalPsicolgReq, evalPsicologPresen, evalPsicologResult, evalPsicometReq, evalPsicometPresene, evalPsicometResult, evalTecnicaReq, evalTecnicaPresen, evalTecnicaResult, evalConocReq, evalConocPresen, evalConocResult, entrevFinalReq, entrevFinalPresen, entrevFinalResul, aprobado, calificacion) VALUES (1, 1, 1, 'ROGH760106MASDML03', 'dfadf', 'fasdfads', 'adsfa', '23', 'erqwr', '32', '23', 'rqwr', 23, 'Indistinto', 1, 2, 1, 1, 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 'No requerida/No presentada', 'No requerida/No presentada')")
-                self.cursor.execute("INSERT INTO candidato (idVacante, idRequisicion, idPuesto, CURP, RFC, nombre, domCalle, domNumExtInt, domColonia, tel1, tel2, correoE, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, entrevSelecReq, entrevSelecPresen, entrevSelecResult, evalMedicaReq, evalMedicaPresen, evalMedicaResult, evalPsicolgReq, evalPsicologPresen, evalPsicologResult, evalPsicometReq, evalPsicometPresene, evalPsicometResult, evalTecnicaReq, evalTecnicaPresen, evalTecnicaResult, evalConocReq, evalConocPresen, evalConocResult, entrevFinalReq, entrevFinalPresen, entrevFinalResul, aprobado, calificacion) VALUES (1, 1, 1, 'ROML551119HASDCR08', 'dfadf', 'juan', 'adsfa', '23', 'erqwr', '32', '23', 'rqwr', 23, 'Indistinto', 3, 2, 3, 1, 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 'No requerida/No presentada', 'No requerida/No presentada')")
+                self.cursor.execute("INSERT INTO candidato (idVacante, idRequisicion, idPuesto, CURP, RFC, nombre, domCalle, domNumExtInt, domColonia, tel1, tel2, correoE, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, entrevSelecReq, entrevSelecPresen, entrevSelecResult, evalMedicaReq, evalMedicaPresen, evalMedicaResult, evalPsicolgReq, evalPsicologPresen, evalPsicologResult, evalPsicometReq, evalPsicometPresene, evalPsicometResult, evalTecnicaReq, evalTecnicaPresen, evalTecnicaResult, evalConocReq, evalConocPresen, evalConocResult, entrevFinalReq, entrevFinalPresen, entrevFinalResul, aprobado, calificacion) VALUES (1, 1, 1, 'ROGH760106MASDML03', 'FDGEJD6485933', 'Jose', 'Pedro Ascencio', '233', 'Morelos I', '453-454-6754', '235-097-6789', 'jjose@gmail.com', 33, 'Indistinto', 1, 2, 1, 1, 0, 0, 'NO APLICA/NO PRESENTADA', 0, 0, 'NO APLICA/NO PRESENTADA', 0, 0, 'NO APLICA/NO PRESENTADA', 0, 0, 'NO APLICA/NO PRESENTADA', 0, 0, 'NO APLICA/NO PRESENTADA', 0, 0, 'NO APLICA/NO PRESENTADA', 0, 0, 'NO APLICA/NO PRESENTADA', 'No requerida/No presentada', 'No requerida/No presentada')")
+                self.cursor.execute("INSERT INTO candidato (idVacante, idRequisicion, idPuesto, CURP, RFC, nombre, domCalle, domNumExtInt, domColonia, tel1, tel2, correoE, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, entrevSelecReq, entrevSelecPresen, entrevSelecResult, evalMedicaReq, evalMedicaPresen, evalMedicaResult, evalPsicolgReq, evalPsicologPresen, evalPsicologResult, evalPsicometReq, evalPsicometPresene, evalPsicometResult, evalTecnicaReq, evalTecnicaPresen, evalTecnicaResult, evalConocReq, evalConocPresen, evalConocResult, entrevFinalReq, entrevFinalPresen, entrevFinalResul, aprobado, calificacion) VALUES (1, 1, 1, 'ROML551119HASDCR08', 'DJF84093JFJ4', 'Juan', 'Jefes Insurgentes', '278', 'Fundadores', '342-322-1145', '347-657-5433', 'jjuan@outlook.com', 30, 'Indistinto', 3, 2, 3, 1, 0, 0, 'NO APLICA/NO PRESENTADA', 0, 0, 'NO APLICA/NO PRESENTADA', 0, 0, 'NO APLICA/NO PRESENTADA', 0, 0, 'NO APLICA/NO PRESENTADA', 0, 0, 'NO APLICA/NO PRESENTADA', 0, 0, 'NO APLICA/NO PRESENTADA', 0, 0, 'NO APLICA/NO PRESENTADA', 'No requerida/No presentada', 'No requerida/No presentada')")
+                self.cursor.execute("INSERT INTO candidato (idVacante, idRequisicion, idPuesto, CURP, RFC, nombre, domCalle, domNumExtInt, domColonia, tel1, tel2, correoE, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, entrevSelecReq, entrevSelecPresen, entrevSelecResult, evalMedicaReq, evalMedicaPresen, evalMedicaResult, evalPsicolgReq, evalPsicologPresen, evalPsicologResult, evalPsicometReq, evalPsicometPresene, evalPsicometResult, evalTecnicaReq, evalTecnicaPresen, evalTecnicaResult, evalConocReq, evalConocPresen, evalConocResult, entrevFinalReq, entrevFinalPresen, entrevFinalResul, aprobado, calificacion) VALUES (1, 1, 1, 'ARMO451209HASGTR07', 'FGD8665GFH7F5', 'Pedro', 'Artillero Mier', '348', 'Casa Blanca', '392-466-0145', '390-432-4654', 'ppedro@outlook.com', 45, 'Indistinto', 2, 1, 2, 1, 0, 0, 'NO APLICA/NO PRESENTADA', 1, 0, 'NO APLICA/NO PRESENTADA', 0, 0, 'NO APLICA/NO PRESENTADA', 1, 0, 'NO APLICA/NO PRESENTADA', 0, 0, 'NO APLICA/NO PRESENTADA', 1, 0, 'NO APLICA/NO PRESENTADA', 1, 0, 'NO APLICA/NO PRESENTADA', 'No requerida/No presentada', 'No requerida/No presentada')")
         except pymysql.Error as err:
             print("\nError al crear la tabla candidato: {0}".format(err))
 
@@ -108,13 +112,12 @@ class CBD():
                 self.cursor.execute("INSERT INTO carrera (descripcion) VALUES ('ADMINISTRACION DE EMPRESAS')")
                 self.cursor.execute("INSERT INTO carrera (descripcion) VALUES ('ADMINISTRACIÓN DE PRODUCCIÓN Y SERVICIOS')")
                 self.cursor.execute("INSERT INTO carrera (descripcion) VALUES ('ADMINISTRACIÓN FINANCIERA')")
-                self.cursor.execute("INSERT INTO carrera (descripcion) VALUES ('COMERCIO INTERNACIONAL')")
+                self.cursor.execute("INSERT INTO carrera (descripcion) VALUES ('LICENCIATURA EN SEGURIDAD INDUSTRIAL')")
                 self.cursor.execute("INSERT INTO carrera (descripcion) VALUES ('COMERCIO ELECTRONICO')")
-                self.cursor.execute("INSERT INTO carrera (descripcion) VALUES ('COMUNICACION')")
+                self.cursor.execute("INSERT INTO carrera (descripcion) VALUES ('ADMINISTRACION DE RIESGOS Y SEGUROS')")
                 self.cursor.execute("INSERT INTO carrera (descripcion) VALUES ('CONTADOR ')")
-                self.cursor.execute("INSERT INTO carrera (descripcion) VALUES ('DERECHO')")
-                self.cursor.execute("INSERT INTO carrera (descripcion) VALUES ('ECONOMIA')")
-                self.cursor.execute("INSERT INTO carrera (descripcion) VALUES ('GESTION TURISTICA')")
+                self.cursor.execute("INSERT INTO carrera (descripcion) VALUES ('INSPECCION SANITARIA')")
+                self.cursor.execute("INSERT INTO carrera (descripcion) VALUES ('LICENCIATURA EN ESTUDIOS AMBIENTALES')")
                 self.cursor.execute("INSERT INTO carrera (descripcion) VALUES ('LOGISTICA EMPRESARIAL')")
                 self.cursor.execute("INSERT INTO carrera (descripcion) VALUES ('MERCADOTECNIA')")
                 self.cursor.execute("INSERT INTO carrera (descripcion) VALUES ('SISTEMAS COMPUTACIONALES Y AFINES')")
@@ -145,10 +148,11 @@ class CBD():
             self.cursor.execute("SELECT COUNT(*) FROM cursos")
             count = self.cursor.fetchone()[0]
             if count == 0:
-                self.cursor.execute("INSERT INTO cursos (nombre, descripcion) VALUES ('curso de PAn','Curso obliagtorio que te hab')")
-                self.cursor.execute("INSERT INTO cursos (nombre, descripcion) VALUES ('curso de Contar','Curso obliagtorio que te ')")
-                self.cursor.execute("INSERT INTO cursos (nombre, descripcion) VALUES ('curso de Idiomas','Curso obliagtorio q')")
-                self.cursor.execute("INSERT INTO cursos (nombre, descripcion) VALUES ('curso de Maquinaria','Curso obliagtorio que te habla de lo que tienes que hacer')")
+                self.cursor.execute("INSERT INTO cursos (nombre, descripcion) VALUES ('SEGURIDAD CONTRA INCENDIOS','Qué hacer en caso de incendios')")
+                self.cursor.execute("INSERT INTO cursos (nombre, descripcion) VALUES ('USO SEGURO DE LA MAQUINARIA','Para saber usar maquinas peligrosas')")
+                self.cursor.execute("INSERT INTO cursos (nombre, descripcion) VALUES ('GESTION DE RIESGOS','Conocer, identificar y tratar riesgos')")
+                self.cursor.execute("INSERT INTO cursos (nombre, descripcion) VALUES ('EQUIPO DE PROTECCION PERSONAL','Conocer el uso de proteccion personal')")
+                self.cursor.execute("INSERT INTO cursos (nombre, descripcion) VALUES ('TRATAR CON CLIENTES DIFICILES','Saber tratar con personas dificiles o molestas')")
         except pymysql.Error as err:
             print("\nError al crear la tabla cursos: {0}".format(err))
 
@@ -190,7 +194,7 @@ class CBD():
             self.cursor.execute("SELECT COUNT(*) FROM empleado")
             count = self.cursor.fetchone()[0]
             if count == 0:
-                self.cursor.execute("INSERT INTO `empleado` (`idEmpleado`, `codPuesto`, `idArea`, `nomEmpleado`, `jornada`, `descripcionGeneral`, `edad`, `sexo`, `idEstadoCivil`, `idEscolaridad`, `idGradoAvance`, `idCarrera`, `experiencia`, `conocimientos`, `manejoEquipo`, `responsabilidades`) VALUES(1, 'V009', 5, 'Carlos Julian ', 'LUNES A VIERNES', 'VENDER', '34 AÑOS', 'Hombre', 1, 3, 2, 2, '2 AÑOS', 'VENTAS', 'DE COMPUTO',  'INVENTARIO' ), (3, 'v0008', 3, 'Aranza Mendoza',  'LUNES A VIERNES', 'trabajar', '21 AÑOS', 'Indistinto', 1, 2, 2, 1, '2 AÑOS', 'VENTAS', 'DE COMPUTO',  'INVENTARIO');")
+                self.cursor.execute("INSERT INTO `empleado` (`idEmpleado`, `codPuesto`, `idArea`, `nomEmpleado`, `jornada`, `descripcionGeneral`, `edad`, `sexo`, `idEstadoCivil`, `idEscolaridad`, `idGradoAvance`, `idCarrera`, `experiencia`, `conocimientos`, `manejoEquipo`, `responsabilidades`) VALUES(1, 'V009', 5, 'Carlos Julian ', 'LUNES A VIERNES', 'VENDER', '34 AÑOS', 'Hombre', 1, 3, 2, 2, '2 AÑOS', 'VENTAS', 'DE COMPUTO',  'INVENTARIO' ), (3, 'v0008', 3, 'Aranza Mendoza',  'LUNES A VIERNES', 'trabajar', '21 AÑOS', 'Indistinto', 1, 2, 2, 1, '2 AÑOS', 'VENTAS', 'DE COMPUTO',  'INVENTARIO')")
         except pymysql.Error as err:
             print("\nError al crear la tabla empleado: {0}".format(err))
 
@@ -208,7 +212,6 @@ class CBD():
                 self.cursor.execute("INSERT INTO escolaridad (descripcion) VALUES ('LICENCIATURA / INGENIERÍA / PROFESIONAL')")
                 self.cursor.execute("INSERT INTO escolaridad (descripcion) VALUES ('MAESTRIA')")
                 self.cursor.execute("INSERT INTO escolaridad (descripcion) VALUES ('DOCTORADO')")
-                self.cursor.execute("INSERT INTO escolaridad (descripcion) VALUES ('KINDER')")
         except pymysql.Error as err:
             print("\nError al crear la tabla escolaridad: {0}".format(err))
 
@@ -222,6 +225,8 @@ class CBD():
                 self.cursor.execute("INSERT INTO estado_civil (descripcion) VALUES ('SOLTERO')")
                 self.cursor.execute("INSERT INTO estado_civil (descripcion) VALUES ('CASADO')")
                 self.cursor.execute("INSERT INTO estado_civil (descripcion) VALUES ('UNION LIBRE')")
+                self.cursor.execute("INSERT INTO estado_civil (descripcion) VALUES ('VIUDO')")
+                self.cursor.execute("INSERT INTO estado_civil (descripcion) VALUES ('DIVORCIADO')")
         except pymysql.Error as err:
             print("\nError al crear la tabla estado_civil: {0}".format(err))
 
@@ -281,6 +286,10 @@ class CBD():
                 self.cursor.execute("INSERT INTO idioma (descripcion) VALUES ('JAPONES CONVERSACIONAL')")
                 self.cursor.execute("INSERT INTO idioma (descripcion) VALUES ('JAPONES ESCRITO Y CONVERSACIONAL')")
                 self.cursor.execute("INSERT INTO idioma (descripcion) VALUES ('ALEMAN AVANZADO')")
+                self.cursor.execute("INSERT INTO idioma (descripcion) VALUES ('ALEMAN BASICO')")
+                self.cursor.execute("INSERT INTO idioma (descripcion) VALUES ('FRANCES AVANZADO')")
+                self.cursor.execute("INSERT INTO idioma (descripcion) VALUES ('FRANCES INTERMEDIO')")
+                self.cursor.execute("INSERT INTO idioma (descripcion) VALUES ('FRANCES BASICO')")
         except pymysql.Error as err:
             print("\nError al crear la tabla idioma: {0}".format(err))
 
@@ -298,6 +307,7 @@ class CBD():
                 self.cursor.execute("INSERT INTO mediopublic (descripcion) VALUES ('Radio')")
                 self.cursor.execute("INSERT INTO mediopublic (descripcion) VALUES ('Televisión')")
                 self.cursor.execute("INSERT INTO mediopublic (descripcion) VALUES ('Periódico Digital')")
+                self.cursor.execute("INSERT INTO mediopublic (descripcion) VALUES ('Carteles/Espectaculares')")
         except pymysql.Error as err:
             print("\nError al crear la tabla mediopublic: {0}".format(err))
 
@@ -307,9 +317,9 @@ class CBD():
             self.cursor.execute("SELECT COUNT(*) FROM puesto")
             count = self.cursor.fetchone()[0]
             if count == 0:
-                self.cursor.execute("INSERT INTO puesto (codPuesto, idArea, nomPuesto, puestoJefeSup, jornada, remunMensual, prestaciones, descripcionGeneral, funciones, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, experiencia, conocimientos, manejoEquipo, reqFisicos, reqPsicologicos, responsabilidades, condicionesTrabajo) VALUES ('V009', 5, 'SUPERVISOR DE TIENDA ', 'SUPERVISOR', 'LUNES A VIERNES', 5000, 'DE LEY', 'VENTAS AL PÚBLICO', 'VENDER', '18 A 45 AÑOS', 'Hombre', 1, 3, 2, 2, '2 AÑOS', 'VENTAS', 'DE COMPUTO', 'AGUDEZA VISUAL', 'MEMORIA A CORTO Y LARGO PLAZO', 'INVENTARIO', 'AGRADABLES')")
-                self.cursor.execute("INSERT INTO puesto (codPuesto, idArea, nomPuesto, puestoJefeSup, jornada, remunMensual, prestaciones, descripcionGeneral, funciones, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, experiencia, conocimientos, manejoEquipo, reqFisicos, reqPsicologicos, responsabilidades, condicionesTrabajo) VALUES ('v0008', 3, 'OBRERO', 'SUPERVISOR', 'LUNES A VIERNES', 5000, 'DE LEY', 'maquilar', 'trabajar', '18 A 45 AÑOS', 'Indistinto', 1, 2, 2, 1, '2 AÑOS', 'VENTAS', 'DE COMPUTO', 'AGUDEZA VISUAL', 'MEMORIA A CORTO Y LARGO PLAZO', 'INVENTARIO', 'AGRADABLES')")
-                self.cursor.execute("INSERT INTO puesto (codPuesto, idArea, nomPuesto, puestoJefeSup, jornada, remunMensual, prestaciones, descripcionGeneral, funciones, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, experiencia, conocimientos, manejoEquipo, reqFisicos, reqPsicologicos, responsabilidades, condicionesTrabajo) VALUES ('p001', 5, 'JEFE DE MERCADOTECNIA', 'GERENTE', 'LUNES A VIERNES 8:30am 4:30am SABADOS 9:00am  A 2:00am', 6500, 'DE LEY', 'COORDINAR A PERSONAL DE MERCADOTECNIA', 'CORDINACIÓN', '25 A 50', 'Indistinto', 1, 3, 4, 13, '2 AÑOS', 'VENTAS', 'DE COMPUTO', 'NO NECESARIOS', 'MEMORIA A CORTO Y LARGO PLAZO', 'NO ESPECIFICADAS', 'AGRADABLES')")
+                self.cursor.execute("INSERT INTO puesto (codPuesto, idArea, nomPuesto, puestoJefeSup, jornada, remunMensual, prestaciones, descripcionGeneral, funciones, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, experiencia, conocimientos, manejoEquipo, reqFisicos, reqPsicologicos, responsabilidades, condicionesTrabajo) VALUES ('V009', 5, 'SUPERVISOR DE TIENDA ', 'SUPERVISOR', 'LUNES A VIERNES', 5000, 'DE LEY', 'SUPERVISAR LAS ENTRADAS Y SALIDAS DE LA TIENDA', 'SUPERVISAR', '18 A 45 AÑOS', 'Hombre', 1, 3, 2, 2, '2 AÑOS', 'PROTECCION', 'MAQUINARIA Y COMUNICADORES', 'AGUDEZA VISUAL', 'MEMORIA A CORTO Y LARGO PLAZO', 'SEGURIDAD DE LA TIENDA', 'AGRADABLES')")
+                self.cursor.execute("INSERT INTO puesto (codPuesto, idArea, nomPuesto, puestoJefeSup, jornada, remunMensual, prestaciones, descripcionGeneral, funciones, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, experiencia, conocimientos, manejoEquipo, reqFisicos, reqPsicologicos, responsabilidades, condicionesTrabajo) VALUES ('v0008', 3, 'OFICIAL DE SEGURIDAD', 'SUPERVISOR', 'LUNES A VIERNES', 5000, 'DE LEY', 'CUIDAR Y PROTEGER ZONAS', 'CUIDAR Y VIGILAR', '18 A 45 AÑOS', 'Indistinto', 1, 2, 2, 1, '2 AÑOS', 'PROTECCION Y DEFENSA', 'MAQUINARIA Y ARMAS BLANCAS', 'AGUDEZA VISUAL', 'MEMORIA A CORTO Y LARGO PLAZO', 'SEGURIDAD DE PERSONAL', 'AGRADABLES')")
+                self.cursor.execute("INSERT INTO puesto (codPuesto, idArea, nomPuesto, puestoJefeSup, jornada, remunMensual, prestaciones, descripcionGeneral, funciones, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, experiencia, conocimientos, manejoEquipo, reqFisicos, reqPsicologicos, responsabilidades, condicionesTrabajo) VALUES ('p001', 5, 'COORDINADOR DE SEGURIDAD', 'GERENTE', 'LUNES A VIERNES 8:30am 4:30am SABADOS 9:00am  A 2:00am', 6500, 'DE LEY', 'COORDINAR A PERSONAL DE SEGURIDAD', 'COORDINACIÓN', '25 A 50', 'Indistinto', 1, 3, 4, 13, '2 AÑOS', 'TRATAR Y GUIAR A PERSONAL', 'COMUNICADORES Y ELECTRONICOS', 'NO NECESARIOS', 'MEMORIA A CORTO Y LARGO PLAZO', 'NO ESPECIFICADAS', 'AGRADABLES')")
         except pymysql.Error as err:
             print("\nError al crear la tabla puesto: {0}".format(err))
 
@@ -339,8 +349,8 @@ class CBD():
             self.cursor.execute("SELECT COUNT(*) FROM requisicion")
             count = self.cursor.fetchone()[0]
             if count == 0:
-                self.cursor.execute("INSERT INTO requisicion (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, nomAutoriza, nomRevisa, autorizada, idPuesto, idArea) VALUES ('1', '0000-00-00', '0000-00-00', '0000-00-00', '1', '', '', 'LUIS, JEFE DE VENTAS', 'luis', 'juan', 1, 1, 1)")
-                self.cursor.execute("INSERT INTO requisicion (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, nomAutoriza, nomRevisa, autorizada, idPuesto, idArea) VALUES ('2', '2023-11-23', '2023-11-27', '2023-12-01', 'Otro', 'temporada', 'Temporal', 'LUIS, JEFE DE VENTAS', 'luis', 'juan', 1, 1, 1)")
+                self.cursor.execute("INSERT INTO requisicion (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, nomAutoriza, nomRevisa, autorizada, idPuesto, idArea) VALUES ('1', '0000-00-00', '0000-00-00', '0000-00-00', 'BAJA', '', 'PERMANENTE', 'LUIS', 'LUIS, JEFE DE SEGURIDAD', 'JUAN', 1, 1, 1)")
+                self.cursor.execute("INSERT INTO requisicion (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, nomAutoriza, nomRevisa, autorizada, idPuesto, idArea) VALUES ('2', '2023-11-23', '2023-11-27', '2023-12-01', 'OTRO', 'TEMPORADA', 'TEMPORAL', 'LUIS', 'LUIS, JEFE DE PROTECCION', 'JOSE', 1, 2, 1)")
         except pymysql.Error as err:
             print("\nError al crear la tabla requisicion: {0}".format(err))
 
@@ -363,7 +373,8 @@ class CBD():
             self.cursor.execute("SELECT COUNT(*) FROM vacante")
             count = self.cursor.fetchone()[0]
             if count == 0:
-                self.cursor.execute("INSERT INTO vacante (conseVR, fuenteCandidato, inicioFechaPublic, finFechaPublic, publicada, observaciones, candidatoSelecc, fechaContratacion, idRequisicion, idPuesto) VALUES (0, 'Interno', '2023-11-23', '2023-11-27', 1, 'gfgf', 0, '0000-00-00', 1, 1)")
+                self.cursor.execute("INSERT INTO vacante (conseVR, fuenteCandidato, inicioFechaPublic, finFechaPublic, publicada, observaciones, candidatoSelecc, fechaContratacion, idRequisicion, idPuesto) VALUES (0, 'Interno', '2023-11-23', '2023-11-27', 1, 'VACANTE PARA CONTRATAR PERSONAL, 0, '2023-12-12', 1, 1)")
+                self.cursor.execute("INSERT INTO vacante (conseVR, fuenteCandidato, inicioFechaPublic, finFechaPublic, publicada, observaciones, candidatoSelecc, fechaContratacion, idRequisicion, idPuesto) VALUES (0, 'Externo', '2023-09-13', '2023-12-27', 1, 'VACANTE PARA REEMPLZAR PERSONAL, 0, '2024-01-25', 2, 2)")
         except pymysql.Error as err:
             print("\nError al crear la tabla vacante: {0}".format(err))
 
