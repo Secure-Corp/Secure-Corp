@@ -2,14 +2,49 @@ from flask import Flask, render_template, request, redirect, url_for, flash, sen
 import os
 import webbrowser
 from fpdf import FPDF
+import mimetypes
+from email.message import EmailMessage
+import ssl
+import smtplib
 
+#Clase para correos
+class EmailSender:
+    def __init__(self, sender_email, sender_password, smtp_server='smtp.gmail.com', smtp_port=465):
+        self.sender_email = sender_email
+        self.sender_password = sender_password
+        self.smtp_server = smtp_server
+        self.smtp_port = smtp_port
+    
+    def send_email(self, recipient_email, subject, body, attachments=None):
+        email_message = EmailMessage()
+        email_message['From'] = self.sender_email
+        email_message['To'] = recipient_email
+        email_message['Subject'] = subject
+        email_message.set_content(body)
 
+        if attachments:
+            for file_path in attachments:
+                mime_type, _ = mimetypes.guess_type(file_path)
+                if mime_type is None:
+                    mime_type = 'application/octet-stream'
+                mime_type, mime_subtype = mime_type.split('/')
+
+                with open(file_path, 'rb') as file:
+                    email_message.add_attachment(file.read(),
+                                                maintype=mime_type,
+                                                subtype=mime_subtype,
+                                                filename=file_path.split('/')[-1])
+        
+        context = ssl.create_default_context()
+        
+        with smtplib.SMTP_SSL(self.smtp_server, self.smtp_port, context=context) as smtp:
+            smtp.login(self.sender_email, self.sender_password)
+            smtp.sendmail(self.sender_email, recipient_email, email_message.as_string())
 
 #Conexion a base de datos
 from db.db import CBD
 cbd = CBD()
 cbd.conectar()
-
 
 app = Flask(__name__)
 
@@ -1166,15 +1201,6 @@ def contrato_p(idC):
     pdf.cell(90, 10, 'Firma del supervisor')
     pdf.cell(90, 10, 'Firma del trabajador')
 
-    # Output the PDF
-    # Especificar una ruta absoluta para guardar el archivo PDF
-    archivo = "Contrato_laboral.pdf"
-    output_path = os.path.join(os.path.expanduser('~'),  archivo)
-    webbrowser.open(output_path)
-    pdf.output(output_path)
-    print(f'Nombre:{archivo}')
-    print(f'Archivo PDF guardado en {output_path}')
-
     #Pasar candidato seleccionado a la tabla de empleados
     cbd.cursor.execute("INSERT INTO empleado (codPuesto, idArea, nomEmpleado, jornada, descripcionGeneral, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, experiencia, conocimientos, manejoEquipo, responsabilidades) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (dato[2], datos1[0], datos[0], dato[3], dato[6], datos[1], datos[2], datos2[0], datos3[0], datos4[0], datos5[0], dato[8], dato[9], dato[10], dato[14]))
     cbd.conn.commit()
@@ -1187,6 +1213,36 @@ def contrato_p(idC):
     cbd.cursor.execute("DELETE FROM vacante WHERE idVacante = %s", (datos[11]))
     cbd.conn.commit()
 
+    # Define the path for the temporary PDF file
+    pdf_path = 'RH_pruebas/static/Contrato.pdf'
+    # Output the PDF to the defined path
+    pdf.output(pdf_path)
+    archivo = r'RH_pruebas\static\Contrato.pdf'
+    webbrowser.open(archivo)
+    
+
+    return redirect(url_for('send_email', pdf_path=pdf_path, idC=idC))
+
+@app.route('/send_email')
+def send_email():
+    idC = request.args.get('idC')
+
+    cbd.cursor.execute('select c.correoE, c.nombre from candidato c where c.idCandidato = %s', (idC,))
+    datos = cbd.cursor.fetchone()
+
+    pdf_path = request.args.get('pdf_path')
+    sender_email = 'pruebaautomatizacionemails@gmail.com'
+    sender_password = 'hquw jsca rrym lwas'
+    recipient_email = f'{datos[0]}'
+    subject = 'Contrato Laboral'
+    body = f"""Hola {datos[1]}. Te enviamos tu contrato laboral en formato PDF para que puedas leerlo detenidamente. 
+    Si estas de acuerdo con todo llevalo a recursos humanos de la empresa y firmaran ambas partes, si no, se debe especificar con que partes del contrato no esta de acuerdo y establecer un acuerdo o rechazar el trabajo directamente
+    """
+    email_sender = EmailSender(sender_email, sender_password)
+    email_sender.send_email(recipient_email, subject, body, [pdf_path])
+
+
+    flash('Correo enviado correctamente')
     return redirect(url_for('candidatos'))
 
 
