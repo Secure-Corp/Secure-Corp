@@ -681,6 +681,58 @@ table {
     transform: translateY(4px);
 }
 
+#btn3 {
+    border-radius: .1rem;
+    text-align: center;
+    align-items: center;
+    font-size: 90%;
+    width: 100%;
+    padding: 15% 33%;
+    color: white;
+    cursor: pointer;
+    background-color: #506E86;
+    transition: transform 0.3s ease-in-out;
+    text-decoration: none;
+}
+
+#btn3:hover {
+    background-color: #2F3C4F;
+    box-shadow: 0 .2rem #666;
+    transform: translateY(4px);
+}
+
+#btn3:active {
+    background-color: #2F3C4F;
+    box-shadow: 0 .2rem #666;
+    transform: translateY(4px);
+}
+
+#btn4 {
+    border-radius: .1rem;
+    text-align: center;
+    align-items: center;
+    font-size: 80%;
+    width: 70%;
+    padding: 2% 3.5%;
+    color: white;
+    cursor: pointer;
+    background-color: #506E86;
+    transition: transform 0.3s ease-in-out;
+    text-decoration: none;
+}
+
+#btn4:hover {
+    background-color: #2F3C4F;
+    box-shadow: 0 .2rem #666;
+    transform: translateY(4px);
+}
+
+#btn4:active {
+    background-color: #2F3C4F;
+    box-shadow: 0 .2rem #666;
+    transform: translateY(4px);
+}
+
 #enviar {
     border-radius: .1rem;
     text-align: center;
@@ -741,6 +793,14 @@ table {
                     Formulario
 ===================================================*/
 
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: all 5000s ease-in-out 0s;
+}
 #subtitle {
     margin-top: 4%;
     margin-bottom: 4%;
@@ -765,11 +825,47 @@ table {
 }
 
 .form-control {
-    background-color: #1B232E !important;
-    border-color: #1B232E !important;
-    color: #E6A139 !important;
-
+    background-color: #1B232E!important;
+    border-color: #1b232e!important;
+    color: #E6A139!important;
+    font-weight: 600;
+    outline: none!important;
 }
+
+.form-control:focus {
+    background-color: #2F3C4F!important;
+    border-color: #2F3C4F!important;
+    color: #E6A139!important;
+    box-shadow: 0px 0px 4px 2px #1B232E!important;
+}
+
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.form-select {
+    border-radius: 4.5px!important;
+    border-color: #1B232E!important;
+    background-color: #1B232E!important;
+    color: #E6A139!important;
+    font-family: "regular";
+    outline: none;
+}
+
+select:focus {
+    border-color: #2F3C4F;
+    background-color: #2F3C4F;
+    color: #E6A139;
+    box-shadow: 0px 0px 4px 2px #1B232E;
+}
+
+.form-label {
+    font-weight: 600;
+}
+
 
 
 #formulario1 {
