@@ -1755,7 +1755,7 @@ def clubi():
 @app.route("/cursoagr/<string:nombre>/<string:decripcion>/<string:id>")
 def cursoagr(nombre,decripcion,id):
     cbd.cursor.execute("insert into agcuso (nombre,descripcion,idusuario,completado) values (%s,%s,%s,%s)",(nombre,decripcion,id,2))
-    return redirect(url_for('empleados'))
+    return redirect(url_for('empleado'))
 
 @app.route("/arg_curso")
 def agr_curso():

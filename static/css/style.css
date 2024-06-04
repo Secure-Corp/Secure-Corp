@@ -493,7 +493,6 @@ table {
     text-align: center;
     border: .1rem solid rgba(255, 255, 255, 0.932);
     font-family: "regular";
-    width: 70%;
 }
 
 #agregar {
@@ -732,6 +731,19 @@ table {
     padding: 2%;
     margin-left: 2.5%;
     margin-right: 2.5%;
+    background-color: #506E86;
+    font-family: "regular";
+    color: #E6A139;
+    text-align: center;
+}
+
+#formulario1 {
+    width: 90%;
+    border-radius: .4rem;
+    margin-bottom: 5%;
+    padding: 2%;
+    margin-left: 5%;
+    margin-right: 5%;
     background-color: #506E86;
     font-family: "regular";
     color: #E6A139;
