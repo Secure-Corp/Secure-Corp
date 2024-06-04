@@ -1782,7 +1782,7 @@ def clubstu(id):
 def clubvist2(id):
     if request.method == 'POST':
         cbd.cursor.execute("update agcuso set completado=%s where idagcu=%s",( 1 ,id) )
-        return redirect(url_for('empleados'))
+        return redirect(url_for('empleado'))
 
 @app.route("/editar_curso/<string:id>")
 def editar_curso(id):
