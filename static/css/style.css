@@ -26,14 +26,14 @@ body {
 }
 
 .container {
-width: 100%;
+    width: 100%;
+    align-items: center;
+    text-align: center;
 }
 
 #inicio {
-    margin-top: 22%;
-    margin-left: 40%;
-    margin-right: 40%;
-    padding: 0% ;
+    margin-top: 25%;
+    padding: 0%;
 }
 
 /*=============================
@@ -50,8 +50,7 @@ nav {
 }
 
 .nav-log {
-    margin: 3%;
-    width: 18%;
+    width: 15%;
 }
 
 .nav-log:hover {
@@ -203,19 +202,22 @@ nav {
 
 #barra {
     font-family: "light";
-    margin-top: 6%;
+    margin-top: 5%;
     text-align: justify;
     color: #E6A139;
     margin-left: 10%;
     margin-right: 4%;
+    border: none;
+    background-color: white
 }
 
 #barra1 {
     font-family: "light";
-    margin-top: 6%;
+    margin-top: 5%;
     text-align: justify;
     color: #E6A139;
     margin-left: 19.5%;
+    font-size: 100%;
 }
 
 .nav-link {
@@ -229,20 +231,24 @@ nav {
 
 #desplegable {
     padding: 1%;
-    background-color: #E6A139;
+    background-color: #506E86 ;
+    border: none;
     font-family: "regular";
     font-size: 90%;
+    width: 75%;
+    margin-left: 10%;
 }
 
 .dropdown-item {
     padding: 4%;
-    background-color: #E6A139;
+    background-color: #506E86;
 }
 
 .dropdown-item:hover {
-    padding: 4%;
-    background: rgb(230, 161, 57);
-    background: linear-gradient(90deg, rgba(230, 161, 57, 1) 27%, rgba(230, 118, 40, 1) 95%);
+    padding: 2%;
+    background: rgb(80, 110, 134);
+    background: linear-gradient(90deg, rgba(80, 110, 134, 1) 0%, rgba(47, 60, 79, 1) 100%);
+    color: white;
 }
 
 /*=====================================
@@ -498,8 +504,8 @@ table {
 
 #encabezado {
     font-size: 99%;
-    background: rgb(230, 118, 40);
-    background: linear-gradient(90deg, rgba(230, 118, 40, 1) 35%, rgba(230, 161, 57, 1) 89%);
+    background: rgb(230, 161, 57);
+    background: radial-gradient(circle, rgba(230, 161, 57, 1) 5%, rgba(230, 118, 40, 1) 100%);
     color: #283446;
     text-align: center;
     border: .1rem solid rgba(255, 255, 255, 0.932);
@@ -540,7 +546,7 @@ body.active #btn1:hover,
     border-radius: .1rem;
     font-size: 90%;
     width: 100%;
-    padding: .8% 33%;
+    padding: 1% 20%;
     color: white;
     cursor: pointer;
     background-color: #2F3C4F;
@@ -566,7 +572,7 @@ body.active #btn1:hover,
     align-items: center;
     font-size: 90%;
     width: 100%;
-    padding: 15% 33%;
+    padding: 10% 33%;
     color: white;
     cursor: pointer;
     background-color: #506E86;
@@ -670,12 +676,12 @@ body.active #btn1:hover,
     height: 100%;
     padding-left: 30%;
     padding-right: 30%;
-    border: .1rem solid rgba(255, 255, 255, 0.932);
+    border-bottom: .1rem solid #E67628;
     display: inline-block;
     text-decoration: none;
     font-family: "regular";
     text-transform: uppercase !important;
-    color: #1B232E;
+    color: white;
     cursor: hand;
     text-align: center;
     text-transform: capitalize;
@@ -689,20 +695,14 @@ body.active #btn1:hover,
     background: transparent !important;
 }
 
-
-#agregar:hover {
-    border: .3rem solid transparent;
-    color: #ffffff !important;
-}
-
 #agregar::before {
     content: '';
     text-align: center;
     width: 100%;
     height: 100%;
     display: block;
-    background: rgb(230, 161, 57);
-    background: linear-gradient(90deg, rgba(230, 161, 57, 1) 35%, rgba(230, 118, 40, 1) 89%);
+    background: rgb(115, 119, 123);
+    background: linear-gradient(90deg, rgba(115, 119, 123, 1) 0%, rgba(47, 60, 79, 1) 75%);
     position: absolute;
     left: 0%;
     opacity: 1;
@@ -719,8 +719,8 @@ body.active #btn1:hover,
     content: '';
     width: 100%;
     height: 100%;
-    background: #506E86;
-    color: #506E86;
+    background: #E6A139;
+    color: #E6A139;
     position: absolute;
     left: 0%;
     opacity: 1;
@@ -734,6 +734,7 @@ body.active #btn1:hover,
 
 #agregar:hover::before,
 #agregar:hover::before {
+    background-color: #73777B;
     opacity: 1;
     -webkit-transform: translateX(100%);
     -moz-transform: translateX(100%);
@@ -743,11 +744,13 @@ body.active #btn1:hover,
 
 #agregar:hover::after,
 #agregar:hover::after {
+    background-color: #73777B;
+    border-bottom: .150rem solid #E67628;
     opacity: 1;
-    -webkit-transform: translateX(-100%);
-    -moz-transform: translateX(-100%);
-    -ms-transform: translateX(-100%);
-    transform: translateX(-100%);
+    -webkit-transform: translateX(-0.1%);
+    -moz-transform: translateX(-0.1%);
+    -ms-transform: translateX(-0.1%);
+    transform: translateX(-0.1%);
 }
 
 #enviar {
@@ -824,7 +827,7 @@ input:-webkit-autofill:active {
     margin-top: 4%;
     margin-bottom: 4%;
     background-color: #73777B;
-    border-bottom: .2rem solid #506E86;
+    border-bottom: .2rem solid #E67628;
     padding: .7%;
     color: rgba(255, 255, 255, 0.932);
     text-align: center;
@@ -950,8 +953,8 @@ body.active #agregar {
 }
 
 body.active #agregar::before {
-    background: rgb(80, 110, 134);
-    background: linear-gradient(90deg, rgba(80, 110, 134, 1) 4%, rgba(47, 60, 79, 1) 28%, rgba(230, 118, 40, 1) 75%);
+    background: rgb(115, 119, 123);
+    background: linear-gradient(90deg, rgba(115, 119, 123, 1) 0%, rgba(80, 110, 134, 1) 80%);
     font-family: "regular";
 }
 
