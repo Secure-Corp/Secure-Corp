@@ -8,7 +8,7 @@
 <br>
 <br>
 
-<form class="row g-3" id="formulario" action="/generate_pdf" method="POST">
+<form class="row g-3" id="formulario" name="formulario" action="/generate_pdf" method="POST">
     <div class="col-md-12">
        <label for="nomPuesto" class="form-label">Nombre de la Vacante</label>
        <input type="text" class="form-control" name="nomPuesto" id="nomPuesto" value="{{dat.3}}" readonly="readonly"></input>
@@ -103,7 +103,7 @@ Si hay un valor seleccionado, muestra una alerta de éxito y después de 3.5 seg
                 timer: 2000 // Duración de la alerta en milisegundos
             }).then(function() {
                 // Envía el formulario
-                document.getElementById('vacanteForm').submit();
+                document.formulario.submit();
                 
                 // Redirige a otra página después de un pequeño retraso para permitir que el PDF se genere
                 setTimeout(function() {
