@@ -1,11 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
-<h3>
-    <CENTER> <b> Agregar Empleados </b> </CENTER>
-</h3>
+
+<h3 id="title">Agregar Empleados </h3>
 
 <br>
-<form class="row g-3"  action="/empleado_fagrega2" method="post" id="pipipi">
+<form class="row g-3"  action="/empleado_fagrega2" method="post" id="formulario">
    <div class="col-md-6">
       <label for="codPuesto" class="form-label">Código de Puesto</label>
       <input type="text" class="form-control" name="codPuesto" id="codPuesto"></input>
@@ -183,7 +182,7 @@
   </div>
 
    <div class="col-12">
-          <button type="submit" class="btn btn-primary">Enviar</button>
+          <button type="submit" class="btn" id="btn2">Enviar</button>
 
     </div>
 </form>

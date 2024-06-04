@@ -1,14 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-<style>
-   body {
-      background-color: #f3f3e6de;
-   }
-</style>
-<h3 id="title">
-   <CENTER> <b> Puesto </b> </CENTER>
-
-</h3>
+<h3 id="title">Puesto</h3>
 
 <br>
 <form class="row g-3" id="formulario" action="/puesto_fedita/{{dat.0}}" method="post">
@@ -179,7 +171,7 @@
    </div>
 
    <div class="col-12">
-      <button type="submit" class="btn btn-primary" id="enviar">Enviar</button>
+      <button type="submit" class="btn" id="btn2">Enviar</button>
    </div>
 </form>
 {% endblock %}
