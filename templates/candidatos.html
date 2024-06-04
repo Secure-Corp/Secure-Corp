@@ -8,9 +8,9 @@
 <table>
   <thead id="ndp">
     <tr>
-      <td><b>Folio Requisición</b></td>
-      <td><b>ID de la Vacante</b></td>
-      <td><b>Nombre del Puesto</b></td>
+      <td id="encabezado"><b>Folio Requisición</b></td>
+      <td id="encabezado"><b>ID de la Vacante</b></td>
+      <td id="encabezado"><b>Nombre del Puesto</b></td>
     </tr>
   </thead>
   <tbody>
@@ -25,17 +25,17 @@
       <td class="tablefondo1">
         {{i.2}}
       </td>
-      <td><a href="/capturarCand/{{i.1}}" class="btn" id="enviar">Capturar candidato</a>
+      <td><a href="/capturarCand/{{i.1}}" class="btn" id="btn1">Capturar candidato</a>
       </td>
       <td>
         <center><a href="/seleccionCand/{{i.1}}" class="button" id="btn3">Selección</a></center>
       </td>
       <td>
         {% if i[3] == 0 %}
-        <center><button class="button" id="selectCand" disabled style="border: none;">No hay candidato
+        <center><button class="button" id="btn4" disabled style="border: none;">No hay candidato
             seleccionado</button></center>
         {% elif i[3] != 0 %}
-        <center><a href="/candSelec/{{i[3]}}/{{i[1]}}" class="btn" id="editar">Candidato seleccionado</a></center>
+        <center><a href="/candSelec/{{i[3]}}/{{i[1]}}" class="btn" id="btn4">Candidato seleccionado</a></center>
         {% endif %}
       </td>
     </tr>

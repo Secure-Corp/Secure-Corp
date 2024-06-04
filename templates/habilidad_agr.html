@@ -1,15 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
-<link rel="stylesheet" href="/static/css/style.css">
-<style>
-      body {
-            background-color: #f3f3e6de;
-      }
-</style>
-<h3 id="title">
-      <CENTER> <b> Agregar habilidad</b> </CENTER>
-
-</h3>
+<div id="title">
+      <h3>Agregar habilidad</h3>
+</div>
 <br>
 <form id="formulario" class="area" action="/habilidad_fagrega" method="post">
       <div class="container">
@@ -21,7 +14,7 @@
                         </div>
                   </div>
             </div>
-            <button type="submit" class="btn" id="enviar">Enviar</button>
+            <button type="submit" class="btn" id="btn2">Enviar</button>
       </div>
 </form>
 {% endblock %}

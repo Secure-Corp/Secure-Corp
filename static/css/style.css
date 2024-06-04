@@ -31,7 +31,7 @@ body {
   */
 
 nav {
-    height: 9.5%;
+    height: 17.5%;
     background-color: rgba(255, 255, 255, 0.932);
     opacity: 1;
     border-bottom: .2rem solid #E6A139;
@@ -655,11 +655,12 @@ table {
 }
 
 #btn3 {
+    border-radius: .1rem;
     text-align: center;
     align-items: center;
     font-size: 90%;
     width: 100%;
-    padding: 19% 33%;
+    padding: 18% 33%;
     color: white;
     cursor: pointer;
     background-color: #506E86;
@@ -674,6 +675,32 @@ table {
 }
 
 #btn3:active {
+    background-color: #2F3C4F;
+    box-shadow: 0 .2rem #666;
+    transform: translateY(4px);
+}
+
+#btn4 {
+    border-radius: .1rem;
+    text-align: center;
+    align-items: center;
+    font-size: 80%;
+    width: 70%;
+    padding: 2% 3.5%;
+    color: white;
+    cursor: pointer;
+    background-color: #506E86;
+    transition: transform 0.3s ease-in-out;
+    text-decoration: none;
+}
+
+#btn4:hover {
+    background-color: #2F3C4F;
+    box-shadow: 0 .2rem #666;
+    transform: translateY(4px);
+}
+
+#btn4:active {
     background-color: #2F3C4F;
     box-shadow: 0 .2rem #666;
     transform: translateY(4px);
@@ -715,8 +742,8 @@ table {
 ===================================================*/
 
 #subtitle {
-    margin-top: 8%;
-    margin-bottom: 3%;
+    margin-top: 4%;
+    margin-bottom: 4%;
     background-color: #73777B;
     border-bottom: .2rem solid #506E86;
     padding: .7%;
@@ -727,7 +754,7 @@ table {
 #formulario {
     width: 95%;
     border-radius: .4rem;
-    margin-bottom: 5%;
+    margin-bottom: 3%;
     padding: 2%;
     margin-left: 2.5%;
     margin-right: 2.5%;
@@ -736,11 +763,12 @@ table {
     color: #E6A139;
     text-align: center;
 }
+
 .form-control {
-    background-color: #1B232E!important;
-    border-color: #1B232E!important;
-    color: #E6A139!important;
-    
+    background-color: #1B232E !important;
+    border-color: #1B232E !important;
+    color: #E6A139 !important;
+
 }
 
 
