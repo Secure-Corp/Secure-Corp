@@ -932,8 +932,8 @@ body.active #title {
 
 body.active .tablefondo {
     background: rgb(115, 119, 123);
-    background: linear-gradient(90deg, rgba(115, 119, 123, 1) 4%, rgba(27, 35, 46, 1) 95%);
-    color: #dedfe4;
+    background: linear-gradient(90deg, rgb(112, 117, 124) 4%, rgba(27, 35, 46, 1) 95%);
+    color: #ffffff;
     border: .1rem solid #1B232E;
 }
 
