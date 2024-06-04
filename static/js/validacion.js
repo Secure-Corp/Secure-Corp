@@ -1,6 +1,6 @@
 const inps = document.querySelectorAll('form .datosCand');
 const cat = document.querySelectorAll('form .catalogo');
-let env = document.getElementById('enviar');
+let env = document.getElementById('btn2');
 env.addEventListener("click", enviar);
 const evaluaciones = document.querySelectorAll('form .evaluacion');
 document.formulario.addEventListener("input", validacion, false);
