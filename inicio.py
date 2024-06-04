@@ -1025,51 +1025,44 @@ def aceptar_requisicion():
 @app.route('/cont_p/<string:idC>', methods=['GET'])
 def contrato_p(idC): 
 
-    cbd.cursor.execute('select p.idPuesto from puesto p, candidato c where p.idPuesto = c.idPuesto and c.idCandidato = %s', (idC))
+    cbd.cursor.execute('select p.idPuesto from puesto p, candidato c where p.idPuesto = c.idPuesto and c.idCandidato = %s', (idC,))
     idP = cbd.cursor.fetchone()
-    
+
     cbd.cursor.execute('select c.idCandidato, c.nombre, p.nomPuesto from candidato c, puesto p where c.idPuesto = p.idPuesto')
     r = cbd.cursor.fetchall()
 
-    cbd.cursor.execute('select nombre, edad, sexo, CURP, RFC, domCalle, domNumExtInt, domColonia, correoE, tel1, tel2, idVacante '
-            'from candidato where idCandidato = %s', (idC))
+    cbd.cursor.execute('select nombre, edad, sexo, CURP, RFC, domCalle, domNumExtInt, domColonia, correoE, tel1, tel2, idVacante from candidato where idCandidato = %s', (idC,))
     datos = cbd.cursor.fetchone()
 
-    cbd.cursor.execute('select puestoJefeSup, nomPuesto, codPuesto, jornada, remunMensual, prestaciones, descripcionGeneral, funciones, experiencia, '
-                'conocimientos, manejoEquipo, reqFisicos, reqPsicologicos, condicionesTrabajo, responsabilidades from puesto where idPuesto = %s', (idP,))
+    cbd.cursor.execute('select puestoJefeSup, nomPuesto, codPuesto, jornada, remunMensual, prestaciones, descripcionGeneral, funciones, experiencia, conocimientos, manejoEquipo, reqFisicos, reqPsicologicos, condicionesTrabajo, responsabilidades from puesto where idPuesto = %s', (idP,))
     dato = cbd.cursor.fetchone()
 
-    cbd.cursor.execute('select a.idArea, a.descripcion from area a, puesto b where a.idArea = b.idArea and b.idPuesto = %s', (idP))
+    cbd.cursor.execute('select a.idArea, a.descripcion from area a, puesto b where a.idArea = b.idArea and b.idPuesto = %s', (idP,))
     datos1 = cbd.cursor.fetchone()
 
-    cbd.cursor.execute('select a.idEstadoCivil, a.descripcion from estado_civil a, candidato b where a.idEstadoCivil = b.idEstadoCivil and b.idCandidato = %s', (idC))
+    cbd.cursor.execute('select a.idEstadoCivil, a.descripcion from estado_civil a, candidato b where a.idEstadoCivil = b.idEstadoCivil and b.idCandidato = %s', (idC,))
     datos2 = cbd.cursor.fetchone()
 
-    cbd.cursor.execute('select a.idEscolaridad, a.descripcion from escolaridad a, candidato b where a.idEscolaridad = b.idEscolaridad and b.idCandidato = %s', (idC))
+    cbd.cursor.execute('select a.idEscolaridad, a.descripcion from escolaridad a, candidato b where a.idEscolaridad = b.idEscolaridad and b.idCandidato = %s', (idC,))
     datos3 = cbd.cursor.fetchone()
 
-    cbd.cursor.execute('select a.idGradoAvance, a.descripcion from grado_avance a, candidato b where a.idGradoAvance = b.idGradoAvance and b.idCandidato = %s', (idC))
+    cbd.cursor.execute('select a.idGradoAvance, a.descripcion from grado_avance a, candidato b where a.idGradoAvance = b.idGradoAvance and b.idCandidato = %s', (idC,))
     datos4 = cbd.cursor.fetchone()
 
-    cbd.cursor.execute('select a.idCarrera, a.descripcion from carrera a, candidato b where a.idCarrera = b.idCarrera and b.idCandidato = %s', (idC))
+    cbd.cursor.execute('select a.idCarrera, a.descripcion from carrera a, candidato b where a.idCarrera = b.idCarrera and b.idCandidato = %s', (idC,))
     datos5 = cbd.cursor.fetchone()
 
-    cbd.cursor.execute('select a.idPuesto, b.idIdioma, b.descripcion from puesto a, idioma b, puesto_has_idioma c '
-                    'where a.idPuesto = c.idPuesto and b.idIdioma = c.idIdioma and a.idPuesto = %s', (idP))
+    cbd.cursor.execute('select a.idPuesto, b.idIdioma, b.descripcion from puesto a, idioma b, puesto_has_idioma c where a.idPuesto = c.idPuesto and b.idIdioma = c.idIdioma and a.idPuesto = %s', (idP,))
     datos6 = cbd.cursor.fetchone()
 
-    cbd.cursor.execute('select a.idPuesto, b.idHabilidad, b.descripcion from puesto a, habilidad b, puesto_has_habilidad c '
-                    'where a.idPuesto = c.idPuesto and b.idHabilidad = c.idHabilidad and a.idPuesto = %s', (idP))
+    cbd.cursor.execute('select a.idPuesto, b.idHabilidad, b.descripcion from puesto a, habilidad b, puesto_has_habilidad c where a.idPuesto = c.idPuesto and b.idHabilidad = c.idHabilidad and a.idPuesto = %s', (idP,))
     datos7 = cbd.cursor.fetchone()
 
-    cbd.cursor.execute('select p.nomPuesto, a.descripcion, p.puestoJefeSup, p.jornada, p.funciones, p.responsabilidades, p.remunMensual,' 
-                    'p.prestaciones from puesto p, area a where a.idArea = p.idArea and idPuesto = %s', (idP))
+    cbd.cursor.execute('select p.nomPuesto, a.descripcion, p.puestoJefeSup, p.jornada, p.funciones, p.responsabilidades, p.remunMensual, p.prestaciones from puesto p, area a where a.idArea = p.idArea and idPuesto = %s', (idP,))
     clausu1 = cbd.cursor.fetchone()
 
-    cbd.cursor.execute('select r.fechainicVac, c.nombre, p.nomPuesto from puesto p, requisicion r, candidato c where r.idRequisicion = c.idRequisicion and ' 
-                    'p.idPuesto = c.idPuesto and c.idCandidato = %s', (idC))
+    cbd.cursor.execute('select r.fechainicVac, c.nombre, p.nomPuesto from puesto p, requisicion r, candidato c where r.idRequisicion = c.idRequisicion and p.idPuesto = c.idPuesto and c.idCandidato = %s', (idC,))
     clausu2 = cbd.cursor.fetchone()
-
     class PDF(FPDF):
         def header(self):
             self.set_font('Arial', 'B', 12)
@@ -1107,12 +1100,12 @@ def contrato_p(idC):
     # Add the company section
     pdf.chapter_title('DATOS DE LA EMPRESA')
     empresa = [
-        'Nombre: Swift Market',
+        'Nombre: Secure-Corp',
         'Ubicacion: Av. Perseo 301, Primo Verdad Inegi',
         'Codigo Postal: 20267',
         'Municipio: Aguascalientes',
         'Estado: Aguascalientes',
-        'Detalles: Se dedica a la venta de productos'
+        'Detalles: Se dedica a la venta de productos de seguridad, asi como la contratacion de personal de seguridad para un cliente'
     ]
     for item in empresa:
         pdf.chapter_datos(item)
@@ -1180,7 +1173,7 @@ def contrato_p(idC):
     # Add clauses section
     pdf.chapter_title('CLÁUSULAS')
     clausulas = [
-        f'1. Al firmar esta dispuesto a trabajar en la empresa "Swift Market" ubicada en Av. Perseo 301, Ptimo Verdad Inegi, en el puesto de {clausu1[0]} en el area de Area Name a cargo del {clausu1[1]}, durante la jornada de {clausu1[2]}, en la cual va a tener que {clausu1[3]} y sus responsabilidades seran {clausu1[4]}, al hacer esto se le dara un pago de {clausu1[5]} al mes, con prestaciones {clausu1[7]}.',
+        f'1. Al firmar esta dispuesto a trabajar en la empresa "Secure-Corp" ubicada en Av. Perseo 301, Ptimo Verdad Inegi, en el puesto de {clausu1[0]} en el area de Area Name a cargo del {clausu1[1]}, durante la jornada de {clausu1[2]}, en la cual va a tener que {clausu1[3]} y sus responsabilidades seran {clausu1[4]}, al hacer esto se le dara un pago de {clausu1[5]} al mes, con prestaciones {clausu1[7]}.',
         f'2. Citando la Ley Federal de Trabajo Articulo 38-39 se establece que la empresa se compromete a cumplir con la capacitacion inicial desde el dia {clausu2[0]} del candidato {clausu2[1]} para el puesto {clausu2[2]}, capacitando y adiestrando todas sus funciones y responsabilidades que son requeridas para el puesto de forma segura y saludable para ambas partes del contrato.',
         '3. La empresa se compromete a darle todo el equipo, conocimientos y ambiente que necesita a el trabajador para realizar su trabajo en la empresa. Las lecciones de la capacitacion se dara dentro de la empresa con su respectivo supervisor en el horario de la jornada.',
         '4. La trabajador se debe comprometer a asistir a todas las lecciones de su capacitacion, participar activamente y lleavr a cabo todo lo aprendido de estas en su laboral.',
@@ -1201,25 +1194,30 @@ def contrato_p(idC):
     pdf.cell(90, 10, 'Firma del supervisor')
     pdf.cell(90, 10, 'Firma del trabajador')
 
-    #Pasar candidato seleccionado a la tabla de empleados
-    cbd.cursor.execute("INSERT INTO empleado (codPuesto, idArea, nomEmpleado, jornada, descripcionGeneral, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, experiencia, conocimientos, manejoEquipo, responsabilidades) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (dato[2], datos1[0], datos[0], dato[3], dato[6], datos[1], datos[2], datos2[0], datos3[0], datos4[0], datos5[0], dato[8], dato[9], dato[10], dato[14]))
-    cbd.conn.commit()
+    # Define the path for the temporary PDF file
+    #https://github.com/Secure-Corp/Secure-Corp/blob/integracion/static/Contrato.pdf
+    pdf_path = 'Secure-Corp/static/Contrato.pdf'
 
+    #static\Contrato.pdf
+    # Utiliza la misma ruta para abrir el archivo PDF
+    if os.path.exists(pdf_path):
+        archivo = r'Secure-Corp\static\Contrato.pdf'
+        webbrowser.open(archivo)
+    
+    else:
+        print("El archivo PDF no se encontró en la ruta especificada.")
+    pdf.output(pdf_path)
+    #Pasar candidato seleccionado a la tabla de empleados
+    #cbd.cursor.execute("INSERT INTO empleado (codPuesto, idArea, nomEmpleado, jornada, descripcionGeneral, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, experiencia, conocimientos, manejoEquipo, responsabilidades) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (dato[2], datos1[0], datos[0], dato[3], dato[6], datos[1], datos[2], datos2[0], datos3[0], datos4[0], datos5[0], dato[8], dato[9], dato[10], dato[14]))
+    #cbd.conn.commit()
+    #static\Contrato.pdf
     #Borrar candidatos de la vacante ocupada
-    cbd.cursor.execute("DELETE FROM candidato WHERE idVacante = %s", (datos[11]))
-    cbd.conn.commit()
+    #cbd.cursor.execute("DELETE FROM candidato WHERE idVacante = %s", (datos[11]))
+    #cbd.conn.commit()
 
     #Borrar la vacante ocupada de la tabla vacante
-    cbd.cursor.execute("DELETE FROM vacante WHERE idVacante = %s", (datos[11]))
-    cbd.conn.commit()
-
-    # Define the path for the temporary PDF file
-    pdf_path = 'RH_pruebas/static/Contrato.pdf'
-    # Output the PDF to the defined path
-    pdf.output(pdf_path)
-    archivo = r'RH_pruebas\static\Contrato.pdf'
-    webbrowser.open(archivo)
-    
+    #cbd.cursor.execute("DELETE FROM vacante WHERE idVacante = %s", (datos[11]))
+    #cbd.conn.commit()
 
     return redirect(url_for('send_email', pdf_path=pdf_path, idC=idC))
 
@@ -1242,7 +1240,7 @@ def send_email():
     email_sender.send_email(recipient_email, subject, body, [pdf_path])
 
 
-    flash('Correo enviado correctamente')
+    print('Correo enviado correctamente')
     return redirect(url_for('candidatos'))
 
 
