@@ -583,10 +583,10 @@ table {
 }
 
 #btn1 {
+    border-radius: .1rem;
     font-size: 90%;
     width: 100%;
     padding: 2.1% 33%;
-    border-radius: .2rem;
     color: white;
     cursor: pointer;
     background-color: #506E86;
@@ -607,10 +607,10 @@ table {
 }
 
 #btn2 {
+    border-radius: .1rem;
     font-size: 90%;
     width: 100%;
     padding: .8% 33%;
-    border-radius: .2rem;
     color: white;
     cursor: pointer;
     background-color: #2F3C4F;
@@ -631,11 +631,11 @@ table {
 }
 
 #enviar {
+    border-radius: .1rem;
     text-align: center;
     font-size: 90%;
     width: 100%;
     padding: 3% 33%;
-    border-radius: .2rem;
     color: white;
     cursor: pointer;
     background-color: #506E86;
@@ -661,7 +661,6 @@ table {
     font-size: 90%;
     width: 100%;
     padding: 19% 33%;
-    border-radius: .2rem;
     color: white;
     cursor: pointer;
     background-color: #506E86;

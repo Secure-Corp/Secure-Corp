@@ -1,32 +1,34 @@
 {% extends "layout.html" %}
 
 {% block content %}
-        <div id="title">
-          <a href="/area_agregar" class="button" id="agregar">agregar area</a>
-            <h3>AREAS REGISTRADAS</h3>
-        </div>
-        <table>
-          <thead id="ndp">
-            <tr>
-              <td id="encabezado"><b>Descripcion</b></td>
-            </tr>
-          </thead>
-          <tbody>
-            {% for i in comentarios %}
-            <tr>
-              <td class="tablefondo">
-                {{i.1}}
-              </td>
-
-              <td><a href="/area_editar/{{i.0}}" class="btn" id="btn1">Editar</a></td>
-              <td><a href="/area_borrar/{{i.0}}" class="btn" id="btn1">Borrar</a></td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </td>
+<div id="title">
+  <a href="/area_agregar" class="btn" id="btn2">Agregar Area</a>
+  <br>
+  <br>
+  <h3>AREAS REGISTRADAS</h3>
+</div>
+<table>
+  <thead id="ndp">
+    <tr>
+      <td id="encabezado"><b>Descripcion</b></td>
     </tr>
+  </thead>
+  <tbody>
+    {% for i in comentarios %}
+    <tr>
+      <td class="tablefondo">
+        {{i.1}}
+      </td>
+
+      <td><a href="/area_editar/{{i.0}}" class="btn" id="btn1">Editar</a></td>
+      <td><a href="/area_borrar/{{i.0}}" class="btn" id="btn1">Borrar</a></td>
+    </tr>
+    {% endfor %}
   </tbody>
+</table>
+</td>
+</tr>
+</tbody>
 </table>
 <br>
 <br>
