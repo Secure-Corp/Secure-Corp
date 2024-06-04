@@ -31,7 +31,7 @@ body {
   */
 
 nav {
-    height: 17.5%;
+    height: 9.5%;
     background-color: rgba(255, 255, 255, 0.932);
     opacity: 1;
     border-bottom: .2rem solid #E6A139;
@@ -736,6 +736,13 @@ table {
     color: #E6A139;
     text-align: center;
 }
+.form-control {
+    background-color: #1B232E!important;
+    border-color: #1B232E!important;
+    color: #E6A139!important;
+    
+}
+
 
 #formulario1 {
     width: 90%;
