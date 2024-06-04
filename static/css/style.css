@@ -475,7 +475,13 @@ body.active .offcanvas {
     border-right: 2.5px solid #E6A139;
     transition: 0.9s;
 }
-
+/*===========puesto======*/
+body.active #fuente{
+    color:#E6A139;
+}
+body.active label{
+    color:white;
+}
 /*===================================================
           Fin de configuraciones del dark mode
   ====================================================*/
@@ -493,10 +499,3 @@ body.active .offcanvas {
     border-color: #c3e6cb;
 }
 
-/*===========puesto======*/
-body.active #fuente{
-    color:#E6A139;
-}
-body.active label{
-    color:white;
-}
