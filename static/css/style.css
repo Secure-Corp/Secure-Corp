@@ -31,7 +31,7 @@ body {
   */
 
 nav {
-    height: 9.5%;
+    height: 17.5%;
     background-color: rgba(255, 255, 255, 0.932);
     opacity: 1;
     border-bottom: .2rem solid #E6A139;
@@ -629,6 +629,110 @@ table {
     transform: translateY(4px);
 }
 
+#btn3 {
+    border-radius: .1rem;
+    text-align: center;
+    align-items: center;
+    font-size: 90%;
+    width: 100%;
+    padding: 15% 33%;
+    color: white;
+    cursor: pointer;
+    background-color: #506E86;
+    transition: transform 0.3s ease-in-out;
+    text-decoration: none;
+}
+
+#btn3:hover {
+    background-color: #2F3C4F;
+    box-shadow: 0 .2rem #666;
+    transform: translateY(4px);
+}
+
+#btn3:active {
+    background-color: #2F3C4F;
+    box-shadow: 0 .2rem #666;
+    transform: translateY(4px);
+}
+
+#btn4 {
+    border-radius: .1rem;
+    text-align: center;
+    align-items: center;
+    font-size: 80%;
+    width: 70%;
+    padding: 2% 3.5%;
+    color: white;
+    cursor: pointer;
+    background-color: #506E86;
+    transition: transform 0.3s ease-in-out;
+    text-decoration: none;
+}
+
+#btn4:hover {
+    background-color: #2F3C4F;
+    box-shadow: 0 .2rem #666;
+    transform: translateY(4px);
+}
+
+#btn4:active {
+    background-color: #2F3C4F;
+    box-shadow: 0 .2rem #666;
+    transform: translateY(4px);
+}
+
+#btn3 {
+    border-radius: .1rem;
+    text-align: center;
+    align-items: center;
+    font-size: 90%;
+    width: 100%;
+    padding: 15% 33%;
+    color: white;
+    cursor: pointer;
+    background-color: #506E86;
+    transition: transform 0.3s ease-in-out;
+    text-decoration: none;
+}
+
+#btn3:hover {
+    background-color: #2F3C4F;
+    box-shadow: 0 .2rem #666;
+    transform: translateY(4px);
+}
+
+#btn3:active {
+    background-color: #2F3C4F;
+    box-shadow: 0 .2rem #666;
+    transform: translateY(4px);
+}
+
+#btn4 {
+    border-radius: .1rem;
+    text-align: center;
+    align-items: center;
+    font-size: 80%;
+    width: 70%;
+    padding: 2% 3.5%;
+    color: white;
+    cursor: pointer;
+    background-color: #506E86;
+    transition: transform 0.3s ease-in-out;
+    text-decoration: none;
+}
+
+#btn4:hover {
+    background-color: #2F3C4F;
+    box-shadow: 0 .2rem #666;
+    transform: translateY(4px);
+}
+
+#btn4:active {
+    background-color: #2F3C4F;
+    box-shadow: 0 .2rem #666;
+    transform: translateY(4px);
+}
+
 #enviar {
     border-radius: .1rem;
     text-align: center;
@@ -649,31 +753,6 @@ table {
 }
 
 #enviar:active {
-    background-color: #2F3C4F;
-    box-shadow: 0 .2rem #666;
-    transform: translateY(4px);
-}
-
-#btn3 {
-    text-align: center;
-    align-items: center;
-    font-size: 90%;
-    width: 100%;
-    padding: 19% 33%;
-    color: white;
-    cursor: pointer;
-    background-color: #506E86;
-    transition: transform 0.3s ease-in-out;
-    text-decoration: none;
-}
-
-#btn3:hover {
-    background-color: #2F3C4F;
-    box-shadow: 0 .2rem #666;
-    transform: translateY(4px);
-}
-
-#btn3:active {
     background-color: #2F3C4F;
     box-shadow: 0 .2rem #666;
     transform: translateY(4px);
@@ -723,8 +802,8 @@ input:-webkit-autofill:active {
   transition: all 5000s ease-in-out 0s;
 }
 #subtitle {
-    margin-top: 8%;
-    margin-bottom: 3%;
+    margin-top: 4%;
+    margin-bottom: 4%;
     background-color: #73777B;
     border-bottom: .2rem solid #506E86;
     padding: .7%;
@@ -735,7 +814,7 @@ input:-webkit-autofill:active {
 #formulario {
     width: 95%;
     border-radius: .4rem;
-    margin-bottom: 5%;
+    margin-bottom: 3%;
     padding: 2%;
     margin-left: 2.5%;
     margin-right: 2.5%;
@@ -744,6 +823,7 @@ input:-webkit-autofill:active {
     color: #E6A139;
     text-align: center;
 }
+
 .form-control {
     background-color: #1B232E!important;
     border-color: #1b232e!important;
@@ -825,6 +905,16 @@ body.active .offcanvas {
     border-right: 2.5px solid #E6A139;
     transition: 0.9s;
 }
+
+body.active #title{
+    background-color: #73777B;
+    border-bottom: .2rem solid #E6A139;
+}
+body.active{}
+body.active{}
+body.active{}
+body.active{}
+body.active{}
 
 /*===================================================
           Fin de configuraciones del dark mode

@@ -2,66 +2,57 @@
 
 {% block content %}
 
-<table width="100%" cellpadding="1" ¿>
-    <tbody>
-      <tr>
-        <td valign="top">
-          <div id="title">
-            <center>
-              <h3>Candidatos registrados para la vacante de {{nomPuesto}}</h3>
-              {% if idCandSelec != 0 %}
-                <br>
-                <h6>Ya hay candidato seleccionado a esta vacante</h6>
-              {% endif %}
-            </center>
-          </div>
-          <table width="100%" cellpadding="1">
-            <thead id="ndp">
-              <tr>
-                <td><b>ID del candidato</b></td>
-                <td><b>Nombre</b></td>
-                <td><b>CURP</b></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-            </thead>
-            <tbody>
-              {% for i in datos %}
-              <tr>
-                <td width="10%">
-                  {{i.0}}
-                </td>
-                <td width="25%">
-                  {{i.3}}
-                </td>
-                <td width="25%">
-                  {{i.4}}
-                </td>
-                <td width="10%">
-                  {% if idCandSelec != 0 %}
-                    <center><button class="btn" id="selectCand" disabled style="border: none;">Seleccionar Candidato</button></center>
-                  {% elif idCandSelec == 0 %}
-                    <center><a href="/seleccionarCandidato/{{i.0}}/{{idV}}" class="btn" id="selectCand">Seleccionar Candidato</a></center>
-                  {% endif %}
-                </td>
-                <td width="10%">
-                  <center><a href="/detailCand/{{i.0}}" class="btn" id="detalle">Detalles</a></center>
-                </td>
-                <td width="10%">
-                  <center><a href="/editarCand/{{i.0}}/{{idV}}" class="btn" id="editar">Editar</a></center>
-                </td>
-                <td width="10%">
-                  <center><a href="/borrarCand/{{i.0}}/{{idV}}" class="btn" id="borrar">Borrar</a></center>
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div id="title">
+  <h3>Candidatos registrados para la vacante de {{nomPuesto}}</h3>
+  {% if idCandSelec != 0 %}
+  <br>
+  <h6>Ya hay candidato seleccionado a esta vacante</h6>
+  {% endif %}
+</div>
+<table>
+  <thead id="ndp">
+    <tr>
+      <td id="encabezado"><b>ID del candidato</b></td>
+      <td id="encabezado"><b>Nombre</b></td>
+      <td id="encabezado"><b>CURP</b></td>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in datos %}
+    <tr>
+      <td class="tablefondo1">
+        {{i.0}}
+      </td>
+      <td class="tablefondo1">
+        {{i.3}}
+      </td>
+      <td class="tablefondo1">
+        {{i.4}}
+      </td>
+      <td>
+        {% if idCandSelec != 0 %}
+        <a class="btn" id="btn2" disabled style="border: none;">Seleccionar Candidato</a>
+        {% elif idCandSelec == 0 %}
+        <a href="/seleccionarCandidato/{{i.0}}/{{idV}}" class="btn" id="selectCand">Seleccionar
+          Candidato</a>
+        {% endif %}
+      </td>
+      <td><a href="/detailCand/{{i.0}}" class="btn" id="btn1">Detalles</a>
+      </td>
+      <td><a href="/editarCand/{{i.0}}/{{idV}}" class="btn" id="btn1">Editar</a>
+      </td>
+      <td><a href="/borrarCand/{{i.0}}/{{idV}}" class="btn" id="btn1">Borrar</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
+<br>
+<br>
+
+<br>
+<br>
+
+<br>
 {% endblock %}

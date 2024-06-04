@@ -1,17 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
-<style>
-   body {
-      background-color: #f3f3e6de;
-   }
-</style>
-<br>
+<div id="title">
+   <h3>Capturar Candidato Para</h3>
+</div>
+
 <form class="row g-3" id="formulario" name="formulario" action="/captCand" method="post">
-   <h3 id="title">
-      <center>
-         <b> Capturar Candidato Para </b>
-      </center>
-   </h3>
+
    <div class="col-md-6">
       <label for="folio" class="form-label">Folio</label>
       <input type="text" class="form-control" name="folio" id="folio" readonly disabled value="{{dato.0}}"> </input>
@@ -26,12 +20,11 @@
       <input type="text" class="form-control" name="nomPuesto" id="nomPuesto" readonly disabled value="{{dato.2}}"></input>
    </div>
 
-   <h3 id="title">
-      <center>
-         <b> Datos Requeridos </b>
-      </center>
-   </h3>
-
+</form>
+<div id="subtitle">
+   <h3>Datos Requeridos</h3>
+</div>
+<form class="row g-3" id="formulario" name="formulario" action="/captCand" method="post">
    <div class="col-md-6">
       <label for="curp" class="form-label">CURP</label>
       <input type="text" class="form-control datosCand" name="curp" id="curp" minlength="18" maxlength="18" ></input>
@@ -60,7 +53,8 @@
    </div>
    <div class="col-md-4">
       <label for="domColonia" class="form-label">Fraccionamiento/Colonia</label>
-      <input type="text" class="form-control datosCand" name="domColonia" id="domColonia" minlength="3" maxlength="40"></input>
+      <input type="text" class="form-control datosCand" name="domColonia" id="domColonia" minlength="3"
+         maxlength="40"></input>
    </div>
    <div class="col-md-4">
       <label for="tel1" class="form-label">Telefono 1</label>
@@ -111,10 +105,10 @@
          function miFunc1() {
             var esco = document.getElementById('idEscolaridad').value;
             if (esco == 1) {
-              document.getElementById('idGradoAvance').children[1].selected = true;
-              document.getElementById('idCarrera').children[1].selected = true;
-              document.getElementById('idGradoAvance').disabled = true;
-              document.getElementById('idCarrera').disabled = true;
+               document.getElementById('idGradoAvance').children[1].selected = true;
+               document.getElementById('idCarrera').children[1].selected = true;
+               document.getElementById('idGradoAvance').disabled = true;
+               document.getElementById('idCarrera').disabled = true;
             }
             else {
                document.getElementById('idGradoAvance').disabled = false;
@@ -124,7 +118,7 @@
       </script>
    </div>
 
-   
+
    <div class="col-md-4">
       <label for="idGradoAvance" class="form-label">Grado Avance</label>
       <select name="idGradoAvance" id="idGradoAvance" class="form-select catalogo">
@@ -152,10 +146,11 @@
    </div>
    <div class="col-md-4">
       <label for="entrevistaReq" class="form-label">Entrevista Requerida</label>
-      <select name="entrevistaReq" id="entrevistaReq" class="form-select evaluacion" onchange="mostrarPres('entrevistaReq', 'campoEntrevistaReq', 'campoEntrevistaRes')">
-        <option selected="true" disabled="disabled" value="0" hidden>Elige...</option>
-        <option value="0">No</option>
-        <option value="1">Sí</option>
+      <select name="entrevistaReq" id="entrevistaReq" class="form-select evaluacion"
+         onchange="mostrarPres('entrevistaReq', 'campoEntrevistaReq', 'campoEntrevistaRes')">
+         <option selected="true" disabled="disabled" value="0" hidden>Elige...</option>
+         <option value="0">No</option>
+         <option value="1">Sí</option>
       </select>
    </div>
 
@@ -171,7 +166,8 @@
 
    <div class="col-md-4 selectores" id="campoEntrevistaRes">
       <label for="campoEntrevista" class="form-label">Resultado Entrevista</label>
-      <input type="text" name="campoEntrevista" id="campoEntrevista" value="NO APLICA" class="form-control evaluacion" minlength="5" maxlength="40" disabled>
+      <input type="text" name="campoEntrevista" id="campoEntrevista" value="NO APLICA" class="form-control evaluacion"
+         minlength="5" maxlength="40" disabled>
    </div>
 
    <div class="col-md-4">
@@ -196,7 +192,8 @@
 
    <div class="col-md-4 selectores" id="campoEvalMedicaRes">
       <label for="campoEvalMedica" class="form-label">Resultado Evaluacion Medica</label>
-      <input type="text" name="campoEvalMedica" id="campoEvalMedica" value="NO APLICA" class="form-control evaluacion" minlength="5" maxlength="40" disabled>
+      <input type="text" name="campoEvalMedica" id="campoEvalMedica" value="NO APLICA" class="form-control evaluacion"
+         minlength="5" maxlength="40" disabled>
    </div>
 
 
@@ -222,7 +219,8 @@
 
    <div class="col-md-4 selectores" id="campoEvalPsicoloRes">
       <label for="campoEvalPsicolo" class="form-label">Resultado Evaluacion Psicologica</label>
-      <input type="text" name="campoEvalPsicolo" id="campoEvalPsicolo" value="NO APLICA" class="form-control evaluacion" minlength="5" maxlength="40" disabled>
+      <input type="text" name="campoEvalPsicolo" id="campoEvalPsicolo" value="NO APLICA" class="form-control evaluacion"
+         minlength="5" maxlength="40" disabled>
    </div>
 
 
@@ -273,7 +271,8 @@
 
    <div class="col-md-4 selectores" id="campoEvalTecniRes">
       <label for="campoEvalTecni" class="form-label">Resultado Evaluacion Tecnica</label>
-      <input type="text" name="campoEvalTecni" id="campoEvalTecni" value="NO APLICA" class="form-control evaluacion" minlength="5" maxlength="40" disabled>
+      <input type="text" name="campoEvalTecni" id="campoEvalTecni" value="NO APLICA" class="form-control evaluacion"
+         minlength="5" maxlength="40" disabled>
    </div>
 
    <div class="col-md-4">
@@ -299,7 +298,8 @@
    <div class="col-md-4 selectores" id="campoEvalConoRes">
       <label for="campoEvalCono" class="form-label">Resultado Evaluacion de Conocimientos
       </label>
-      <input type="text" name="campoEvalCono" id="campoEvalCono" value="NO APLICA" class="form-control evaluacion" minlength="5" maxlength="40" disabled>
+      <input type="text" name="campoEvalCono" id="campoEvalCono" value="NO APLICA" class="form-control evaluacion"
+         minlength="5" maxlength="40" disabled>
    </div>
 
    <div class="col-md-4">
@@ -324,17 +324,18 @@
 
    <div class="col-md-4 selectores" id="campoEntrevistaFinRes">
       <label for="campoEntrevistaFin" class="form-label">Resultado Entrevista Final</label>
-      <input type="text" name="campoEntrevistaFin" id="campoEntrevistaFin" value="NO APLICA" class="form-control evaluacion" minlength="5" maxlength="40" disabled>
-    </div>
-    
-    
+      <input type="text" name="campoEntrevistaFin" id="campoEntrevistaFin" value="NO APLICA"
+         class="form-control evaluacion" minlength="5" maxlength="40" disabled>
+   </div>
 
 
-    <div class="col-12">
-       <button class="btn btn-primary" id="enviar">Enviar</button>
-    </div>
-      
-   </form>
 
-   <script src="/static/js/validacion.js"></script>
+
+   <div class="col-12">
+      <button class="btn" id="btn2">Enviar</button>
+   </div>
+
+</form>
+
+<script src="/static/js/validacion.js"></script>
 {% endblock %}
