@@ -629,38 +629,13 @@ table {
     transform: translateY(4px);
 }
 
-#enviar {
-    border-radius: .1rem;
-    text-align: center;
-    font-size: 90%;
-    width: 100%;
-    padding: 3% 33%;
-    color: white;
-    cursor: pointer;
-    background-color: #506E86;
-    transition: transform 0.3s ease-in-out;
-    text-decoration: none;
-}
-
-#enviar:hover {
-    background-color: #2F3C4F;
-    box-shadow: 0 .2rem #666;
-    transform: translateY(4px);
-}
-
-#enviar:active {
-    background-color: #2F3C4F;
-    box-shadow: 0 .2rem #666;
-    transform: translateY(4px);
-}
-
 #btn3 {
     border-radius: .1rem;
     text-align: center;
     align-items: center;
     font-size: 90%;
     width: 100%;
-    padding: 18% 33%;
+    padding: 15% 33%;
     color: white;
     cursor: pointer;
     background-color: #506E86;
@@ -701,6 +676,31 @@ table {
 }
 
 #btn4:active {
+    background-color: #2F3C4F;
+    box-shadow: 0 .2rem #666;
+    transform: translateY(4px);
+}
+
+#enviar {
+    border-radius: .1rem;
+    text-align: center;
+    font-size: 90%;
+    width: 100%;
+    padding: 3% 33%;
+    color: white;
+    cursor: pointer;
+    background-color: #506E86;
+    transition: transform 0.3s ease-in-out;
+    text-decoration: none;
+}
+
+#enviar:hover {
+    background-color: #2F3C4F;
+    box-shadow: 0 .2rem #666;
+    transform: translateY(4px);
+}
+
+#enviar:active {
     background-color: #2F3C4F;
     box-shadow: 0 .2rem #666;
     transform: translateY(4px);
@@ -809,6 +809,16 @@ body.active .offcanvas {
     border-right: 2.5px solid #E6A139;
     transition: 0.9s;
 }
+
+body.active #title{
+    background-color: #73777B;
+    border-bottom: .2rem solid #E6A139;
+}
+body.active{}
+body.active{}
+body.active{}
+body.active{}
+body.active{}
 
 /*===================================================
           Fin de configuraciones del dark mode
