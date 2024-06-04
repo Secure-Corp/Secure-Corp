@@ -823,6 +823,12 @@ input:-webkit-autofill:active {
     color: rgba(255, 255, 255, 0.932);
     text-align: center;
 }
+body.active #subtitle{
+    background:linear-gradient(#E67628 29%,#e7872d 89%);
+    border-bottom: .2rem solid #506E86;
+    color: rgba(24, 22, 48, 0.932);
+
+}
 
 #formulario {
     width: 95%;
