@@ -20,20 +20,20 @@
   <tbody>
     {% for i in datos %}
     <tr>
-      <td class="tablefondo1">
+      <td class="tablefondo">
         {{i.0}}
       </td>
-      <td class="tablefondo1">
+      <td class="tablefondo">
         {{i.3}}
       </td>
-      <td class="tablefondo1">
+      <td class="tablefondo">
         {{i.4}}
       </td>
       <td>
         {% if idCandSelec != 0 %}
-        <a class="btn" id="btn2" disabled style="border: none;">Seleccionar Candidato</a>
+        <a class="btn" id="btn1" disabled style="border: none;">Seleccionar Candidato</a>
         {% elif idCandSelec == 0 %}
-        <a href="/seleccionarCandidato/{{i.0}}/{{idV}}" class="btn" id="selectCand">Seleccionar
+        <a href="/seleccionarCandidato/{{i.0}}/{{idV}}" class="btn" id="btn1">Seleccionar
           Candidato</a>
         {% endif %}
       </td>

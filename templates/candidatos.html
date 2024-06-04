@@ -8,21 +8,21 @@
 <table>
   <thead id="ndp">
     <tr>
-      <td id="encabezado"><b>Folio Requisición</b></td>
-      <td id="encabezado"><b>ID de la Vacante</b></td>
-      <td id="encabezado"><b>Nombre del Puesto</b></td>
+      <td id="encabezado">Folio Requisición</td>
+      <td id="encabezado">ID de la Vacante</td>
+      <td id="encabezado">Nombre del Puesto</td>
     </tr>
   </thead>
   <tbody>
     {% for i in datos %}
     <tr>
-      <td class="tablefondo1">
+      <td class="tablefondo">
         {{i.0}}
       </td>
-      <td class="tablefondo1">
+      <td class="tablefondo">
         {{i.1}}
       </td>
-      <td class="tablefondo1">
+      <td class="tablefondo">
         {{i.2}}
       </td>
       <td><a href="/capturarCand/{{i.1}}" class="btn" id="btn1">Capturar candidato</a>
