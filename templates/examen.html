@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="mintit">
-    <center><h3 class="center">EXAMEN PSICOMETRICO</h3></center>
+<div id="title">
+    <h3 class="center">EXAMEN PSICOMETRICO</h3>
 </div>
-<form class="row g-3" action="/examen_enviar" method="post">
+<form class="row g-3" id="formulario"action="/examen_enviar" method="post">
     <div class="col-md-12">
         <label  class="minap">Nombre:</label>
         <input type="text" class="form-control" name="nombre" id="nombre" value="{{datos.1}}" readonly>
@@ -101,7 +101,7 @@
         <input type="text" class="form-control" name="p12" id="p12" required>
     </div>
         <div class="col-12">
-            <button type="submit" >Enviar</button>
+            <button type="submit" id="btn2">Enviar</button>
          </div>
       </div>
    </form>

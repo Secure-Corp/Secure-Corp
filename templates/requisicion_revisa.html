@@ -4,7 +4,7 @@
 <div id="title">
     <h3>Detalles de la Requisición</h3>
 </div>
-<form id="formulario">
+<form id="formulario" action>
     <div class="row">
         <div class="col-md-6">
             <label for="idRequisicion" class="form-label">ID Requisición</label>
@@ -76,14 +76,16 @@
         </div>
     </div>
     <br>
-    <form action="/aceptar_requisicion" method="POST">
-        <input type="hidden" name="idRequisicion" value="{{ requisicion[0] }}">
-        <button type="submit" class="btn" id="btn2">Aceptar Requisición</button>
-    </form>
-    <form action="/eliminar_requisicion" method="POST">
-        <input type="hidden" name="idRequisicion22" value="{{ requisicion[0] }}">
-        <button type="submit" class="btn" id="btn2">Eliminar Requisición</button>
-    </form>
+
+</form>
+<form action="/aceptar_requisicion" method="POST">
+    <input type="hidden" name="idRequisicion" value="{{ requisicion[0] }}">
+    <button type="submit" class="btn" id="btn2">Aceptar Requisición</button>
+</form>
+
+<form action="/eliminar_requisicion" method="POST">
+    <input type="hidden" name="idRequisicion22" value="{{ requisicion[0] }}">
+    <button type="submit" class="btn" id="btn2" style="margin-top:10px!important; margin-bottom:20px !important">Eliminar Requisición</button>
 </form>
 
 {% endblock %}

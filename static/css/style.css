@@ -620,6 +620,37 @@ body.active #btn1:hover,
     transform: translateY(4px);
 }
 
+
+#btn4Ex {
+    border-radius: .1rem;
+    text-align: center;
+    align-items: center;
+    font-size: 80%;
+    width: 70%;
+    padding: 2% 3.5%;
+    color: white;
+    cursor: pointer;
+    background-color: #2F3C4F;
+    transition: transform 0.3s ease-in-out;
+    text-decoration: none;
+    margin-left: 145%;
+}
+
+#btn4Ex:hover {
+    background-color: #1B232E;
+    box-shadow: 0 .2rem #666;
+    transform: translateY(4px);
+}
+
+#btn4Ex:active {
+    background-color: #1B232E;
+    box-shadow: 0 .2rem #666;
+    transform: translateY(4px);
+}
+
+
+
+
 #btn3 {
     border-radius: .1rem;
     text-align: center;
