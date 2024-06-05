@@ -8,80 +8,88 @@
 <br>
 <br>
 
-<form class="row g-3" id="formulario" name="formulario" action="/generate_pdf" method="POST">
+<form class="row g-3" id="formulario" name="formulario" action="/generate_pdf/{{idv}}" method="POST">
     <div class="col-md-12">
-       <label for="nomPuesto" class="form-label">Nombre de la Vacante</label>
-       <input type="text" class="form-control" name="nomPuesto" id="nomPuesto" value="{{dat.3}}" readonly="readonly"></input>
+       <label for="nomPuesto" class="form-label">Nombre del Puesto Vacante</label>
+       <input type="text" class="form-control" name="nomPuesto" id="nomPuesto" value="{{dat[1]}}" readonly="readonly"></input>
     </div>
     <br>
     <div class="col-md-6">
-       <label for="codPuesto" class="form-label">Código de Vacante</label>
-       <input type="text" class="form-control" name="codPuesto" id="codPuesto" value="{{dat.1}}" readonly="readonly"></input>
+       <label for="codPuesto" class="form-label">Código del Puesto Vacante</label>
+       <input type="text" class="form-control" name="codPuesto" id="codPuesto" value="{{dat[2]}}" readonly="readonly"></input>
     </div>
     <div class="col-md-6">
        <label for="idArea" class="form-label">Área de adscripción</label>
-       <input type="text" class="form-control" name="idArea" id="idArea" value="{{catArea.1}}" readonly="readonly"></input>
+       <input type="text" class="form-control" name="idArea" id="idArea" value="{{catArea[1]}}" readonly="readonly"></input>
  
     </div>
     <div class="col-md-12">
        <label for="puestoJefeSup" class="form-label">Puesto del Jefe Superior</label>
-       <input type="text" class="form-control" name="puestoJefeSup" id="puestoJefeSup" value="{{dat.4}}" readonly="readonly"></input>
+       <input type="text" class="form-control" name="puestoJefeSup" id="puestoJefeSup" value="{{dat[3]}}" readonly="readonly"></input>
     </div>
     <div class="col-md-8">
        <label for="jornada" class="form-label">Jornada</label>
-       <input type="text" class="form-control" name="jornada" id="jornada" value="{{dat.5}}" readonly="readonly"></input>
+       <input type="text" class="form-control" name="jornada" id="jornada" value="{{dat[4]}}" readonly="readonly"></input>
     </div>
     <div class="col-md-4">
        <label for="remunMensual" class="form-label">Remuneración Mensual</label>
-       <input type="text" class="form-control" name="remunMensual" id="remunMensual" value="{{dat.6}}" readonly="readonly"></input>
+       <input type="text" class="form-control" name="remunMensual" id="remunMensual" value="{{dat[5]}}" readonly="readonly"></input>
     </div>
     <div class="col-md-12">
        <label for="prestaciones" class="form-label">Prestaciones</label>
-       <input type="text" class="form-control" name="prestaciones" id="prestaciones" value="{{dat.7}}" readonly="readonly"></input>
+       <input type="text" class="form-control" name="prestaciones" id="prestaciones" value="{{dat[6]}}" readonly="readonly"></input>
     </div>
     <div class="col-md-12">
        <label for="descripcionGeneral" class="form-label">Descripción General</label>
-       <input type="text" class="form-control" name="descripcionGeneral" id="descripcionGeneral" value="{{dat.8}}" readonly="readonly"></input>
+       <input type="text" class="form-control" name="descripcionGeneral" id="descripcionGeneral" value="{{dat[7]}}" readonly="readonly"></input>
     </div>
     <div class="col-md-12">
         <label for="funciones" class="form-label">Funciones</label>
-        <input type="text" class="form-control" name="funciones" id="funciones" value="{{dat.9}}" readonly="readonly"></input>
+        <input type="text" class="form-control" name="funciones" id="funciones" value="{{dat[8]}}" readonly="readonly"></input>
     </div>
     <div class="col-md-4">
         <label for="edad" class="form-label">Edad</label>
-        <input type="text" class="form-control" name="edad" id="edad" value="{{dat.10}}" readonly="readonly"></input>
+        <input type="text" class="form-control" name="edad" id="edad" value="{{dat[9]}}" readonly="readonly"></input>
     </div>
     <div class="col-md-4">
         <label for="sexo" class="form-label">Sexo</label>
-        <input type="text" class="form-control" name="sexo" id="sexo" value="{{dat.11}}" readonly="readonly"></input>
+        <input type="text" class="form-control" name="sexo" id="sexo" value="{{dat[10]}}" readonly="readonly"></input>
     </div>
     <div class="col-md-4">
         <label for="idEstadoCivil" class="form-label">Estado Civil</label>
-        <input type="text" class="form-control" name="idEstadoCivil" id="idEstadoCivil" value="{{catEdoCivil.1}}" readonly="readonly"></input>
+        <input type="text" class="form-control" name="idEstadoCivil" id="idEstadoCivil" value="{{catEdoCivil[1]}}" readonly="readonly"></input>
  
     </div>
     <div class="col-md-4">
         <label for="idEscolaridad" class="form-label">Escolaridad</label>
-        <input type="text" class="form-control" name="idEscolaridad" id="idEscolaridad" value="{{catEscolaridad.1}}" readonly="readonly"></input>
+        <input type="text" class="form-control" name="idEscolaridad" id="idEscolaridad" value="{{catEscolaridad[1]}}" readonly="readonly"></input>
     </div>
     <div class="col-md-4">
         <label for="idGradoAvance" class="form-label">Grado Avance</label>
-         <input type="text" class="form-control" name="idGradoAvance" id="idGradoAvance" value="{{catGradoAvance.1}}" readonly="readonly"></input>
-        </select>
+        <input type="text" class="form-control" name="idGradoAvance" id="idGradoAvance" value="{{catGradoAvance[1]}}" readonly="readonly"></input>
     </div>
    <div class="col-md-4">
-    <label for="idFormaPubl" class="form-label">Forma de Publicacion</label>
-     <select type="text" class="form-control" name="idFormaPubl" id="idFormaPubl" value="{{catGradoAvance.1}}" >
-        <option></option>
-        <option>Redes Sociales</option>
-        <option>Television</option>
-        <option>Radio</option>
-        <option>Carteles</option>
-        <option>Referencias Internas</option>
-        <option>Anuncios en Periódicos y Revistas</option>
+    <label for="idFormaPubl" class="form-label">Forma de Publicación</label>
+     <select type="text" class="form-control" name="idFormaPubl" id="idFormaPubl" >
+        {% if dat[11] == 0 %}
+            <option></option>
+            <option>Redes Sociales</option>
+            <option>Television</option>
+            <option>Radio</option>
+            <option>Carteles</option>
+            <option>Referencias Internas</option>
+            <option>Anuncios en Periódicos y Revistas</option>
+        {% elif dat[11] != 0 %}
+            <option value="Vacante ya publicada">Vacante ya publicada</option>
+        {% endif %}
      </select>
     </div>
-    <button onclick="validarFormulario()" type="button" class="btn" id="btn2">Publicar Anuncio</button>
+    {% if dat[11] == 0 %}
+        <button onclick="validarFormulario()" type="button" class="btn" id="btn2">Publicar Anuncio</button>
+    {% elif dat[11] != 0 %}
+        <button type="button" class="btn" id="btn2">Vacante ya publicada</button>
+    {% endif %}
+
 </form>
 <br></br>
 
