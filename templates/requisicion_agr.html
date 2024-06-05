@@ -2,7 +2,7 @@
 
 {% block content %}
 <h3 id="title">Agregar Requisición</h1>
-    <form id="formulario" action="/requisicion_agr" method="POST" novalidate>
+    <form id="formulario" action="/requisicion_agregar" name="requisicionForm" method="POST">
         <div class="form-group">
             <label for="folio">Folio</label>
             <input type="text" class="form-control" name="folio" id="folio" required maxlength="20">
@@ -34,17 +34,17 @@
         <div class="form-group">
             <label for="motivoRequisicion">Motivo de Requisición</label>
             <input type="text" class="form-control" name="motivoRequisicion" id="motivoRequisicion" required
-                minlength="5" maxlength="280">
+                minlength="3" maxlength="30">
             <div class="invalid-feedback">
-                El motivo es obligatorio y debe tener entre 5 y 280 caracteres.
+                El motivo es obligatorio y debe tener entre 3 y 30 caracteres.
             </div>
         </div>
         <div class="form-group">
             <label for="motivoEspecifique">Especificación de Motivo</label>
-            <input type="text" class="form-control" name="motivoEspecifique" id="motivoEspecifique" minlength="30"
-                maxlength="280">
+            <input type="text" class="form-control" name="motivoEspecifique" id="motivoEspecifique" minlength="3"
+                maxlength="70">
             <div class="invalid-feedback">
-                La especificación debe tener entre 30 y 280 caracteres.
+                La especificación debe tener entre 3 y 70 caracteres.
             </div>
         </div>
         <div class="form-group">
@@ -56,38 +56,42 @@
         </div>
         <div class="form-group">
             <label for="nomSolicita">Solicitante</label>
-            <input type="text" class="form-control" name="nomSolicita" id="nomSolicita" required pattern="[A-Z\s]+">
+            <input type="text" class="form-control" name="nomSolicita" id="nomSolicita" required>
             <div class="invalid-feedback">
                 El nombre del solicitante debe contener solo letras mayúsculas y espacios.
             </div>
         </div>
         <div class="form-group">
             <label for="idPuesto">ID Puesto</label>
-            <input type="number" class="form-control" name="idPuesto" id="idPuesto" value="{{ next_id_puesto }}"
-                required>
+            <select type="text" class="form-control" name="idPuesto" id="idPuesto" required>
+                <option selected disabled hidden value="0">Elige...</option>
+                {% for i in puestos %}
+                    <option value="{{i[0]}}">{{i[1]}}</option>
+                {% endfor %}
+            </select>
             <div class="invalid-feedback">
-                El ID del puesto es obligatorio.
+                El seleccionar un puesto es obligatorio.
             </div>
         </div>
-        <div class="form-group">
+        <!--div class="form-group">
             <label for="idArea">ID Área</label>
             <input type="number" class="form-control" name="idArea" id="idArea" value="{{ next_id_area }}" required>
             <div class="invalid-feedback">
                 El ID del área es obligatorio.
             </div>
-        </div>
+        </div-->
         <div class="form-group">
             <label for="nomAutoriza">Autorizante</label>
-            <input type="text" class="form-control" name="nomAutoriza" id="nomAutoriza" required pattern="[A-Z\s]+">
+            <input type="text" class="form-control" name="nomAutoriza" id="nomAutoriza" required >
             <div class="invalid-feedback">
-                El nombre del autorizante debe contener solo letras mayúsculas y espacios.
+                El nombre del autorizante debe contener solo letras y espacios.
             </div>
         </div>
         <div class="form-group">
             <label for="nomRevisa">Revisor</label>
-            <input type="text" class="form-control" name="nomRevisa" id="nomRevisa" required pattern="[A-Z\s]+">
+            <input type="text" class="form-control" name="nomRevisa" id="nomRevisa" required >
             <div class="invalid-feedback">
-                El nombre del revisor debe contener solo letras mayúsculas y espacios.
+                El nombre del revisor debe contener solo letras y espacios.
             </div>
             <br>
         </div>
@@ -109,9 +113,16 @@
                 document.getElementById('fechaInicVac').setAttribute('min', minDate);
             });
 
+            document.getElementById('fechaRecluta').addEventListener('change', function () {
+                var reclutaDate = new Date(this.value);
+                reclutaDate.setDate(reclutaDate.getDate() + 1);
+                var minDate = reclutaDate.toISOString().split('T')[0];
+                document.getElementById('fechaInicVac').setAttribute('min', minDate);
+            });
+
             // Validación del formulario
-            var form = document.getElementById('requisicionForm');
-            form.addEventListener('submit', function (event) {
+            //var form = document.getElementById('requisicionForm');
+            document.requisicionForm.addEventListener('submit', function (event) {
                 if (!form.checkValidity()) {
                     event.preventDefault();
                     event.stopPropagation();
