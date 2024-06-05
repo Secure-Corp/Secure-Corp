@@ -1144,6 +1144,7 @@ def contrato_p(idC):
     for item in puesto:
         pdf.chapter_datos(item)
 
+
     # Add a line break
     pdf.ln(10)
 
