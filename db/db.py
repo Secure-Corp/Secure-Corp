@@ -448,7 +448,7 @@ class CBD():
             self.cursor.execute("SELECT COUNT(*) FROM puesto_has_habilidad")
             count = self.cursor.fetchone()[0]
             if count == 0:
-                self.cursor.execute("INSERT INTO `puesto_has_habilidad` (`idPuesto`,  `idEmpleado`, `idHabilidad`) VALUES(1,1, 1),(3,3, 4),(3,3, 5),(5,3, 2),(5,5, 3),(5,5, 4),(5,5, 5),(5,5, 6),(5,5, 7),(5,5, 8),(5,5, 9),(5,5, 10),(5,5, 11),(5,5, 12);")
+                self.cursor.execute("INSERT INTO `puesto_has_habilidad` (`idPuesto`,  `idEmpleado`, `idHabilidad`) VALUES(1,1, 1),(2,3, 4),(3,3, 5),(4,3, 2),(5,5, 3),(6,5, 4),(7,5, 5),(8,5, 6),(9,5, 7),(10,5, 8),(5,5, 9),(5,5, 10),(5,5, 11),(5,5, 12);")
                 
                 self.conn.commit()
         except pymysql.Error as err:
@@ -460,7 +460,7 @@ class CBD():
             self.cursor.execute("SELECT COUNT(*) FROM puesto_has_idioma")
             count = self.cursor.fetchone()[0]
             if count == 0:
-                self.cursor.execute("INSERT INTO `puesto_has_idioma` (`idPuesto`,`idEmpleado`, `idIdioma`) VALUES(1, 1, 2),(3, 3, 1),(5, 5, 2);")
+                self.cursor.execute("INSERT INTO `puesto_has_idioma` (`idPuesto`,`idEmpleado`, `idIdioma`) VALUES(1,1, 1),(2,3, 4),(3,3, 5),(4,3, 2),(5,5, 3),(6,5, 4),(7,5, 5),(8,5, 6),(9,5, 7),(10,5, 8),(5,5, 9),(5,5, 10),(5,5, 11),(5,5, 12);")
                 self.conn.commit()
         except pymysql.Error as err:
             print("\nError al crear la tabla puesto_has_idioma: {0}".format(err))

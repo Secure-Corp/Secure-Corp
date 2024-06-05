@@ -1198,27 +1198,31 @@ def contrato_p(idC):
     # Define the path for the temporary PDF file
     #https://github.com/Secure-Corp/Secure-Corp/blob/integracion/static/Contrato.pdf
 
-    archivo = r'\static\Contrato.pdf'
-    pdf_path = os.path.join(os.path.expanduser('~'), archivo)
-    #static\Contrato.pdf
-    # Utiliza la misma ruta para abrir el archivo PDF
-    if os.path.exists(pdf_path):
-        webbrowser.open(archivo)
-    
-    else:
-        print("El archivo PDF no se encontró en la ruta especificada.")
-    pdf.output(pdf_path)
-    #Pasar candidato seleccionado a la tabla de empleados
+    # Ruta donde se guardará el PDF
+    # Especificar una ruta absoluta para guardar el archivo PDF en la carpeta "Descargas"
+    archivo = "Contrato.pdf"
+    output_path = os.path.join(os.path.expanduser('~'), 'Downloads', archivo)
+    pdf.output(output_path)
+    print(f'Nombre: {archivo}')
+    print(f'Archivo PDF guardado en {output_path}')
+    webbrowser.open(f'file://{output_path}')
+
+
+        # Abrir el archivo PDF con el navegador web
+
+
+
+    # #Pasar candidato seleccionado a la tabla de empleados
     cbd.cursor.execute("INSERT INTO empleado (codPuesto, idArea, nomEmpleado, jornada, descripcionGeneral, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, experiencia, conocimientos, manejoEquipo, responsabilidades) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (dato[2], datos1[0], datos[0], dato[3], dato[6], datos[1], datos[2], datos2[0], datos3[0], datos4[0], datos5[0], dato[8], dato[9], dato[10], dato[14]))
     cbd.conn.commit()
     #Borrar candidatos de la vacante ocupada
     cbd.cursor.execute("DELETE FROM candidato WHERE idVacante = %s", (datos[11]))
     cbd.conn.commit()
 
-    #Borrar la vacante ocupada de la tabla vacante
+    # #Borrar la vacante ocupada de la tabla vacante
     cbd.cursor.execute("DELETE FROM vacante WHERE idVacante = %s", (datos[11]))
     cbd.conn.commit()
-    return redirect(url_for('send_email', pdf_path=pdf_path, idC=idC))
+    return redirect(url_for('send_email', pdf_path=output_path, idC=idC))
 
 @app.route('/send_email')
 def send_email():
@@ -1228,8 +1232,8 @@ def send_email():
     datos = cbd.cursor.fetchone()
 
     pdf_path = request.args.get('pdf_path')
-    sender_email = 'pruebaautomatizacionemails@gmail.com'
-    sender_password = 'hquw jsca rrym lwas'
+    sender_email = 'securecorp155@gmail.com'
+    sender_password = 'fhkm qyyo rotp clhh'
     recipient_email = f'{datos[0]}'
     subject = 'Contrato Laboral'
     body = f"""Hola {datos[1]}. Te enviamos tu contrato laboral en formato PDF para que puedas leerlo detenidamente. 
