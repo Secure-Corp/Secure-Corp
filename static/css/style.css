@@ -218,7 +218,7 @@ body.active #barra{
     margin-top: 5%;
     text-align: justify;
     color: #E6A139;
-    margin-left: 19.5%;
+    margin-left: 13%;
     font-size: 100%;
 }
 
@@ -545,6 +545,7 @@ body.active #btn1:hover,
 }
 
 #btn2 {
+    border: none;
     border-radius: .1rem;
     font-size: 90%;
     width: 100%;
@@ -883,7 +884,7 @@ body.active #subtitle {
     background-color: #506E86;
     font-family: "regular";
     color: #E6A139;
-    text-align: center;
+    text-align: justify;
 }
 
 .form-control {
@@ -924,10 +925,6 @@ select:focus {
     box-shadow: 0px 0px 4px 2px #1B232E !important;
 }
 
-.form-label {
-    font-weight: 600;
-}
-
 
 
 #formulario1 {
@@ -941,6 +938,10 @@ select:focus {
     font-family: "regular";
     color: #E6A139;
     text-align: center;
+}
+
+#examen {
+    width: 50%;
 }
 
 /*===================================================
