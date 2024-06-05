@@ -210,7 +210,9 @@ nav {
     border: none;
     background-color: white
 }
-
+body.active #barra{
+    background: linear-gradient(90deg, rgb(27, 27, 27) 0%, rgba(27, 35, 46, 1) 35%, rgba(47, 60, 79, 1) 100%);
+}
 #barra1 {
     font-family: "light";
     margin-top: 5%;

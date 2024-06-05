@@ -471,9 +471,13 @@ class CBD():
             self.cursor.execute("SELECT COUNT(*) FROM requisicion")
             count = self.cursor.fetchone()[0]
             if count == 0:
-                self.cursor.execute("INSERT INTO requisicion (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, nomAutoriza, nomRevisa, autorizada, idPuesto, idArea) VALUES ('1', '0000-00-00', '0000-00-00', '0000-00-00', 'BAJA', '', 'PERMANENTE', 'LUIS', 'LUIS, JEFE DE SEGURIDAD', 'JUAN', 1, 1, 1)")
+                self.cursor.execute("INSERT INTO requisicion (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, nomAutoriza, nomRevisa, autorizada, idPuesto, idArea) VALUES ('VG123', '2023-12-11', '2023-12-15', '2024-01-06', 'BAJA', '', 'PERMANENTE', 'LUIS', 'LUIS, JEFE DE SEGURIDAD', 'JUAN', 1, 1, 5)")
                 self.conn.commit()
-                self.cursor.execute("INSERT INTO requisicion (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, nomAutoriza, nomRevisa, autorizada, idPuesto, idArea) VALUES ('2', '2023-11-23', '2023-11-27', '2023-12-01', 'OTRO', 'TEMPORADA', 'TEMPORAL', 'LUIS', 'LUIS, JEFE DE PROTECCION', 'JOSE', 1, 2, 1)")
+                self.cursor.execute("INSERT INTO requisicion (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, nomAutoriza, nomRevisa, autorizada, idPuesto, idArea) VALUES ('VG2341', '2023-11-23', '2023-11-27', '2023-12-01', 'OTRO', 'TEMPORADA', 'TEMPORAL', 'JUAN', 'JUAN, JEFE DE PROTECCION', 'JOSE', 1, 2, 3)")
+                self.conn.commit()
+                self.cursor.execute("INSERT INTO requisicion (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, nomAutoriza, nomRevisa, autorizada, idPuesto, idArea) VALUES ('VG456', '2024-01-23', '2024-01-27', '2024-02-03', 'OTRO', 'INCAPACIDAD', 'TEMPORAL', 'JESUS', 'LUIS, JEFE DE SEGURIDAD', 'JOSE', 0, 3, 5)")
+                self.conn.commit()
+                self.cursor.execute("INSERT INTO requisicion (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, nomAutoriza, nomRevisa, autorizada, idPuesto, idArea) VALUES ('VG0906', '2024-03-16', '2024-03-27', '2024-04-01', 'DECESO', '', 'PERMANENTE', 'JESUS', 'LUIS, JEFE DE SEGURIDAD', 'JOSE', 0, 3, 5)")
                 self.conn.commit()
         except pymysql.Error as err:
             print("\nError al crear la tabla requisicion: {0}".format(err))
@@ -502,9 +506,13 @@ class CBD():
             self.cursor.execute("SELECT COUNT(*) FROM vacante")
             count = self.cursor.fetchone()[0]
             if count == 0:
-                self.cursor.execute("INSERT INTO vacante (conseVR, fuenteCandidato, inicioFechaPublic, finFechaPublic, publicada, observaciones, candidatoSelecc, fechaContratacion, idRequisicion, idPuesto) VALUES (0, 'Interno', '2023-11-23', '2023-11-27', 1, 'VACANTE PARA CONTRATAR PERSONAL', 0, '2023-12-12', 1, 1)")
+                self.cursor.execute("INSERT INTO vacante (conseVR, fuenteCandidato, inicioFechaPublic, finFechaPublic, publicada, observaciones, candidatoSelecc, fechaContratacion, idRequisicion, idPuesto) VALUES (0, 'Interno', '2023-11-23', '2023-11-27', 0, 'VACANTE PARA CONTRATAR PERSONAL', 0, '2023-12-12', 1, 1)")
                 self.conn.commit()
                 self.cursor.execute("INSERT INTO vacante (conseVR, fuenteCandidato, inicioFechaPublic, finFechaPublic, publicada, observaciones, candidatoSelecc, fechaContratacion, idRequisicion, idPuesto) VALUES (0, 'Externo', '2023-09-13', '2023-12-27', 1, 'VACANTE PARA REEMPLAZAR PERSONAL', 0, '2024-01-25', 2, 2)")
+                self.conn.commit()
+                self.cursor.execute("INSERT INTO vacante (conseVR, fuenteCandidato, inicioFechaPublic, finFechaPublic, publicada, observaciones, candidatoSelecc, fechaContratacion, idRequisicion, idPuesto) VALUES (0, 'Interno', '2022-04-18', '2022-09-11', 0, 'VACANTE PARA CONTRATAR PERSONAL', 0, '2022-10-01', 3, 3)")
+                self.conn.commit()
+                self.cursor.execute("INSERT INTO vacante (conseVR, fuenteCandidato, inicioFechaPublic, finFechaPublic, publicada, observaciones, candidatoSelecc, fechaContratacion, idRequisicion, idPuesto) VALUES (0, 'Externo', '2024-04-11', '2024-05-20', 0, 'VACANTE PARA CONTRATAR PERSONAL', 0, '2024-06-10', 4, 3)")
                 self.conn.commit()
         except pymysql.Error as err:
             print("\nError al crear la tabla vacante: {0}".format(err))

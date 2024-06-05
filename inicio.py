@@ -628,7 +628,7 @@ def borrarEdociv(idd):
 ###Candidatos
 @app.route("/candidatos")
 def candidatos(): 
-    cbd.cursor.execute("SELECT b.folio, a.idVacante, c.nomPuesto, a.candidatoSelecc FROM vacante a, requisicion b, puesto c WHERE a.idRequisicion=b.idRequisicion AND a.idPuesto=c.idPuesto AND b.idPuesto=c.idPuesto")
+    cbd.cursor.execute("SELECT b.folio, a.idVacante, c.nomPuesto, a.candidatoSelecc FROM vacante a, requisicion b, puesto c WHERE a.idRequisicion=b.idRequisicion AND a.idPuesto=c.idPuesto AND b.idPuesto=c.idPuesto AND a.publicada != 0")
     datos = cbd.cursor.fetchall()
     return render_template("candidatos.html", datos = datos)
 
@@ -1052,7 +1052,7 @@ def contrato_p(idC):
     cbd.cursor.execute('select a.idCarrera, a.descripcion from carrera a, candidato b where a.idCarrera = b.idCarrera and b.idCandidato = %s', (idC,))
     datos5 = cbd.cursor.fetchone()
 
-    cbd.cursor.execute('select a.idPuesto, b.idIdioma, b.descripcion from puesto a, idioma b, puesto_has_idioma c where a.idPuesto = c.idPuesto and b.idIdioma = c.idIdioma and a.idPuesto = %s', (idP,))
+    cbd.cursor.execute('select a.idPuesto, b.idIdioma, b.descripcion from puesto a, idioma b, puesto_has_idioma c where a.idPuesto = c.idPuesto and b.idIdioma = c.idIdioma and a.idPuesto = %s', (idP))
     datos6 = cbd.cursor.fetchone()
 
     cbd.cursor.execute('select a.idPuesto, b.idHabilidad, b.descripcion from puesto a, habilidad b, puesto_has_habilidad c where a.idPuesto = c.idPuesto and b.idHabilidad = c.idHabilidad and a.idPuesto = %s', (idP,))
@@ -1202,7 +1202,7 @@ def contrato_p(idC):
     #static\Contrato.pdf
     # Utiliza la misma ruta para abrir el archivo PDF
     if os.path.exists(pdf_path):
-        archivo = r'Secure-Corp\static\Contrato.pdf'
+        archivo = r'Secure-Corp/static/Contrato.pdf'
         webbrowser.open(archivo)
     
     else:
@@ -1252,48 +1252,46 @@ def send_email():
 @app.route('/vacantes')
 def vacantes(): 
 
-    cbd.cursor.execute('select idPuesto, nomPuesto from puesto order by idPuesto')
+    cbd.cursor.execute('SELECT v.idVacante, v.publicada, p.idPuesto, p.nomPuesto FROM vacante v, puesto p WHERE v.idPuesto = p.idPuesto')
     datos = cbd.cursor.fetchall()
 
     return render_template("vacantes.html", pue = datos, dat='   ', catArea = '   ', catEdoCivil = '   ', catEscolaridad = '   ',
                            catGradoAvance = '    ', catCarrera = '    ', catIdioma = ' ', catHabilidad = ' ')
 
 #Metodo para mostrar los datos en la publicacion de Vacantes Equipo2
-@app.route('/vacantes_publ/<string:idV>', methods=['GET'])
-def vacantes_publ(idV): 
+@app.route('/vacantes_publ/<string:idV>/<string:idP>', methods=['GET'])
+def vacantes_publ(idV, idP): 
 
-    cbd.cursor.execute('select idPuesto, nomPuesto from puesto order by idPuesto')
-    datos = cbd.cursor.fetchall()
-
-    cbd.cursor.execute('select idPuesto,codPuesto,idArea,nomPuesto,puestoJefeSup,jornada,remunMensual,prestaciones,descripcionGeneral,'
-            'funciones,edad,sexo,idEstadoCivil,idEscolaridad,idGradoAvance,idCarrera,experiencia,conocimientos,manejoEquipo,'
-            'reqFisicos,reqPsicologicos,responsabilidades,condicionesTrabajo from puesto where idPuesto = %s', (idV))
+    cbd.cursor.execute('SELECT p.idPuesto, p.nomPuesto, p.codPuesto, p.puestoJefeSup, p.jornada, p.remunMensual, p.prestaciones, p.descripcionGeneral, p.funciones, p.edad, p.sexo, v.publicada FROM vacante v, puesto p WHERE v.idPuesto = p.idPuesto AND v.idVacante = %s', (idV))
     dato = cbd.cursor.fetchall()
 
-    cbd.cursor.execute('select a.idArea, a.descripcion from area a, puesto b where a.idArea = b.idArea and b.idPuesto = %s', (idV))
+    cbd.cursor.execute('select a.idArea, a.descripcion from area a, puesto b where a.idArea = b.idArea and b.idPuesto = %s', (idP))
     datos1 = cbd.cursor.fetchall()
 
-    cbd.cursor.execute('select a.idEstadoCivil, a.descripcion from estado_civil a, puesto b where a.idEstadoCivil = b.idEstadoCivil and b.idPuesto = %s', (idV))
+    cbd.cursor.execute('select a.idEstadoCivil, a.descripcion from estado_civil a, puesto b where a.idEstadoCivil = b.idEstadoCivil and b.idPuesto = %s', (idP))
     datos2 = cbd.cursor.fetchall()
 
-    cbd.cursor.execute('select a.idEscolaridad, a.descripcion from escolaridad a, puesto b where a.idEscolaridad = b.idEscolaridad and b.idPuesto = %s', (idV))
+    cbd.cursor.execute('select a.idEscolaridad, a.descripcion from escolaridad a, puesto b where a.idEscolaridad = b.idEscolaridad and b.idPuesto = %s', (idP))
     datos3 = cbd.cursor.fetchall()
 
-    cbd.cursor.execute('select a.idGradoAvance, a.descripcion from grado_avance a, puesto b where a.idGradoAvance = b.idGradoAvance and b.idPuesto = %s', (idV))
+    cbd.cursor.execute('select a.idGradoAvance, a.descripcion from grado_avance a, puesto b where a.idGradoAvance = b.idGradoAvance and b.idPuesto = %s', (idP))
     datos4 = cbd.cursor.fetchall()
 
-    cbd.cursor.execute('select a.idCarrera, a.descripcion from carrera a, puesto b where a.idCarrera = b.idCarrera and b.idPuesto = %s', (idV))
+    cbd.cursor.execute('select a.idCarrera, a.descripcion from carrera a, puesto b where a.idCarrera = b.idCarrera and b.idPuesto = %s', (idP))
     datos5 = cbd.cursor.fetchall()
 
-    cbd.cursor.execute('select a.idPuesto, b.idIdioma, b.descripcion from puesto a, idioma b, puesto_has_idioma c '
+    """cbd.cursor.execute('select a.idPuesto, b.idIdioma, b.descripcion from puesto a, idioma b, puesto_has_idioma c '
                    'where a.idPuesto = c.idPuesto and b.idIdioma = c.idIdioma and a.idPuesto = %s', (idV))
     datos6 = cbd.cursor.fetchall()
 
     cbd.cursor.execute('select a.idPuesto, b.idHabilidad, b.descripcion from puesto a, habilidad b, puesto_has_habilidad c '
                    'where a.idPuesto = c.idPuesto and b.idHabilidad = c.idHabilidad and a.idPuesto = %s', (idV))
     datos7 = cbd.cursor.fetchall()
-    return render_template("pub_vacantes.html", pue = datos, dat=dato[0], catArea=datos1[0], catEdoCivil=datos2[0], catEscolaridad=datos3[0],
-                           catGradoAvance=datos4[0], catCarrera=datos5[0], catIdioma=datos6, catHabilidad=datos7)
+
+    catIdioma=datos6, catHabilidad=datos7"""
+    return render_template("pub_vacantes.html", dat=dato[0], catArea=datos1[0], catEdoCivil=datos2[0], catEscolaridad=datos3[0],
+                           catGradoAvance=datos4[0], catCarrera=datos5[0], idv = idV)
+
 
 #Renderizado para la Publicacion de Vacantes Equipo2
 @app.route('/pub_vacantes')
@@ -1310,8 +1308,8 @@ def vacantes_pub():
                            catGradoAvance = '    ', catCarrera = '    ', catIdioma = ' ', catHabilidad = ' ')
 
 #Funcion para Generar un Anuncio de Vacantes por PDF Equipo2
-@app.route('/generate_pdf', methods=['POST'])
-def generate_pdf():
+@app.route('/generate_pdf/<string:idv>', methods=['GET' ,'POST'])
+def generate_pdf(idv):
         # Obtener datos del formulario
         data = {
             "nomPuesto": request.form['nomPuesto'],
@@ -1393,6 +1391,10 @@ def generate_pdf():
 
         # Abrir el archivo PDF con el navegador web
         webbrowser.open(f'file://{output_path}')
+
+        # En la tabla vacante el registro (vacante) correspondiente al id se actualizará a publicada.
+        cbd.cursor.execute("UPDATE vacante SET publicada = 1 WHERE idVacante = %s", (idv))
+        cbd.conn.commit()
 
         # Redirigir a la página de vacantes
         return redirect(url_for('vacantes'))
