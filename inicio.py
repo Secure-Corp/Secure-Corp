@@ -1209,17 +1209,15 @@ def contrato_p(idC):
         print("El archivo PDF no se encontró en la ruta especificada.")
     pdf.output(pdf_path)
     #Pasar candidato seleccionado a la tabla de empleados
-    #cbd.cursor.execute("INSERT INTO empleado (codPuesto, idArea, nomEmpleado, jornada, descripcionGeneral, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, experiencia, conocimientos, manejoEquipo, responsabilidades) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (dato[2], datos1[0], datos[0], dato[3], dato[6], datos[1], datos[2], datos2[0], datos3[0], datos4[0], datos5[0], dato[8], dato[9], dato[10], dato[14]))
-    #cbd.conn.commit()
-    #static\Contrato.pdf
+    cbd.cursor.execute("INSERT INTO empleado (codPuesto, idArea, nomEmpleado, jornada, descripcionGeneral, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, experiencia, conocimientos, manejoEquipo, responsabilidades) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (dato[2], datos1[0], datos[0], dato[3], dato[6], datos[1], datos[2], datos2[0], datos3[0], datos4[0], datos5[0], dato[8], dato[9], dato[10], dato[14]))
+    cbd.conn.commit()
     #Borrar candidatos de la vacante ocupada
-    #cbd.cursor.execute("DELETE FROM candidato WHERE idVacante = %s", (datos[11]))
-    #cbd.conn.commit()
+    cbd.cursor.execute("DELETE FROM candidato WHERE idVacante = %s", (datos[11]))
+    cbd.conn.commit()
 
     #Borrar la vacante ocupada de la tabla vacante
-    #cbd.cursor.execute("DELETE FROM vacante WHERE idVacante = %s", (datos[11]))
-    #cbd.conn.commit()
-
+    cbd.cursor.execute("DELETE FROM vacante WHERE idVacante = %s", (datos[11]))
+    cbd.conn.commit()
     return redirect(url_for('send_email', pdf_path=pdf_path, idC=idC))
 
 @app.route('/send_email')
