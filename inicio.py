@@ -1197,12 +1197,12 @@ def contrato_p(idC):
 
     # Define the path for the temporary PDF file
     #https://github.com/Secure-Corp/Secure-Corp/blob/integracion/static/Contrato.pdf
-    pdf_path = 'Secure-Corp/static/Contrato.pdf'
 
+    archivo = r'\static\Contrato.pdf'
+    pdf_path = os.path.join(os.path.expanduser('~'), archivo)
     #static\Contrato.pdf
     # Utiliza la misma ruta para abrir el archivo PDF
     if os.path.exists(pdf_path):
-        archivo = r'Secure-Corp/static/Contrato.pdf'
         webbrowser.open(archivo)
     
     else:
