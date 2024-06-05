@@ -1323,6 +1323,16 @@ def vacantes_pub():
     return render_template("vacantes.html", pue = datos, dat='   ', catArea = '   ', catEdoCivil = '   ', catEscolaridad = '   ',
                            catGradoAvance = '    ', catCarrera = '    ', catIdioma = ' ', catHabilidad = ' ')
 
+@app.route("/eliminarVacante/<string:idv>")
+def eliminarVacan(idv):
+    cbd.cursor.execute("DELETE FROM candidato WHERE idVacante = %s", (idv))
+    cbd.conn.commit()
+    
+    cbd.cursor.execute("DELETE FROM vacante WHERE idVacante = %s", (idv))
+    cbd.conn.commit()
+
+    return redirect(url_for("vacantes"))
+
 #Funcion para Generar un Anuncio de Vacantes por PDF Equipo2
 @app.route('/generate_pdf/<string:idv>', methods=['GET' ,'POST'])
 def generate_pdf(idv):
