@@ -80,6 +80,10 @@
         <input type="hidden" name="idRequisicion" value="{{ requisicion[0] }}">
         <button type="submit" class="btn" id="btn2">Aceptar Requisición</button>
     </form>
+    <form action="/eliminar_requisicion" method="POST">
+        <input type="hidden" name="idRequisicion22" value="{{ requisicion[0] }}">
+        <button type="submit" class="btn" id="btn2">Eliminar Requisición</button>
+    </form>
 </form>
 
 {% endblock %}

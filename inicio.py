@@ -973,9 +973,11 @@ def listar_requisiciones():
 # Ruta para agregar la requisición
 @app.route('/requisicion_agr')
 def requisicion_agregar():
-    return render_template("requisicion_agr.html")
+    cbd.cursor.execute("SELECT idPuesto, nomPuesto FROM puesto")
+    puestos = cbd.cursor.fetchall()
+    return render_template("requisicion_agr.html", puestos = puestos)
 
-@app.route('/requisicion_agr', methods=['POST'])
+@app.route('/requisicion_agregar', methods=['POST'])
 def agregar_requisicion():
     folio = request.form['folio']
     fechaElab = request.form['fechaElab']
@@ -986,24 +988,26 @@ def agregar_requisicion():
     tipoVacante = request.form['tipoVacante']
     nomSolicita = request.form['nomSolicita']
     idPuesto = request.form['idPuesto']
-    idArea = request.form['idArea']
+    #idArea = request.form['idArea']
     nomAutoriza = request.form['nomAutoriza']
     nomRevisa = request.form['nomRevisa']
+
+    cbd.cursor.execute("SELECT idArea FROM puesto WHERE idPuesto = %s", (idPuesto))
+    idArea = cbd.cursor.fetchall()
  
 
-    cbd.cursor.execute(
-        """INSERT INTO requisicion (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, nomAutoriza, nomRevisa, idPuesto, idArea) 
-           VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-        (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, nomAutoriza, nomRevisa, idPuesto, idArea)
+    cbd.cursor.execute("INSERT INTO requisicion (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, nomAutoriza, nomRevisa, idPuesto, idArea) "
+        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+        (folio, fechaElab, fechaRecluta, fechaInicVac, motivoRequisicion, motivoEspecifique, tipoVacante, nomSolicita, nomAutoriza, nomRevisa, idPuesto, idArea[0][0])
     )
     cbd.conn.commit()
 
-    cbd.cursor.execute("SELECT * FROM requisicion WHERE idRequisicion = LAST_INSERT_ID()")
-    requisicion = cbd.cursor.fetchone()
+    """cbd.cursor.execute("SELECT * FROM requisicion WHERE idRequisicion = LAST_INSERT_ID()")
+    requisicion = cbd.cursor.fetchone()"""
 
     
     
-    return render_template("requisicion.html", requisicion=requisicion)
+    return render_template("requisicion.html")
 
 @app.route('/aceptar_requisicion', methods=['POST'])
 def aceptar_requisicion():
@@ -1019,6 +1023,20 @@ def aceptar_requisicion():
     
 
     return render_template("requisicion.html", requisicion=requisicion)
+
+@app.route("/eliminar_requisicion", methods=['POST'])
+def eliminarReq():
+    idReq = request.form['idRequisicion22']
+    cbd.cursor.execute("DELETE FROM requisicion WHERE idRequisicion = %s", (idReq))
+    cbd.conn.commit()
+
+    cbd.cursor.execute("DELETE FROM candidato WHERE idRequisicion = %s", (idReq))
+    cbd.conn.commit()
+
+    cbd.cursor.execute("DELETE FROM vacante WHERE idRequisicion = %s", (idReq))
+    cbd.conn.commit()
+
+    return render_template("requisicion.html")
 
 
 ###Contrato
