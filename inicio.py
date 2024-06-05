@@ -1213,8 +1213,6 @@ def contrato_p(idC):
     pdf.cell(90, 10, 'Firma del supervisor')
     pdf.cell(90, 10, 'Firma del trabajador')
 
-    # Define the path for the temporary PDF file
-    #https://github.com/Secure-Corp/Secure-Corp/blob/integracion/static/Contrato.pdf
 
     # Ruta donde se guardará el PDF
     # Especificar una ruta absoluta para guardar el archivo PDF en la carpeta "Descargas"
@@ -1233,18 +1231,13 @@ def contrato_p(idC):
     # #Pasar candidato seleccionado a la tabla de empleados
     cbd.cursor.execute("INSERT INTO empleado (codPuesto, idArea, nomEmpleado, jornada, descripcionGeneral, edad, sexo, idEstadoCivil, idEscolaridad, idGradoAvance, idCarrera, experiencia, conocimientos, manejoEquipo, responsabilidades) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (dato[2], datos1[0], datos[0], dato[3], dato[6], datos[1], datos[2], datos2[0], datos3[0], datos4[0], datos5[0], dato[8], dato[9], dato[10], dato[14]))
     cbd.conn.commit()
-    #Borrar candidatos de la vacante ocupada
-    cbd.cursor.execute("DELETE FROM candidato WHERE idVacante = %s", (datos[11]))
-    cbd.conn.commit()
 
-    # #Borrar la vacante ocupada de la tabla vacante
-    cbd.cursor.execute("DELETE FROM vacante WHERE idVacante = %s", (datos[11]))
-    cbd.conn.commit()
-    return redirect(url_for('send_email', pdf_path=output_path, idC=idC))
+    return redirect(url_for('send_email', pdf_path=output_path, idC=idC, idV=datos[11]))
 
 @app.route('/send_email')
 def send_email():
     idC = request.args.get('idC')
+    idV = request.args.get('idV')
 
     cbd.cursor.execute('select c.correoE, c.nombre from candidato c where c.idCandidato = %s', (idC,))
     datos = cbd.cursor.fetchone()
@@ -1262,6 +1255,13 @@ def send_email():
 
 
     print('Correo enviado correctamente')
+    #Borrar candidatos de la vacante ocupada
+    cbd.cursor.execute("DELETE FROM candidato WHERE idVacante = %s", idV)
+    cbd.conn.commit()
+
+    # #Borrar la vacante ocupada de la tabla vacante
+    cbd.cursor.execute("DELETE FROM vacante WHERE idVacante = %s", idV)
+    cbd.conn.commit()
     return redirect(url_for('candidatos'))
 
 
